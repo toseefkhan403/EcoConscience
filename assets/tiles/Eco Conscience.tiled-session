@@ -1,0 +1,226 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "home.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "21_Clothing_Store_32x32.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "2_LivingRoom_32x32.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "2_LivingRoom_48x48.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "4_Bedroom_16x16.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "4_Bedroom_32x32.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "4_Bedroom_48x48.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "Generic_Home_1_preview_16x16.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Interiors_16x16.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "Interiors_free_16x16.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1.5
+        },
+        "Interiors_free_48x48.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "Room_Builder_16x16.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "Room_Builder_32x32.tsx": {
+            "scaleInDock": 0.25,
+            "scaleInEditor": 0.5
+        },
+        "Room_Builder_48x48.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 0.25
+        },
+        "Room_Builder_Floors_32x32.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Room_Builder_Floors_48x48.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Room_Builder_Walls_32x32.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "Room_Builder_borders_32x32.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "TopDownHouse_FloorsAndWalls.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "TopDownHouse_FurnitureState1.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "bathroom.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 343.3333333333333,
+                "y": 203.66666666666663
+            }
+        },
+        "home.tmx": {
+            "expandedObjectLayers": [
+                5,
+                6
+            ],
+            "scale": 1.5,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 296,
+                "y": 211.66666666666663
+            }
+        },
+        "home2.tmx": {
+            "expandedObjectLayers": [
+                2,
+                5
+            ],
+            "scale": 1.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 243.33333333333331,
+                "y": 80.99999999999999
+            }
+        },
+        "home3.tmx": {
+            "expandedObjectLayers": [
+                2
+            ],
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 320,
+                "y": 184.33333333333331
+            }
+        },
+        "home32.tmx": {
+            "expandedObjectLayers": [
+                2,
+                7
+            ],
+            "scale": 1.5,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 275.3333333333333,
+                "y": 206.99999999999997
+            }
+        },
+        "home4.tmx": {
+            "expandedObjectLayers": [
+                3
+            ],
+            "scale": 2.79359375,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 158.9350634822977,
+                "y": 96.11275798422733
+            }
+        },
+        "home48.tmx": {
+            "scale": 0.9311979166666666,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 477.8790760109626,
+                "y": 288.3382739526819
+            }
+        },
+        "image (4) (Custom).tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "image (4).tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.125,
+            "scaleInEditor": 0.33
+        },
+        "imageedit_2_6377531781.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "interior.tsx": {
+            "scaleInDock": 0.33,
+            "scaleInEditor": 0.25
+        }
+    },
+    "last.externalTilesetPath": "C:/Users/MSI INDIA/StudioProjects/eco_conscience/assets/tiles",
+    "last.imagePath": "C:/Users/MSI INDIA/StudioProjects/eco_conscience/assets/images/Interiors/32x32",
+    "map.fixedSize": true,
+    "map.height": 12,
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": null,
+    "map.tileHeight": 32,
+    "map.tileWidth": 32,
+    "map.width": 20,
+    "openFiles": [
+        "home32.tmx",
+        "home.tmx",
+        "Room_Builder_borders_32x32.tsx",
+        "Room_Builder_Floors_32x32.tsx",
+        "Room_Builder_Walls_32x32.tsx",
+        "home.tmx"
+    ],
+    "project": "Eco Conscience.tiled-project",
+    "recentFiles": [
+        "21_Clothing_Store_32x32.tsx",
+        "home.tmx",
+        "Room_Builder_32x32.tsx",
+        "home32.tmx",
+        "Room_Builder_borders_32x32.tsx",
+        "Room_Builder_Floors_32x32.tsx",
+        "Room_Builder_Walls_32x32.tsx",
+        "Room_Builder_48x48.tsx",
+        "2_LivingRoom_48x48.tsx",
+        "home48.tmx",
+        "4_Bedroom_32x32.tsx",
+        "2_LivingRoom_32x32.tsx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 32
+    }
+}

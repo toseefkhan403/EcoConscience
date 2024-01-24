@@ -1,0 +1,172 @@
+import 'dart:async';
+
+import 'package:eco_conscience/components/utils.dart';
+import 'package:eco_conscience/eco_conscience.dart';
+import 'package:flame/collisions.dart';
+import 'package:flame/components.dart';
+import 'package:flutter/services.dart';
+
+import 'collision_block.dart';
+
+enum PlayerDirection { left, right, up, down, none }
+
+class Player extends SpriteAnimationGroupComponent
+    with HasGameRef<EcoConscience>, KeyboardHandler {
+  Player({super.position, super.size, this.character = 'Bob'});
+
+  final double stepTime = 0.05;
+  final double moveSpeed = 150;
+  final double headSpaceOffset = 18;
+  String character;
+  PlayerDirection playerDirection = PlayerDirection.none;
+  bool isRunning = false;
+  late Vector2 spawnPoint;
+  List<CollisionBlock> collisionBlocks = [];
+  Vector2 velocity = Vector2.zero();
+  double horizontalMovement = 0;
+  double verticalMovement = 0;
+  bool isSpaceKeyPressed = false;
+
+  @override
+  FutureOr<void> onLoad() {
+    spawnPoint = position;
+    add(RectangleHitbox());
+    // debugMode = true;
+    _loadAnims();
+    return super.onLoad();
+  }
+
+  @override
+  void update(double dt) {
+    _updatePlayerMovement(dt);
+    _updatePlayerActions();
+    super.update(dt);
+  }
+
+  @override
+  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    horizontalMovement = 0;
+    verticalMovement = 0;
+    isSpaceKeyPressed = false;
+    final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyA) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowLeft);
+    final isRightKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyD) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowRight);
+    final isUpKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyW) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowUp);
+    final isDownKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyS) ||
+        keysPressed.contains(LogicalKeyboardKey.arrowDown);
+    isSpaceKeyPressed = keysPressed.contains(LogicalKeyboardKey.space);
+
+    horizontalMovement += isLeftKeyPressed ? -1 : 0;
+    horizontalMovement += isRightKeyPressed ? 1 : 0;
+    verticalMovement += isUpKeyPressed ? -1 : 0;
+    verticalMovement += isDownKeyPressed ? 1 : 0;
+
+    if (horizontalMovement == -1) {
+      playerDirection = PlayerDirection.left;
+    } else if (horizontalMovement == 1) {
+      playerDirection = PlayerDirection.right;
+    } else if (verticalMovement == -1) {
+      playerDirection = PlayerDirection.up;
+    } else if (verticalMovement == 1) {
+      playerDirection = PlayerDirection.down;
+    }
+
+    return super.onKeyEvent(event, keysPressed);
+  }
+
+  void _updatePlayerMovement(double dt) {
+    velocity.x = horizontalMovement * moveSpeed;
+    velocity.y = verticalMovement * moveSpeed;
+
+    double newX = position.x + velocity.x * dt;
+    double newY = position.y + velocity.y * dt;
+
+    if (
+    // _isWithinBoundaries(newX, newY) &&
+        !_isInNoGoZone(newX, newY)) {
+      position.x = newX;
+      position.y = newY;
+    }
+
+    if (velocity.x != 0 || velocity.y != 0) {
+      isRunning = true;
+    } else {
+      isRunning = false;
+    }
+    current =
+        '${isRunning ? 'running' : 'idle'}${getStringFromDirection(playerDirection)}';
+  }
+
+  void _loadAnims() {
+    animations = {
+      'idleLeft': _getPlayerAnim(PlayerDirection.left, false),
+      'idleRight': _getPlayerAnim(PlayerDirection.right, false),
+      'idleUp': _getPlayerAnim(PlayerDirection.up, false),
+      'idleDown': _getPlayerAnim(PlayerDirection.down, false),
+      'runningLeft': _getPlayerAnim(PlayerDirection.left, true),
+      'runningRight': _getPlayerAnim(PlayerDirection.right, true),
+      'runningUp': _getPlayerAnim(PlayerDirection.up, true),
+      'runningDown': _getPlayerAnim(PlayerDirection.down, true),
+    };
+
+    // current animation
+    current = 'idleDown';
+  }
+
+  _getPlayerAnim(PlayerDirection direction, bool isRunning) {
+    int startFrame = getFrameBasedOnDirection(direction);
+    return SpriteAnimation.fromFrameData(
+        game.images.fromCache(
+            'Characters/${character}_${isRunning ? 'run' : 'idle_anim'}_16x16.png'),
+        SpriteAnimationData.range(
+            start: startFrame,
+            end: startFrame + 5,
+            amount: 24,
+            stepTimes: List.filled(6, stepTime),
+            textureSize: Vector2(16, 32)));
+  }
+
+  bool _isWithinBoundaries(double x, double y) {
+    double minX = 0.0;
+    double minY = 0.0;
+    double maxX = game.worldDimensions.x;
+    double maxY = game.worldDimensions.y;
+
+    return x >= minX && x <= maxX && y >= minY && y <= maxY;
+  }
+
+  bool _isInNoGoZone(double newX, double newY) {
+    for (CollisionBlock block in collisionBlocks) {
+      double minX = block.x;
+      double minY = block.y;
+      double maxX = block.x + block.size.x;
+      double maxY = block.y + block.size.y;
+
+      if (newX < maxX &&
+          newX + size.x > minX &&
+          newY < maxY - headSpaceOffset &&
+          newY + size.y > minY) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  void interact() {
+    print("Press space to continue");
+  }
+
+  void _updatePlayerActions() {
+    if (isSpaceKeyPressed) {
+      // continue the quest
+      print('continuing the quest');
+    }
+  }
+
+  void loadNextMap(String nextMapName) {
+    position = Vector2.all(-640);
+    game.loadNextMap(nextMapName);
+  }
+}

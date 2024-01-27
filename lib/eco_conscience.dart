@@ -11,25 +11,37 @@ import 'components/map.dart';
 
 // todo - 3 days per task
 // 1. Character anims - collisions --done
-// 2. Map - house, bathroom - changing levels
-// 3. text bubbles, generated images and interactions
-// 4. angel and devil dev
-// 5. Map - road dev with changing skyline
-// 6. start anim and menu
-// 7. grocery littering arc
-// 8. office tree plantation arc
-// 9. sound fx
-// 10. cross platform testing and fixes
+// 2. Map - house, bathroom - changing levels --done
+// 3. text bubbles, generated images and interactions --done
+// 4. angel and devil dev --done
+// 5. bathroom and lights arc
+// 6. Map - road dev with changing skyline
+// 7. start anim and menu
+// 8. grocery littering arc
+// 9. office tree plantation arc
+// 10. sound fx
+// 11. cross platform testing and fixes
+
+enum PlayState {
+  startScreen,
+  playing,
+  showingToast,
+  arcPlaying,
+  lessonPlaying,
+  gameOver
+}
+
 class EcoConscience extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
-
-  EcoConscience({required this.showJoystick});
-
-  final bool showJoystick;
-  late CameraComponent cam;
-  final Player player = Player(character: 'Adam');
+  final Player player = Player(character: 'Adam', size: Vector2(32, 64));
   late final JoystickComponent joystick;
-  Vector2 worldDimensions = Vector2.zero();
+
+  late CameraComponent cam;
+  String toastMsg = '';
+  String currentStoryArc = '';
+  String currentLesson = '';
+  PlayState playState = PlayState.playing;
+  bool showJoystick = false;
 
   @override
   Color backgroundColor() => const Color(0xff62626f);
@@ -37,8 +49,13 @@ class EcoConscience extends FlameGame
   @override
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
-    if (showJoystick) addJoystick();
     _loadMap();
+    try {
+      showJoystick = Platform.isAndroid || Platform.isIOS;
+      if (showJoystick) addJoystick();
+    } catch (e) {
+      print(e.toString());
+    }
     return super.onLoad();
   }
 
@@ -106,13 +123,15 @@ class EcoConscience extends FlameGame
     }
   }
 
-  void loadNextMap(String mapName, {bool isCamFixed = true}) {
+  void loadNextMap(String mapName, Vector2 nextSpawn,
+      {bool isCamFixed = true}) {
     removeWhere((component) => component is Map);
-    _loadMap(mapName: mapName, isCamFixed: isCamFixed);
+    _loadMap(mapName: mapName, isCamFixed: isCamFixed, nextSpawn: nextSpawn);
   }
 
-  void _loadMap({String mapName = 'home', bool isCamFixed = true}) {
-    final world = Map(name: mapName, player: player);
+  void _loadMap(
+      {String mapName = 'home', bool isCamFixed = true, Vector2? nextSpawn}) {
+    final world = Map(name: mapName, nextSpawn: nextSpawn);
 
     // this line makes it responsive! aspect ratio 16:9 - 32x32 in 640x360
     // take fixed for every room of the house
@@ -126,5 +145,10 @@ class EcoConscience extends FlameGame
     }
 
     addAll([cam, world]);
+  }
+
+  void startStoryArc() {
+    playState = PlayState.arcPlaying;
+    overlays.add(PlayState.arcPlaying.name);
   }
 }

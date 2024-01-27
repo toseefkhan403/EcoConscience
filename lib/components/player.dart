@@ -4,6 +4,7 @@ import 'package:eco_conscience/components/utils.dart';
 import 'package:eco_conscience/eco_conscience.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'collision_block.dart';
@@ -20,18 +21,16 @@ class Player extends SpriteAnimationGroupComponent
   String character;
   PlayerDirection playerDirection = PlayerDirection.none;
   bool isRunning = false;
-  late Vector2 spawnPoint;
   List<CollisionBlock> collisionBlocks = [];
   Vector2 velocity = Vector2.zero();
   double horizontalMovement = 0;
   double verticalMovement = 0;
-  bool isSpaceKeyPressed = false;
 
   @override
   FutureOr<void> onLoad() {
-    spawnPoint = position;
+    priority = 1;
     add(RectangleHitbox());
-    // debugMode = true;
+    debugMode = kDebugMode;
     _loadAnims();
     return super.onLoad();
   }
@@ -39,7 +38,6 @@ class Player extends SpriteAnimationGroupComponent
   @override
   void update(double dt) {
     _updatePlayerMovement(dt);
-    _updatePlayerActions();
     super.update(dt);
   }
 
@@ -47,7 +45,6 @@ class Player extends SpriteAnimationGroupComponent
   bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     horizontalMovement = 0;
     verticalMovement = 0;
-    isSpaceKeyPressed = false;
     final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyA) ||
         keysPressed.contains(LogicalKeyboardKey.arrowLeft);
     final isRightKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyD) ||
@@ -56,21 +53,22 @@ class Player extends SpriteAnimationGroupComponent
         keysPressed.contains(LogicalKeyboardKey.arrowUp);
     final isDownKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyS) ||
         keysPressed.contains(LogicalKeyboardKey.arrowDown);
-    isSpaceKeyPressed = keysPressed.contains(LogicalKeyboardKey.space);
 
-    horizontalMovement += isLeftKeyPressed ? -1 : 0;
-    horizontalMovement += isRightKeyPressed ? 1 : 0;
-    verticalMovement += isUpKeyPressed ? -1 : 0;
-    verticalMovement += isDownKeyPressed ? 1 : 0;
+    if (game.playState == PlayState.playing || game.playState == PlayState.showingToast) {
+      horizontalMovement += isLeftKeyPressed ? -1 : 0;
+      horizontalMovement += isRightKeyPressed ? 1 : 0;
+      verticalMovement += isUpKeyPressed ? -1 : 0;
+      verticalMovement += isDownKeyPressed ? 1 : 0;
 
-    if (horizontalMovement == -1) {
-      playerDirection = PlayerDirection.left;
-    } else if (horizontalMovement == 1) {
-      playerDirection = PlayerDirection.right;
-    } else if (verticalMovement == -1) {
-      playerDirection = PlayerDirection.up;
-    } else if (verticalMovement == 1) {
-      playerDirection = PlayerDirection.down;
+      if (horizontalMovement == -1) {
+        playerDirection = PlayerDirection.left;
+      } else if (horizontalMovement == 1) {
+        playerDirection = PlayerDirection.right;
+      } else if (verticalMovement == -1) {
+        playerDirection = PlayerDirection.up;
+      } else if (verticalMovement == 1) {
+        playerDirection = PlayerDirection.down;
+      }
     }
 
     return super.onKeyEvent(event, keysPressed);
@@ -84,7 +82,7 @@ class Player extends SpriteAnimationGroupComponent
     double newY = position.y + velocity.y * dt;
 
     if (
-    // _isWithinBoundaries(newX, newY) &&
+        // _isWithinBoundaries(newX, newY) &&
         !_isInNoGoZone(newX, newY)) {
       position.x = newX;
       position.y = newY;
@@ -128,14 +126,14 @@ class Player extends SpriteAnimationGroupComponent
             textureSize: Vector2(16, 32)));
   }
 
-  bool _isWithinBoundaries(double x, double y) {
-    double minX = 0.0;
-    double minY = 0.0;
-    double maxX = game.worldDimensions.x;
-    double maxY = game.worldDimensions.y;
-
-    return x >= minX && x <= maxX && y >= minY && y <= maxY;
-  }
+  // bool _isWithinBoundaries(double x, double y) {
+  //   double minX = 0.0;
+  //   double minY = 0.0;
+  //   double maxX = game.worldDimensions.x;
+  //   double maxY = game.worldDimensions.y;
+  //
+  //   return x >= minX && x <= maxX && y >= minY && y <= maxY;
+  // }
 
   bool _isInNoGoZone(double newX, double newY) {
     for (CollisionBlock block in collisionBlocks) {
@@ -154,19 +152,8 @@ class Player extends SpriteAnimationGroupComponent
     return false;
   }
 
-  void interact() {
-    print("Press space to continue");
-  }
-
-  void _updatePlayerActions() {
-    if (isSpaceKeyPressed) {
-      // continue the quest
-      print('continuing the quest');
-    }
-  }
-
-  void loadNextMap(String nextMapName) {
-    position = Vector2.all(-640);
-    game.loadNextMap(nextMapName);
+  void loadNextMap(String nextMapName, Vector2 nextSpawn) {
+    collisionBlocks = [];
+    game.loadNextMap(nextMapName, nextSpawn);
   }
 }

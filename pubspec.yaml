@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flame: ^1.14.0
   flame_tiled: ^1.18.3
+  google_fonts: ^6.1.0
+  animated_text_kit: ^4.2.2
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +69,7 @@ flutter:
     - assets/tiles/
     - assets/images/Characters/
     - assets/images/HUD/
+    - assets/images/Lessons/
     - assets/images/Interiors/16x16/
     - assets/images/Interiors/32x32/
 

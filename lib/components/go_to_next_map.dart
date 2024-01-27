@@ -8,10 +8,13 @@ import 'package:flame/components.dart';
 class GoToNextMap extends PositionComponent
     with HasGameRef<EcoConscience>, CollisionCallbacks {
   final String nextMapName;
+  final Vector2 nextSpawn;
 
-  GoToNextMap({super.position, super.size, required this.nextMapName}) {
-    // debugMode = true;
-  }
+  GoToNextMap(
+      {super.position,
+      super.size,
+      required this.nextMapName,
+      required this.nextSpawn});
 
   @override
   FutureOr<void> onLoad() {
@@ -23,7 +26,7 @@ class GoToNextMap extends PositionComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Player) {
-      other.loadNextMap(nextMapName);
+      other.loadNextMap(nextMapName, nextSpawn);
     }
     super.onCollisionStart(intersectionPoints, other);
   }

@@ -14,19 +14,21 @@ import 'components/map.dart';
 // 2. Map - house, bathroom - changing levels --done
 // 3. text bubbles, generated images and interactions --done
 // 4. angel and devil dev --done
-// 5. bathroom and lights arc
+// 5. bathroom and house lights arc --done
+
 // 6. Map - road dev with changing skyline
 // 7. start anim and menu
 // 8. grocery littering arc
 // 9. office tree plantation arc
 // 10. sound fx
-// 11. cross platform testing and fixes
+// 11. add Japanese language
+// 12. cross platform testing and fixes
 
 enum PlayState {
   startScreen,
   playing,
   showingToast,
-  arcPlaying,
+  storyPlaying,
   lessonPlaying,
   gameOver
 }
@@ -37,11 +39,14 @@ class EcoConscience extends FlameGame
   late final JoystickComponent joystick;
 
   late CameraComponent cam;
+  late Map currentMap;
   String toastMsg = '';
   String currentStoryArc = '';
+  // true/false+currentStoryArc
   String currentLesson = '';
   PlayState playState = PlayState.playing;
   bool showJoystick = false;
+  bool isHouseLightsOn = true;
 
   @override
   Color backgroundColor() => const Color(0xff62626f);
@@ -131,12 +136,12 @@ class EcoConscience extends FlameGame
 
   void _loadMap(
       {String mapName = 'home', bool isCamFixed = true, Vector2? nextSpawn}) {
-    final world = Map(name: mapName, nextSpawn: nextSpawn);
+    currentMap = Map(name: mapName, nextSpawn: nextSpawn);
 
     // this line makes it responsive! aspect ratio 16:9 - 32x32 in 640x360
     // take fixed for every room of the house
     cam = CameraComponent.withFixedResolution(
-        world: world, width: 640, height: 360);
+        world: currentMap, width: 640, height: 360);
     if (isCamFixed) {
       cam.viewfinder.anchor = Anchor.topLeft;
     } else {
@@ -144,11 +149,11 @@ class EcoConscience extends FlameGame
       cam.follow(player);
     }
 
-    addAll([cam, world]);
+    addAll([cam, currentMap]);
   }
 
   void startStoryArc() {
-    playState = PlayState.arcPlaying;
-    overlays.add(PlayState.arcPlaying.name);
+    playState = PlayState.storyPlaying;
+    overlays.add(PlayState.storyPlaying.name);
   }
 }

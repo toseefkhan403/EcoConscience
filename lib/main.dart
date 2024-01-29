@@ -4,7 +4,7 @@ import 'package:eco_conscience/eco_conscience.dart';
 import 'package:eco_conscience/widgets/custom_toast_overlay.dart';
 import 'package:eco_conscience/widgets/lesson_overlay.dart';
 import 'package:eco_conscience/widgets/overlay_screen.dart';
-import 'package:eco_conscience/widgets/arc_overlay.dart';
+import 'package:eco_conscience/widgets/story_arc_overlay.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +36,8 @@ class GameApp extends StatelessWidget {
                 ),
             PlayState.showingToast.name: (context, EcoConscience game) =>
                 CustomToastOverlay(game: game),
-            PlayState.arcPlaying.name: (context, EcoConscience game) =>
-                ArcOverlay(game: game),
+            PlayState.storyPlaying.name: (context, EcoConscience game) =>
+                StoryArcOverlay(game: game),
             PlayState.lessonPlaying.name: (context, EcoConscience game) =>
                 LessonOverlay(game: game),
           }),

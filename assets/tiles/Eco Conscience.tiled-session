@@ -102,26 +102,26 @@
         },
         "bathroom.tmx": {
             "expandedObjectLayers": [
-                2,
-                4
+                4,
+                2
             ],
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 320,
-                "y": 191.75
+                "x": 318.5,
+                "y": 190.75
             }
         },
         "home.tmx": {
             "expandedObjectLayers": [
-                5,
-                6
+                6,
+                5
             ],
             "scale": 1.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 275.3333333333333,
-                "y": 283.66666666666663
+                "x": 274,
+                "y": 281.66666666666663
             }
         },
         "home2.tmx": {

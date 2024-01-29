@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:eco_conscience/components/collision_block.dart';
 import 'package:eco_conscience/components/interaction_point.dart';
 import 'package:eco_conscience/eco_conscience.dart';
+import 'package:eco_conscience/widgets/stories.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/material.dart';
 
 import 'go_to_next_map.dart';
 
@@ -63,13 +67,41 @@ class Map extends World with HasGameRef<EcoConscience> {
           }
           break;
         case 'Interaction':
-          InteractionPoint point = InteractionPoint(
-              position: Vector2(spawnPoint.x, spawnPoint.y),
-              size: Vector2(spawnPoint.width, spawnPoint.height),
-              storyArc: spawnPoint.properties.getValue('storyArc'),
-              hitBoxOffset: Vector2(spawnPoint.properties.getValue('offsetX'),
-                  spawnPoint.properties.getValue('offsetY')));
-          add(point);
+          final storyArc = spawnPoint.properties.getValue('storyArc');
+          if (allStoryArcs[storyArc] != null && !allStoryArcs[storyArc]!) {
+            InteractionPoint point = InteractionPoint(
+                position: Vector2(spawnPoint.x, spawnPoint.y),
+                size: Vector2(spawnPoint.width, spawnPoint.height),
+                storyArc: storyArc,
+                hitBoxOffset: Vector2(spawnPoint.properties.getValue('offsetX'),
+                    spawnPoint.properties.getValue('offsetY')));
+            add(point);
+          }
+          if (storyArc == 'houseLightsArc' && game.isHouseLightsOn) {
+            final glowingLight = PolygonComponent.relative(
+              [
+                Vector2(-0.3, -1.0),
+                Vector2(0.3, -1.0),
+                Vector2(2.0, 1.0),
+                Vector2(-2.0, 1.0),
+              ],
+              position: Vector2(spawnPoint.x + 16, spawnPoint.y + 16 + 64),
+              anchor: Anchor.center,
+              paint: Paint()
+                ..color = const Color(0xfffcfe5f).withOpacity(0.2),
+              parentSize: Vector2(spawnPoint.width, spawnPoint.height),
+            )..add(
+              GlowEffect(
+                  10,
+                  EffectController(
+                    duration: 2,
+                    infinite: true,
+                    alternate: true,
+                  ),
+                  style: BlurStyle.solid),
+            );
+            add(glowingLight);
+          }
           break;
         case 'GoToNextMap':
           GoToNextMap point = GoToNextMap(
@@ -82,6 +114,18 @@ class Map extends World with HasGameRef<EcoConscience> {
           add(point);
           break;
       }
+    }
+  }
+
+  removeInteractionPoint(bool isAccepted) {
+    removeWhere((component) =>
+        component is InteractionPoint &&
+        component.storyArc == game.currentStoryArc);
+
+    if(game.currentStoryArc == 'houseLightsArc' && isAccepted) {
+      game.isHouseLightsOn = false;
+      removeWhere((component) =>
+      component is PolygonComponent);
     }
   }
 }

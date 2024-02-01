@@ -1,28 +1,37 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:eco_conscience/components/collision_block.dart';
 import 'package:eco_conscience/components/interaction_point.dart';
+import 'package:eco_conscience/components/utils.dart';
 import 'package:eco_conscience/eco_conscience.dart';
-import 'package:eco_conscience/widgets/stories.dart';
+import 'package:eco_conscience/components/story_progress.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame/parallax.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
+import 'package:flame/rendering.dart';
 
 import 'go_to_next_map.dart';
+import 'other_interaction_point.dart';
 
-class Map extends World with HasGameRef<EcoConscience> {
+class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
   Map({required this.name, this.nextSpawn});
 
   Vector2? nextSpawn;
   final String name;
   late TiledComponent level;
+  ParallaxComponent? parallaxComponent;
   List<CollisionBlock> collisionBlocks = [];
 
   @override
   FutureOr<void> onLoad() async {
-    level = await TiledComponent.load('$name.tmx', Vector2.all(32));
+    level = await TiledComponent.load(
+      '$name.tmx', Vector2.all(32),
+      // can lead to performance issues
+      // atlasMaxX: 20000, atlasMaxY: 20000
+    );
+    loadParallaxBg();
     add(level);
     _addSpawnPoints();
     _addCollisions();
@@ -67,8 +76,9 @@ class Map extends World with HasGameRef<EcoConscience> {
           }
           break;
         case 'Interaction':
-          final storyArc = spawnPoint.properties.getValue('storyArc');
-          if (allStoryArcs[storyArc] != null && !allStoryArcs[storyArc]!) {
+          final storyArc = spawnPoint.properties.getValue('storyArc') as String;
+          if (StoryProgress.allStoryArcsProgress[storyArc] != null &&
+              !StoryProgress.allStoryArcsProgress[storyArc]!) {
             InteractionPoint point = InteractionPoint(
                 position: Vector2(spawnPoint.x, spawnPoint.y),
                 size: Vector2(spawnPoint.width, spawnPoint.height),
@@ -77,7 +87,8 @@ class Map extends World with HasGameRef<EcoConscience> {
                     spawnPoint.properties.getValue('offsetY')));
             add(point);
           }
-          if (storyArc == 'houseLightsArc' && game.isHouseLightsOn) {
+          if (storyArc == StoryTitles.houseLightsArc.name &&
+              StoryProgress.isHouseLightsOn) {
             final glowingLight = PolygonComponent.relative(
               [
                 Vector2(-0.3, -1.0),
@@ -87,19 +98,18 @@ class Map extends World with HasGameRef<EcoConscience> {
               ],
               position: Vector2(spawnPoint.x + 16, spawnPoint.y + 16 + 64),
               anchor: Anchor.center,
-              paint: Paint()
-                ..color = const Color(0xfffcfe5f).withOpacity(0.2),
+              paint: Paint()..color = const Color(0xfffcfe5f).withOpacity(0.2),
               parentSize: Vector2(spawnPoint.width, spawnPoint.height),
             )..add(
-              GlowEffect(
-                  10,
-                  EffectController(
-                    duration: 2,
-                    infinite: true,
-                    alternate: true,
-                  ),
-                  style: BlurStyle.solid),
-            );
+                GlowEffect(
+                    10,
+                    EffectController(
+                      duration: 2,
+                      infinite: true,
+                      alternate: true,
+                    ),
+                    style: BlurStyle.solid),
+              );
             add(glowingLight);
           }
           break;
@@ -110,7 +120,17 @@ class Map extends World with HasGameRef<EcoConscience> {
               nextMapName:
                   spawnPoint.properties.getValue('NextMapName') as String,
               nextSpawn: Vector2(spawnPoint.properties.getValue('NextSpawnX'),
-                  spawnPoint.properties.getValue('NextSpawnY')));
+                  spawnPoint.properties.getValue('NextSpawnY')),
+              mapResMultiplier:
+                  spawnPoint.properties.getValue('MapResMultiplier'));
+          add(point);
+          break;
+        case 'OtherInteraction':
+          OtherInteractionPoint point = OtherInteractionPoint(
+            position: Vector2(spawnPoint.x, spawnPoint.y),
+            size: Vector2(spawnPoint.width, spawnPoint.height),
+            imageName: spawnPoint.properties.getValue('imageName') as String,
+          );
           add(point);
           break;
       }
@@ -122,10 +142,41 @@ class Map extends World with HasGameRef<EcoConscience> {
         component is InteractionPoint &&
         component.storyArc == game.currentStoryArc);
 
-    if(game.currentStoryArc == 'houseLightsArc' && isAccepted) {
-      game.isHouseLightsOn = false;
-      removeWhere((component) =>
-      component is PolygonComponent);
+    if (game.currentStoryArc == StoryTitles.houseLightsArc.name && isAccepted) {
+      StoryProgress.isHouseLightsOn = false;
+      removeWhere((component) => component is PolygonComponent);
+    }
+  }
+
+  Future<void> loadParallaxBg() async {
+    if (name.contains('outdoors')) {
+      parallaxComponent = await game.loadParallaxComponent([
+        ParallaxImageData('Exteriors/skyline/1.png'),
+        ParallaxImageData('Exteriors/skyline/2.png'),
+        ParallaxImageData('Exteriors/skyline/3.png'),
+        ParallaxImageData('Exteriors/skyline/cloudsOverlay.png'),
+        ParallaxImageData('Exteriors/skyline/4.png'),
+        ParallaxImageData('Exteriors/skyline/5.png'),
+      ],
+          baseVelocity: Vector2(0, 0),
+          velocityMultiplierDelta: Vector2(1.15, 1.0),
+          repeat: ImageRepeat.repeat,
+          fill: LayerFill.none,
+          alignment: Alignment.topLeft,
+          size: Vector2(
+              game.currentMap.level.width, game.currentMap.level.height),
+          priority: -10);
+      parallaxComponent?.decorator
+          .replaceLast(PaintDecorator.tint(getBgColorBasedOnEcoMeter(StoryProgress.ecoMeter)));
+
+      add(parallaxComponent!);
+    }
+  }
+
+  void updateParallax(double horizontalMovement) {
+    if (parallaxComponent != null) {
+      parallaxComponent?.parallax?.baseVelocity =
+          Vector2(horizontalMovement * 1, 0);
     }
   }
 }

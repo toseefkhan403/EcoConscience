@@ -70,8 +70,9 @@ flutter:
     - assets/images/Characters/
     - assets/images/HUD/
     - assets/images/Lessons/
-    - assets/images/Interiors/16x16/
     - assets/images/Interiors/32x32/
+    - assets/images/Exteriors/
+    - assets/images/Exteriors/skyline/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

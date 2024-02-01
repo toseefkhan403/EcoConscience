@@ -3,13 +3,21 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "home.tmx",
+    "activeFile": "outdoors.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "fileStates": {
+        "1_Terrains_and_Fences_32x32.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 2
+        },
         "21_Clothing_Store_32x32.tsx": {
             "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "2_City_Terrains_32x32.tsx": {
+            "scaleInDock": 0.5,
             "scaleInEditor": 1
         },
         "2_LivingRoom_32x32.tsx": {
@@ -20,9 +28,17 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "3_1City_Props_32x32.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "3_Bathroom_32x32.tsx": {
             "scaleInDock": 1.5,
             "scaleInEditor": 1
+        },
+        "3_City_Props_32x32.tsx": {
+            "scaleInDock": 0.25,
+            "scaleInEditor": 0.33
         },
         "4_Bedroom_16x16.tsx": {
             "dynamicWrapping": false,
@@ -36,6 +52,47 @@
         },
         "4_Bedroom_48x48.tsx": {
             "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "51_Floor_Modular_Buildings_32x32.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "52_Floor_Modular_Buildings_32x32.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "54_Floor_Modular_Buildings_32x32.tsx": {
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1.5
+        },
+        "5_1Floor_Modular_Buildings_32x32.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "5_2Floor_Modular_Buildings_32x32.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "5_3Floor_Modular_Buildings_32x32.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "5_5Floor_Modular_Buildings_32x32.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "5_6Floor_Modular_Buildings_32x32.tsx": {
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
+        },
+        "5_Floor_Modular_Buildings_32x32.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1.5
+        },
+        "5_Floor_Modular_Buildings_Orange_32x32.tsx": {
+            "scaleInDock": 3,
             "scaleInEditor": 1
         },
         "Generic_Home_1_preview_16x16.tsx": {
@@ -55,6 +112,19 @@
         },
         "Interiors_free_48x48.tsx": {
             "scaleInDock": 0.5,
+            "scaleInEditor": 1
+        },
+        "Modular_Buildings.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.5,
+            "scaleInEditor": 0.75
+        },
+        "Orange2_Floor_Modular_Buildings_32x32.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Orange_Floor_Modular_Buildings_32x32.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "Room_Builder_16x16.tsx": {
@@ -83,7 +153,8 @@
             "scaleInEditor": 1
         },
         "Room_Builder_borders_32x32.tsx": {
-            "scaleInDock": 1.5,
+            "dynamicWrapping": false,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "TopDownHouse_FloorsAndWalls.tsx": {
@@ -108,20 +179,19 @@
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 318.5,
-                "y": 190.75
+                "x": 320,
+                "y": 191.75
             }
         },
         "home.tmx": {
             "expandedObjectLayers": [
-                6,
-                5
+                6
             ],
             "scale": 1.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 274,
-                "y": 281.66666666666663
+                "x": 314.66666666666663,
+                "y": 443.66666666666663
             }
         },
         "home2.tmx": {
@@ -195,10 +265,34 @@
         "interior.tsx": {
             "scaleInDock": 0.33,
             "scaleInEditor": 0.25
+        },
+        "outdoors.tmx": {
+            "expandedObjectLayers": [
+                7,
+                6
+            ],
+            "scale": 0.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 579,
+                "y": 381
+            }
+        },
+        "outdoors1.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 326,
+                "y": 299.33333333333326
+            }
+        },
+        "skyline.tsx": {
+            "scaleInDock": 0.5,
+            "scaleInEditor": 1.5
         }
     },
     "last.externalTilesetPath": "C:/Users/MSI INDIA/StudioProjects/eco_conscience/assets/tiles",
-    "last.imagePath": "C:/Users/MSI INDIA/StudioProjects/eco_conscience/assets/images/Interiors/32x32",
+    "last.imagePath": "C:/Users/MSI INDIA/StudioProjects/eco_conscience/assets/images/Exteriors",
     "map.fixedSize": true,
     "map.height": 12,
     "map.lastUsedFormat": "tmx",
@@ -209,28 +303,35 @@
     "openFiles": [
         "home.tmx",
         "bathroom.tmx",
-        "UI_32x32.tsx"
+        "outdoors.tmx",
+        "5_1Floor_Modular_Buildings_32x32.tsx",
+        "5_6Floor_Modular_Buildings_32x32.tsx",
+        "5_5Floor_Modular_Buildings_32x32.tsx",
+        "3_1City_Props_32x32.tsx",
+        "1_Terrains_and_Fences_32x32.tsx"
     ],
     "project": "Eco Conscience.tiled-project",
-    "property.type": "string",
+    "property.type": "float",
     "recentFiles": [
-        "UI_32x32.tsx",
-        "bathroom.tmx",
         "home.tmx",
-        "3_Bathroom_32x32.tsx",
-        "21_Clothing_Store_32x32.tsx",
-        "Room_Builder_32x32.tsx",
-        "home32.tmx",
-        "Room_Builder_borders_32x32.tsx",
-        "Room_Builder_Floors_32x32.tsx",
-        "Room_Builder_Walls_32x32.tsx",
-        "Room_Builder_48x48.tsx",
-        "2_LivingRoom_48x48.tsx"
+        "bathroom.tmx",
+        "1_Terrains_and_Fences_32x32.tsx",
+        "3_1City_Props_32x32.tsx",
+        "5_5Floor_Modular_Buildings_32x32.tsx",
+        "5_6Floor_Modular_Buildings_32x32.tsx",
+        "5_1Floor_Modular_Buildings_32x32.tsx",
+        "outdoors.tmx",
+        "outdoors1.tmx",
+        "5_2Floor_Modular_Buildings_32x32.tsx",
+        "5_3Floor_Modular_Buildings_32x32.tsx",
+        "Orange2_Floor_Modular_Buildings_32x32.tsx"
     ],
+    "resizeMap.removeObjects": false,
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
         "height": 32,
         "width": 32
-    }
+    },
+    "tileset.type": 0
 }

@@ -86,6 +86,7 @@ class Player extends SpriteAnimationGroupComponent
         !_isInNoGoZone(newX, newY)) {
       position.x = newX;
       position.y = newY;
+      game.currentMap.updateParallax(horizontalMovement);
     }
 
     if (velocity.x != 0 || velocity.y != 0) {
@@ -152,8 +153,8 @@ class Player extends SpriteAnimationGroupComponent
     return false;
   }
 
-  void loadNextMap(String nextMapName, Vector2 nextSpawn) {
+  void loadNextMap(String nextMapName, Vector2 nextSpawn, {double? mapResMultiplier}) {
     collisionBlocks = [];
-    game.loadNextMap(nextMapName, nextSpawn);
+    game.loadNextMap(nextMapName, nextSpawn, mapResMultiplier: mapResMultiplier);
   }
 }

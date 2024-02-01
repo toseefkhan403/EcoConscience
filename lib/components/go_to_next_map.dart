@@ -9,12 +9,13 @@ class GoToNextMap extends PositionComponent
     with HasGameRef<EcoConscience>, CollisionCallbacks {
   final String nextMapName;
   final Vector2 nextSpawn;
+  final double? mapResMultiplier;
 
   GoToNextMap(
       {super.position,
       super.size,
       required this.nextMapName,
-      required this.nextSpawn});
+      required this.nextSpawn, this.mapResMultiplier});
 
   @override
   FutureOr<void> onLoad() {
@@ -26,7 +27,7 @@ class GoToNextMap extends PositionComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Player) {
-      other.loadNextMap(nextMapName, nextSpawn);
+      other.loadNextMap(nextMapName, nextSpawn, mapResMultiplier: mapResMultiplier);
     }
     super.onCollisionStart(intersectionPoints, other);
   }

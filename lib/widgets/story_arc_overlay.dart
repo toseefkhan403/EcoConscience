@@ -1,5 +1,5 @@
 import 'package:eco_conscience/eco_conscience.dart';
-import 'package:eco_conscience/widgets/stories.dart';
+import 'package:eco_conscience/components/story_progress.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -15,7 +15,8 @@ class StoryArcOverlay extends StatefulWidget {
   State<StoryArcOverlay> createState() => _StoryArcOverlayState();
 }
 
-class _StoryArcOverlayState extends State<StoryArcOverlay> with SingleTickerProviderStateMixin {
+class _StoryArcOverlayState extends State<StoryArcOverlay>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
 
@@ -43,15 +44,9 @@ class _StoryArcOverlayState extends State<StoryArcOverlay> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    final dialogs = gameStories[widget.game.currentStoryArc];
-    final gameWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
-    final gameHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final dialogs = StoryProgress.gameStories[widget.game.currentStoryArc];
+    final gameWidth = MediaQuery.of(context).size.width;
+    final gameHeight = MediaQuery.of(context).size.height;
     return FadeTransition(
         opacity: _opacityAnimation,
         child: Container(
@@ -59,8 +54,9 @@ class _StoryArcOverlayState extends State<StoryArcOverlay> with SingleTickerProv
             height: gameHeight,
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/images/Lessons/${widget.game
-                      .currentStoryArc}.png',),
+                  image: AssetImage(
+                    'assets/images/Lessons/${widget.game.currentStoryArc}.png',
+                  ),
                   fit: BoxFit.cover),
               border: Border.all(
                 color: const Color(0xffb5754d),
@@ -94,10 +90,9 @@ class _StoryArcOverlayState extends State<StoryArcOverlay> with SingleTickerProv
               fontSize: 40.0, color: Colors.black, fontWeight: FontWeight.w500),
           acceptedOrRejectedCallback: dialog.choices != null
               ? (bool isAccepted) {
-            print("isAccepted $isAccepted");
-            // remove the overlay and start lecture
-            startLecture(isAccepted);
-          }
+                  print("isAccepted $isAccepted");
+                  startLecture(isAccepted);
+                }
               : null,
         ),
       );
@@ -112,4 +107,3 @@ class _StoryArcOverlayState extends State<StoryArcOverlay> with SingleTickerProv
     widget.game.overlays.add(PlayState.lessonPlaying.name);
   }
 }
-

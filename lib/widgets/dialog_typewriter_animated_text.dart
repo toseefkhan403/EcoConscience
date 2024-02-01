@@ -1,6 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:eco_conscience/widgets/stories.dart' as eco;
+import 'package:eco_conscience/components/story_progress.dart' as eco;
 import 'package:flutter/material.dart';
 
 class DialogTypewriterAnimatedText extends AnimatedText {

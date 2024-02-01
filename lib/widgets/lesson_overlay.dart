@@ -1,6 +1,6 @@
 import 'package:eco_conscience/components/interaction_point.dart';
 import 'package:eco_conscience/eco_conscience.dart';
-import 'package:eco_conscience/widgets/stories.dart';
+import 'package:eco_conscience/components/story_progress.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -45,7 +45,7 @@ class _LessonOverlayState extends State<LessonOverlay>
 
   @override
   Widget build(BuildContext context) {
-    final lessons = gameLessons[widget.game.currentLesson];
+    final lessons = StoryProgress.gameLessons[widget.game.currentLesson];
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
     return FadeTransition(
@@ -79,12 +79,19 @@ class _LessonOverlayState extends State<LessonOverlay>
               isRepeatingAnimation: false,
               stopPauseOnTap: true,
               onFinished: () {
-                // story ended - remove overlays and interaction point
+                /// story ended - remove overlays, ecoPoints and interaction point
                 widget.game.overlays.remove(PlayState.lessonPlaying.name);
                 widget.game.overlays.remove(PlayState.storyPlaying.name);
 
-                widget.game.currentMap.removeInteractionPoint(widget.game.currentLesson.startsWith('true'));
-                allStoryArcs[widget.game.currentStoryArc] = true;
+                final isAccepted = widget.game.currentLesson.startsWith('true');
+                if (!isAccepted) {
+                  StoryProgress.ecoMeter -= 20;
+                }
+                print('StoryProgress.ecoMeter ${StoryProgress.ecoMeter}');
+
+                widget.game.currentMap.removeInteractionPoint(isAccepted);
+                StoryProgress
+                    .allStoryArcsProgress[widget.game.currentStoryArc] = true;
 
                 widget.game.playState = PlayState.playing;
               },

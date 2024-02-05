@@ -1,4 +1,5 @@
 enum StoryTitles {
+  introArc,
   bathroomArc,
   houseLightsArc,
   busToOfficeArc,
@@ -17,6 +18,17 @@ class StoryProgress {
 
   static init() {
     gameStories = {
+      StoryTitles.introArc.name: [
+        MsgFormat(
+            'In a world where every choice echoes through the fabric of existence, you hold the power to shape the destiny of this realm. Welcome to the EcoShift Chronicles, where your decisions influence the harmony or discord of this world.',
+            character: Characters.angel),
+        MsgFormat(
+            "Ah, welcome to the playground of choices! The EcoShift Chronicles await, where every decision holds consequences. But who says you always have to be the hero? Why not embrace the dark side of choices?",
+            character: Characters.demon),
+        MsgFormat(
+            'Embrace the path of balance and watch as the world transforms into a harmonious paradise.',
+            character: Characters.angel),
+      ],
       StoryTitles.bathroomArc.name: [
         MsgFormat('[You start to brush your teeth]'),
         MsgFormat(
@@ -51,6 +63,11 @@ class StoryProgress {
       ],
     };
     gameLessons = {
+      'false${StoryTitles.introArc.name}' : [
+        MsgFormat(
+            'Or revel in chaos and witness the town succumb to the consequences of indulgence. The choice is yours.',
+            character: Characters.demon),
+      ],
       'true${StoryTitles.bathroomArc.name}': [
         MsgFormat(
             "Congratulations on choosing to turn off the tap while brushing your teeth! Small actions like these contribute to water conservation.",
@@ -94,6 +111,7 @@ class StoryProgress {
       ]
     };
     allStoryArcsProgress = {
+      StoryTitles.introArc.name: false,
       StoryTitles.bathroomArc.name: false,
       StoryTitles.houseLightsArc.name: false,
       StoryTitles.busToOfficeArc.name: false,

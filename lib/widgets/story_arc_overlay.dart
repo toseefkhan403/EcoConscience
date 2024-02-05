@@ -72,6 +72,12 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
                   pause: const Duration(seconds: 4),
                   isRepeatingAnimation: false,
                   stopPauseOnTap: true,
+                  onFinished: () {
+                    if(widget.game.currentStoryArc == StoryTitles.introArc.name) {
+                      startLecture(false);
+                      // widget.game.overlays.remove(PlayState.storyPlaying.name);
+                    }
+                  },
                 ),
               ],
             )));

@@ -9,30 +9,29 @@ class CustomToastOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        print('tapped');
-        game.overlays.remove(PlayState.showingToast.name);
-        game.startStoryArc();
-      },
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 5),
+      child: InkWell(
+        onTap: () {
+          print('tapped');
+          game.overlays.remove(PlayState.showingToast.name);
+          game.startStoryArc();
+        },
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.only(bottom: 20),
             child: AnimatedTextKit(
               animatedTexts: [
-                FadeAnimatedText(
-                  game.toastMsg,
-                  textAlign: TextAlign.center,
-                  textStyle: const TextStyle(
-                      fontSize: 30,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w500),
-                    duration: const Duration(milliseconds: 1000)
-                ),
+                FadeAnimatedText(game.toastMsg,
+                    textAlign: TextAlign.center,
+                    textStyle: const TextStyle(
+                        fontSize: 30,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500),
+                    duration: const Duration(milliseconds: 1000)),
               ],
               onTap: () {
                 print('tapped2');

@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:eco_conscience/components/story_progress.dart' as eco;
+import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flutter/material.dart';
 
 class DialogTypewriterAnimatedText extends AnimatedText {
@@ -52,7 +53,7 @@ class DialogTypewriterAnimatedText extends AnimatedText {
       children: [
         const Spacer(),
         _characterRow(dialogBoxHeight),
-        _brownContainer(
+        brownContainer(
           width: dialogBoxWidth,
           height: dialogBoxHeight,
           child: Column(
@@ -137,7 +138,7 @@ class DialogTypewriterAnimatedText extends AnimatedText {
       children: [
         const Spacer(),
         _characterRow(dialogBoxHeight),
-        _brownContainer(
+        brownContainer(
           width: dialogBoxWidth,
           height: dialogBoxHeight,
           child: AutoSizeText(
@@ -172,20 +173,5 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                 : Container(),
           ],
         ),
-      );
-
-  _brownContainer({Widget? child, double? width, double? height}) => Container(
-        width: width,
-        height: height,
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-        decoration: BoxDecoration(
-          color: const Color(0xffd0be9c),
-          border: Border.all(
-            color: const Color(0xffb5754d),
-            width: 6.0,
-          ),
-        ),
-        child: child,
       );
 }

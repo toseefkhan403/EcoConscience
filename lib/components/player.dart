@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:eco_conscience/components/utils.dart';
 import 'package:eco_conscience/eco_conscience.dart';
@@ -18,6 +19,7 @@ class Player extends SpriteAnimationGroupComponent
   final double stepTime = 0.05;
   final double moveSpeed = 150;
   final double headSpaceOffset = 18;
+
   String character;
   PlayerDirection playerDirection = PlayerDirection.none;
   bool isRunning = false;
@@ -25,6 +27,7 @@ class Player extends SpriteAnimationGroupComponent
   Vector2 velocity = Vector2.zero();
   double horizontalMovement = 0;
   double verticalMovement = 0;
+  bool showControls = false;
 
   @override
   FutureOr<void> onLoad() {
@@ -32,6 +35,7 @@ class Player extends SpriteAnimationGroupComponent
     add(RectangleHitbox());
     debugMode = kDebugMode;
     _loadAnims();
+    _loadControls();
     return super.onLoad();
   }
 
@@ -54,7 +58,8 @@ class Player extends SpriteAnimationGroupComponent
     final isDownKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyS) ||
         keysPressed.contains(LogicalKeyboardKey.arrowDown);
 
-    if (game.playState == PlayState.playing || game.playState == PlayState.showingToast) {
+    if (game.playState == PlayState.playing ||
+        game.playState == PlayState.showingToast) {
       horizontalMovement += isLeftKeyPressed ? -1 : 0;
       horizontalMovement += isRightKeyPressed ? 1 : 0;
       verticalMovement += isUpKeyPressed ? -1 : 0;
@@ -153,8 +158,22 @@ class Player extends SpriteAnimationGroupComponent
     return false;
   }
 
-  void loadNextMap(String nextMapName, Vector2 nextSpawn, {double? mapResMultiplier}) {
+  void loadNextMap(String nextMapName, Vector2 nextSpawn,
+      {double? mapResMultiplier}) {
     collisionBlocks = [];
-    game.loadNextMap(nextMapName, nextSpawn, mapResMultiplier: mapResMultiplier);
+    game.loadNextMap(nextMapName, nextSpawn,
+        mapResMultiplier: mapResMultiplier);
+  }
+
+  void _loadControls() async {
+    try {
+      showControls = Platform.isAndroid || Platform.isIOS;
+    } catch (e) {
+      print(e.toString());
+    }
+
+    if (showControls) {
+      game.overlays.add('buttonControls');
+    }
   }
 }

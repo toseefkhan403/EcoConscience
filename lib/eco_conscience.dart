@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:eco_conscience/components/player.dart';
 import 'package:flame/components.dart';
@@ -17,10 +16,10 @@ import 'components/map.dart';
 // 5. bathroom and house lights arc --done
 // 6. Map - road dev with changing skyline --done
 
-// 7. start anim and menu
+// 7. start anim and ecoMeter
 // 8. busToOffice arc, grocery littering arc
 // 9. office tree plantation arc
-// 10. sound fx
+// 10. menu and sound fx
 // 11. add Japanese support and google pay cards integration
 // 12. cross platform testing and fixes
 
@@ -35,39 +34,27 @@ enum PlayState {
 
 class EcoConscience extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
-  final Player player = Player(character: 'Adam', size: Vector2(32, 64));
-  late final JoystickComponent joystick;
+  final Player player = Player(size: Vector2(32, 64));
 
   late CameraComponent cam;
   late Map currentMap;
   String toastMsg = '';
-  String currentStoryArc = '';
+  String currentStoryArc = 'introArc';
 
   // true/false+currentStoryArc
-  String currentLesson = '';
+  String currentLesson = 'falseintroArc';
   PlayState playState = PlayState.playing;
-  bool showJoystick = false;
 
   @override
-  Color backgroundColor() => const Color(0xff62626f);
+  Color backgroundColor() => Colors.black;
 
   @override
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
-    _loadMap();
-    try {
-      showJoystick = Platform.isAndroid || Platform.isIOS;
-      if (showJoystick) addJoystick();
-    } catch (e) {
-      print(e.toString());
-    }
+    _loadMap(
+        mapName: 'startingSequence', mapResMultiplier: 1.5
+    );
     return super.onLoad();
-  }
-
-  @override
-  void update(double dt) {
-    if (showJoystick) updateJoystick();
-    super.update(dt);
   }
 
   void loadNextMap(String mapName, Vector2 nextSpawn,
@@ -100,62 +87,8 @@ class EcoConscience extends FlameGame
     overlays.add(PlayState.storyPlaying.name);
   }
 
-  void addJoystick() {
-    joystick = JoystickComponent(
-      knob: SpriteComponent(
-        sprite: Sprite(images.fromCache('HUD/Knob.png')),
-      ),
-      background:
-          SpriteComponent(sprite: Sprite(images.fromCache('HUD/Joystick.png'))),
-      margin: const EdgeInsets.only(left: 32, bottom: 32),
-      priority: 20
-    );
-
-    add(joystick);
-  }
-
-  void updateJoystick() {
-    switch (joystick.direction) {
-      case JoystickDirection.left:
-        player.horizontalMovement = -1;
-        player.playerDirection = PlayerDirection.left;
-        break;
-      case JoystickDirection.right:
-        player.horizontalMovement = 1;
-        player.playerDirection = PlayerDirection.right;
-        break;
-      case JoystickDirection.up:
-        player.verticalMovement = -1;
-        player.playerDirection = PlayerDirection.up;
-        break;
-      case JoystickDirection.down:
-        player.verticalMovement = 1;
-        player.playerDirection = PlayerDirection.down;
-        break;
-      case JoystickDirection.idle:
-        player.horizontalMovement = 0;
-        player.verticalMovement = 0;
-        break;
-      case JoystickDirection.upLeft:
-        player.verticalMovement = -1;
-        player.horizontalMovement = -1;
-        player.playerDirection = PlayerDirection.left;
-        break;
-      case JoystickDirection.downLeft:
-        player.verticalMovement = 1;
-        player.horizontalMovement = -1;
-        player.playerDirection = PlayerDirection.left;
-        break;
-      case JoystickDirection.upRight:
-        player.verticalMovement = -1;
-        player.horizontalMovement = 1;
-        player.playerDirection = PlayerDirection.right;
-        break;
-      case JoystickDirection.downRight:
-        player.verticalMovement = 1;
-        player.horizontalMovement = 1;
-        player.playerDirection = PlayerDirection.right;
-        break;
-    }
+  void startGame() {
+    playState = PlayState.playing;
+    loadNextMap('home', Vector2(48+64, 208));
   }
 }

@@ -40,6 +40,7 @@ dependencies:
   google_fonts: ^6.1.0
   animated_text_kit: ^4.2.2
   auto_size_text: ^3.0.0
+  provider: ^6.1.1
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
     - assets/images/Interiors/32x32/
     - assets/images/Exteriors/
     - assets/images/Exteriors/skyline/
+    - assets/google_fonts/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -85,12 +87,23 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Arcade-In
+      fonts:
+        - asset: assets/fonts/8-bit Arcade In.ttf
+
+    - family: Arcade-Out
+      fonts:
+        - asset: assets/fonts/8-bit Arcade Out.ttf
+
+    - family: Crang
+      fonts:
+        - asset: assets/fonts/Crang.ttf
+
+    - family: 4B30
+      fonts:
+        - asset: assets/fonts/04B_30__.TTF
+
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

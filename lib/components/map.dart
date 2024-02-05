@@ -5,12 +5,14 @@ import 'package:eco_conscience/components/interaction_point.dart';
 import 'package:eco_conscience/components/utils.dart';
 import 'package:eco_conscience/eco_conscience.dart';
 import 'package:eco_conscience/components/story_progress.dart';
+import 'package:eco_conscience/providers/start_menu_provider.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/parallax.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/rendering.dart';
+import 'package:provider/provider.dart';
 
 import 'go_to_next_map.dart';
 import 'other_interaction_point.dart';
@@ -31,11 +33,22 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
       // can lead to performance issues
       // atlasMaxX: 20000, atlasMaxY: 20000
     );
+    addStartingSequence();
     loadParallaxBg();
-    add(level);
+    await add(level);
     _addSpawnPoints();
     _addCollisions();
     return super.onLoad();
+  }
+
+  @override
+  void render(Canvas canvas) {
+    canvas.drawRect(
+      Rect.fromPoints(const Offset(0, 0),
+          Offset(game.currentMap.level.width, game.currentMap.level.height)),
+      Paint()..color = const Color(0xff62626f),
+    );
+    super.render(canvas);
   }
 
   void _addCollisions() {
@@ -166,8 +179,8 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
           size: Vector2(
               game.currentMap.level.width, game.currentMap.level.height),
           priority: -10);
-      parallaxComponent?.decorator
-          .replaceLast(PaintDecorator.tint(getBgColorBasedOnEcoMeter(StoryProgress.ecoMeter)));
+      parallaxComponent?.decorator.replaceLast(PaintDecorator.tint(
+          getBgColorBasedOnEcoMeter(StoryProgress.ecoMeter)));
 
       add(parallaxComponent!);
     }
@@ -177,6 +190,54 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
     if (parallaxComponent != null) {
       parallaxComponent?.parallax?.baseVelocity =
           Vector2(horizontalMovement * 1, 0);
+    }
+  }
+
+  addStartingSequence() async {
+    if (name == 'startingSequence') {
+      final p1 = await game.loadParallaxComponent([
+        ParallaxImageData('Exteriors/skyline/longBg.png'),
+      ],
+          baseVelocity: Vector2(0, 0),
+          repeat: ImageRepeat.repeat,
+          fill: LayerFill.none,
+          alignment: Alignment.topLeft,
+          size: Vector2(
+              game.currentMap.level.width, game.currentMap.level.height),
+          priority: -10);
+      final p2 = await game.loadParallaxComponent([
+        ParallaxImageData('Exteriors/skyline/longCloudsOverlay.png'),
+      ],
+          baseVelocity: Vector2(25, 0),
+          repeat: ImageRepeat.repeat,
+          fill: LayerFill.none,
+          alignment: Alignment.topCenter,
+          size: Vector2(
+              game.currentMap.level.width, game.currentMap.level.height),
+          priority: -10);
+
+      add(p1);
+      add(p2);
+
+      game.cam.stop();
+      game.cam.viewfinder.add(
+        MoveToEffect(
+            Vector2(0, 400),
+            EffectController(
+                startDelay: 3,
+                duration: 3,
+              // duration: 1,
+                onMax: () {
+                  if (game.overlays.activeOverlays
+                      .contains(PlayState.startScreen.name)) {
+                    final provider =
+                        gameRef.buildContext?.read<StartMenuProvider>();
+                    provider?.shouldShowMenu(true);
+                  }
+                })),
+      );
+
+      game.overlays.add(PlayState.startScreen.name);
     }
   }
 }

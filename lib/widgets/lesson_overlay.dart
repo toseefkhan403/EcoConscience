@@ -1,4 +1,3 @@
-import 'package:eco_conscience/components/interaction_point.dart';
 import 'package:eco_conscience/eco_conscience.dart';
 import 'package:eco_conscience/components/story_progress.dart';
 import 'package:eco_conscience/widgets/utils.dart';
@@ -60,8 +59,8 @@ class _LessonOverlayState extends State<LessonOverlay>
               ),
               colorFilter: ColorFilter.mode(
                   widget.game.currentLesson.startsWith('false')
-                      ? Colors.red
-                      : Colors.green,
+                      ? const Color(0x8B7A0909)
+                      : Colors.green.withOpacity(0.5),
                   BlendMode.softLight),
               fit: BoxFit.cover),
           border: Border.all(
@@ -82,6 +81,13 @@ class _LessonOverlayState extends State<LessonOverlay>
                 /// story ended - remove overlays, ecoPoints and interaction point
                 widget.game.overlays.remove(PlayState.lessonPlaying.name);
                 widget.game.overlays.remove(PlayState.storyPlaying.name);
+                StoryProgress
+                    .allStoryArcsProgress[widget.game.currentStoryArc] = true;
+
+                if(widget.game.currentStoryArc == StoryTitles.introArc.name) {
+                  widget.game.startGame();
+                  return;
+                }
 
                 final isAccepted = widget.game.currentLesson.startsWith('true');
                 if (!isAccepted) {
@@ -90,9 +96,6 @@ class _LessonOverlayState extends State<LessonOverlay>
                 print('StoryProgress.ecoMeter ${StoryProgress.ecoMeter}');
 
                 widget.game.currentMap.removeInteractionPoint(isAccepted);
-                StoryProgress
-                    .allStoryArcsProgress[widget.game.currentStoryArc] = true;
-
                 widget.game.playState = PlayState.playing;
               },
             ),

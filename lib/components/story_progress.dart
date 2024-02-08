@@ -93,6 +93,24 @@ class StoryProgress {
             "Every piece of litter contributes to pollution. By using the dustbin, you show respect for your environment and set a positive example.",
             character: Characters.angel),
         MsgFormat("Will you use the dustbin?", choices: ["Yes", "No"]),
+      ],
+      StoryTitles.officePlantationArc.name: [
+        MsgFormat(
+            "[Your colleagues are going on a tree plantation activity and want you to join]"),
+        MsgFormat(
+            "Tree planting? How cliché. Why bother with dirt and sweat when you could be doing something more fun?",
+            character: Characters.demon),
+        MsgFormat(
+            "What a wonderful opportunity! Joining your colleagues for a tree plantation activity can make a positive impact on the environment!",
+            character: Characters.angel),
+        MsgFormat(
+            "Seriously? You're actually going to waste your time planting trees? Do you really think one sapling is going to make a difference?",
+            character: Characters.demon),
+        MsgFormat(
+            "Every tree planted is a step toward a greener future. By participating, you're contributing to a positive change in the local ecosystem.",
+            character: Characters.angel),
+        MsgFormat("Will you join the tree plantation activity?",
+            choices: ["Yes", "No"]),
       ]
     };
 
@@ -124,12 +142,6 @@ class StoryProgress {
       'true${StoryTitles.houseLightsArc.name}': [
         MsgFormat(
             "Well done! Your choice to switch off the lights is commendable. It not only saves energy but also helps create a more sustainable living environment.",
-            character: Characters.angel),
-        MsgFormat(
-            "Keep playing the energy-saving game if it makes you happy. But let's be real, it's just a drop in the power grid.",
-            character: Characters.demon),
-        MsgFormat(
-            "Conserving energy is a collective effort, and your choice contributes to a more sustainable world.",
             character: Characters.angel),
       ],
       'false${StoryTitles.houseLightsArc.name}': [
@@ -167,6 +179,21 @@ class StoryProgress {
             character: Characters.demon),
         MsgFormat(
             "Unfortunately, by littering, you've added to the pollution. Let's strive to keep our world clean by using the dustbin.",
+            character: Characters.angel),
+      ],
+      'true${StoryTitles.officePlantationArc.name}': [
+        MsgFormat(
+            "Well done! Your choice to join the tree plantation activity is commendable. It's these collective efforts that lead to a more sustainable and beautiful world.",
+            character: Characters.angel),
+      ],
+      'false${StoryTitles.officePlantationArc.name}': [
+        MsgFormat(
+            "It's disheartening to see the missed opportunity. Tree planting has a cascading positive effect on the environment, and your participation could have made a significant difference.",
+            character: Characters.angel),
+        MsgFormat("Never mind, you can now do something more enjoyable.",
+            character: Characters.demon),
+        MsgFormat(
+            "Enjoyment is subjective, but the positive impact of tree planting is undeniable. Let's strive to make choices that benefit both us and the world around us.",
             character: Characters.angel),
       ],
     };

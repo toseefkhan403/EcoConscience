@@ -159,11 +159,14 @@ class Player extends SpriteAnimationGroupComponent
     return false;
   }
 
-  void loadNextMap(String nextMapName, Vector2 nextSpawn,
-      {double? mapResMultiplier}) {
+  void loadNextMap(String nextMapName, double nextSpawnX,
+      {double? nextSpawnY, double? mapResMultiplier}) {
     collisionBlocks = [];
-    game.loadNextMap(nextMapName, nextSpawn,
-        mapResMultiplier: mapResMultiplier);
+    game.loadMap(
+        mapName: nextMapName,
+        nextSpawnX: nextSpawnX,
+        nextSpawnY: nextSpawnY,
+        mapResMultiplier: mapResMultiplier ?? 1.0);
   }
 
   void _loadControls() async {

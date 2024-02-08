@@ -66,7 +66,10 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                     text,
                     maxLines: 2,
                     textAlign: textAlign,
-                    style: DefaultTextStyle.of(context).style.merge(textStyle),
+                    style: DefaultTextStyle.of(context)
+                        .style
+                        .merge(textStyle)
+                        .copyWith(fontSize: dialogBoxHeight * 0.25),
                   ),
                 ),
               ),
@@ -145,7 +148,10 @@ class DialogTypewriterAnimatedText extends AnimatedText {
             visibleString,
             maxLines: 2,
             textAlign: textAlign,
-            style: DefaultTextStyle.of(context).style.merge(textStyle),
+            style: DefaultTextStyle.of(context)
+                .style
+                .merge(textStyle)
+                .copyWith(fontSize: dialogBoxHeight * 0.25),
           ),
         ),
       ],

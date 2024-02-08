@@ -11,6 +11,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/parallax.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/rendering.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +20,10 @@ import 'go_to_next_map.dart';
 import 'other_interaction_point.dart';
 
 class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
-  Map({required this.name, this.nextSpawn});
+  Map({required this.name, this.nextSpawnX, this.nextSpawnY});
 
-  Vector2? nextSpawn;
+  double? nextSpawnX;
+  double? nextSpawnY;
   final String name;
   late TiledComponent level;
   ParallaxComponent? parallaxComponent;
@@ -44,11 +46,15 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
 
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(
-      Rect.fromPoints(const Offset(0, 0),
-          Offset(game.currentMap.level.width, game.currentMap.level.height)),
-      Paint()..color = const Color(0xff62626f),
-    );
+    try {
+      canvas.drawRect(
+        Rect.fromPoints(const Offset(0, 0),
+            Offset(game.currentMap.level.width, game.currentMap.level.height)),
+        Paint()..color = const Color(0xff62626f),
+      );
+    } catch (e) {
+      if (kDebugMode) print(e);
+    }
     super.render(canvas);
   }
 
@@ -71,10 +77,11 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
   }
 
   void _addSpawnPoints() {
-    // if player has teleported, he won't be in the spawn points
-    if (nextSpawn != null) {
-      print('setting spawn $nextSpawn');
-      game.player.position = Vector2(nextSpawn!.x, nextSpawn!.y);
+    // spawn the player
+    if (nextSpawnX != null) {
+      Vector2 spawn =
+          Vector2(nextSpawnX!, nextSpawnY ?? game.player.position.y);
+      game.player.position = spawn;
       add(game.player);
     }
 
@@ -82,13 +89,6 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
     if (spawnPointsLayer == null) return;
     for (final spawnPoint in spawnPointsLayer.objects) {
       switch (spawnPoint.class_) {
-        case 'Player':
-          // first time spawn in the game
-          if (nextSpawn == null) {
-            game.player.position = Vector2(spawnPoint.x, spawnPoint.y);
-            add(game.player);
-          }
-          break;
         case 'Interaction':
           final storyArc = spawnPoint.properties.getValue('storyArc') as String;
           if (StoryProgress.allStoryArcsProgress[storyArc] != null &&
@@ -133,8 +133,8 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
               size: Vector2(spawnPoint.width, spawnPoint.height),
               nextMapName:
                   spawnPoint.properties.getValue('NextMapName') as String,
-              nextSpawn: Vector2(spawnPoint.properties.getValue('NextSpawnX'),
-                  spawnPoint.properties.getValue('NextSpawnY')),
+              nextSpawnX: spawnPoint.properties.getValue('NextSpawnX'),
+              nextSpawnY: spawnPoint.properties.getValue('NextSpawnY'),
               mapResMultiplier:
                   spawnPoint.properties.getValue('MapResMultiplier'));
           add(point);
@@ -228,7 +228,7 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
             EffectController(
                 startDelay: 3,
                 duration: 3,
-              // duration: 1,
+                // duration: 1,
                 onMax: () {
                   if (game.overlays.activeOverlays
                       .contains(PlayState.startScreen.name)) {

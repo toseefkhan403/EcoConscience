@@ -17,8 +17,8 @@ import 'components/map.dart';
 // 6. Map - road dev with changing skyline --done
 // 7. start anim and ecoMeter --done
 // 8. busToOffice arc, grocery littering arc --done
+// 9. office tree plantation arc --done
 
-// 9. office tree plantation arc
 // 10. menu and sound fx
 // 11. add ecoMeter based dynamic characters and elements
 // 12. add Japanese support and google pay cards integration
@@ -52,28 +52,24 @@ class EcoConscience extends FlameGame
   @override
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
-    _loadMap(
-        mapName: 'startingSequence', mapResMultiplier: 1.5
+    // startGame();
+    loadMap(
+        mapName: 'startingSequence', mapResMultiplier: 1.5,
     );
-    // overlays.add('pauseButton');
 
     return super.onLoad();
   }
 
-  void loadNextMap(String mapName, Vector2 nextSpawn,
-      {double? mapResMultiplier}) {
-    removeWhere((component) => component is Map);
-    _loadMap(
-        mapName: mapName,
-        nextSpawn: nextSpawn,
-        mapResMultiplier: mapResMultiplier ?? 1.0);
-  }
-
-  void _loadMap(
+  void loadMap(
       {String mapName = 'home',
-      Vector2? nextSpawn,
+      double? nextSpawnX,
+      double? nextSpawnY,
       double mapResMultiplier = 1.0}) {
-    currentMap = Map(name: mapName, nextSpawn: nextSpawn);
+    removeWhere((component) => component is Map);
+    removeWhere((component) => component is CameraComponent);
+
+    currentMap =
+        Map(name: mapName, nextSpawnX: nextSpawnX, nextSpawnY: nextSpawnY);
 
     // this line makes it responsive! aspect ratio 16:9 - 32x32 in 640x360
     cam = CameraComponent.withFixedResolution(
@@ -93,6 +89,7 @@ class EcoConscience extends FlameGame
   void startGame() {
     playState = PlayState.playing;
     overlays.add('pauseButton');
-    loadNextMap('home', Vector2(288, 224));
+    // loads the first map with initial spawn points
+    loadMap(mapName: 'home', nextSpawnX: 288, nextSpawnY: 224);
   }
 }

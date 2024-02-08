@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="17" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="35">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="30" height="17" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="36">
  <tileset firstgid="1" source="5_1Floor_Modular_Buildings_32x32.tsx"/>
  <tileset firstgid="1185" source="2_1City_Terrains_32x32.tsx"/>
  <tileset firstgid="1875" source="1_Terrains_and_Fences_32x32.tsx"/>
@@ -44,6 +44,7 @@
   <object id="32" x="646" y="384" width="16" height="47"/>
   <object id="33" x="452" y="406" width="25" height="28"/>
   <object id="34" x="128" y="384" width="32" height="48"/>
+  <object id="35" x="896" y="320" width="64" height="32"/>
  </objectgroup>
  <objectgroup id="5" name="SpawnPoints">
   <object id="22" name="GoToNextMap" type="GoToNextMap" x="0" y="352" width="16" height="192">
@@ -51,7 +52,6 @@
     <property name="MapResMultiplier" type="float" value="1.5"/>
     <property name="NextMapName" value="outdoors"/>
     <property name="NextSpawnX" type="float" value="888"/>
-    <property name="NextSpawnY" type="float" value="384"/>
    </properties>
   </object>
   <object id="27" name="Interaction" type="Interaction" x="128" y="332" width="32" height="64">
@@ -66,7 +66,6 @@
     <property name="MapResMultiplier" type="float" value="1.5"/>
     <property name="NextMapName" value="outdoorsTaco"/>
     <property name="NextSpawnX" type="float" value="32"/>
-    <property name="NextSpawnY" type="float" value="352"/>
    </properties>
   </object>
  </objectgroup>

@@ -65,7 +65,10 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
             ),
             child: Stack(
               children: [
-                animatedPlayerWidget(gameHeight, widget.game.player.character),
+                widget.game.currentStoryArc != StoryTitles.introArc.name
+                    ? animatedPlayerWidget(
+                        gameHeight, widget.game.player.character)
+                    : Container(),
                 AnimatedTextKit(
                   animatedTexts: getAnimatedTextFromDialogs(dialogs),
                   displayFullTextOnTap: true,
@@ -73,9 +76,10 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
                   isRepeatingAnimation: false,
                   stopPauseOnTap: true,
                   onFinished: () {
-                    if(widget.game.currentStoryArc == StoryTitles.introArc.name) {
+                    if (widget.game.currentStoryArc ==
+                        StoryTitles.introArc.name) {
                       startLecture(false);
-                      // widget.game.overlays.remove(PlayState.storyPlaying.name);
+                      widget.game.overlays.remove(PlayState.storyPlaying.name);
                     }
                   },
                 ),

@@ -45,3 +45,20 @@ Color getBgColorBasedOnEcoMeter(int ecoMeter) {
       return Colors.transparent;
   }
 }
+
+Color getColorBasedOnEcoMeter(int ecoMeter) {
+  switch (ecoMeter) {
+    case 80:
+      return const Color(0x8B86D2EF);
+    case 60:
+      return const Color(0x936FC098);
+    case 40:
+      return const Color(0x8EBCD379);
+    case 20:
+      return const Color(0x9DC49A70);
+    case 0:
+      return const Color(0x8B7A0909);
+    default:
+      return const Color(0xffa0dae8);
+  }
+}

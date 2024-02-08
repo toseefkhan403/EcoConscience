@@ -3,21 +3,21 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "outdoors.tmx",
+    "activeFile": "outdoorsTaco.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "fileStates": {
         "1_Terrains_and_Fences_32x32.tsx": {
-            "scaleInDock": 1.5,
-            "scaleInEditor": 2
+            "scaleInDock": 0.75,
+            "scaleInEditor": 0.75
         },
         "21_Clothing_Store_32x32.tsx": {
             "scaleInDock": 1.5,
-            "scaleInEditor": 1
+            "scaleInEditor": 2
         },
         "2_1City_Terrains_32x32.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 2,
             "scaleInEditor": 1
         },
         "2_City_Terrains_32x32.tsx": {
@@ -26,7 +26,7 @@
         },
         "2_LivingRoom_32x32.tsx": {
             "scaleInDock": 1.5,
-            "scaleInEditor": 1
+            "scaleInEditor": 4
         },
         "2_LivingRoom_48x48.tsx": {
             "scaleInDock": 1,
@@ -41,7 +41,7 @@
             "scaleInEditor": 1
         },
         "3_City_Props_32x32.tsx": {
-            "scaleInDock": 0.25,
+            "scaleInDock": 1,
             "scaleInEditor": 0.33
         },
         "4_Bedroom_16x16.tsx": {
@@ -75,25 +75,25 @@
             "scaleInEditor": 1
         },
         "5_2Floor_Modular_Buildings_32x32.tsx": {
-            "scaleInDock": 1.5,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "5_3Floor_Modular_Buildings_32x32.tsx": {
-            "scaleInDock": 1.5,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "5_5Floor_Modular_Buildings_32x32.tsx": {
-            "scaleInDock": 1.5,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         },
         "5_6Floor_Modular_Buildings_32x32.tsx": {
-            "scaleInDock": 0.33,
+            "scaleInDock": 0.5,
             "scaleInEditor": 1
         },
         "5_Floor_Modular_Buildings_32x32.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 0.75,
-            "scaleInEditor": 1.5
+            "scaleInEditor": 0.75
         },
         "5_Floor_Modular_Buildings_Orange_32x32.tsx": {
             "scaleInDock": 3,
@@ -173,19 +173,23 @@
         },
         "UI_32x32.tsx": {
             "scaleInDock": 2,
-            "scaleInEditor": 1
+            "scaleInEditor": 2
         },
         "bathroom.tmx": {
             "expandedObjectLayers": [
-                2,
-                4
+                4,
+                2
             ],
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 385.25,
-                "y": 191.25
+                "x": 320,
+                "y": 191.75
             }
+        },
+        "busStand.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "home.tmx": {
             "expandedObjectLayers": [
@@ -194,8 +198,8 @@
             "scale": 1.5,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 225.66666666666669,
-                "y": 278.33333333333337
+                "x": 313.33333333333326,
+                "y": 442.99999999999994
             }
         },
         "home2.tmx": {
@@ -272,14 +276,14 @@
         },
         "outdoors.tmx": {
             "expandedObjectLayers": [
-                6,
-                7
+                7,
+                6
             ],
-            "scale": 0.33,
-            "selectedLayer": 0,
+            "scale": 1,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 1146.969696969697,
-                "y": 749.9999999999999
+                "x": 480,
+                "y": 272.5
             }
         },
         "outdoors1.tmx": {
@@ -290,6 +294,30 @@
                 "y": 272.19375873311606
             }
         },
+        "outdoorsBus.tmx": {
+            "expandedObjectLayers": [
+                5,
+                4
+            ],
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 480,
+                "y": 272.5
+            }
+        },
+        "outdoorsTaco.tmx": {
+            "expandedObjectLayers": [
+                5,
+                6
+            ],
+            "scale": 1,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 538,
+                "y": 384.5
+            }
+        },
         "skyline.tsx": {
             "scaleInDock": 0.5,
             "scaleInEditor": 1.5
@@ -298,15 +326,23 @@
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 781,
-                "y": 643
+                "x": 777,
+                "y": 639
             }
+        },
+        "tacoTruck.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 2
+        },
+        "vehicles.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
     "last.externalTilesetPath": "C:/Users/MSI INDIA/StudioProjects/eco_conscience/assets/tiles",
     "last.imagePath": "C:/Users/MSI INDIA/StudioProjects/eco_conscience/assets/images/Exteriors",
     "map.fixedSize": true,
-    "map.height": 30,
+    "map.height": 17,
     "map.lastUsedFormat": "tmx",
     "map.layerDataFormat": null,
     "map.tileHeight": 32,
@@ -316,23 +352,25 @@
         "home.tmx",
         "bathroom.tmx",
         "outdoors.tmx",
-        "startingSequence.tmx"
+        "outdoorsBus.tmx",
+        "outdoorsTaco.tmx",
+        "tacoTruck.tsx"
     ],
     "project": "Eco Conscience.tiled-project",
     "property.type": "float",
     "recentFiles": [
         "home.tmx",
         "bathroom.tmx",
-        "startingSequence.tmx",
         "outdoors.tmx",
-        "2_1City_Terrains_32x32.tsx",
-        "outdoors1.tmx",
-        "5_1Floor_Modular_Buildings_32x32.tsx",
-        "5_6Floor_Modular_Buildings_32x32.tsx",
+        "outdoorsBus.tmx",
+        "tacoTruck.tsx",
+        "outdoorsTaco.tmx",
+        "vehicles.tsx",
+        "busStand.tsx",
+        "startingSequence.tmx",
         "1_Terrains_and_Fences_32x32.tsx",
-        "5_5Floor_Modular_Buildings_32x32.tsx",
-        "3_1City_Props_32x32.tsx",
-        "5_2Floor_Modular_Buildings_32x32.tsx"
+        "2_1City_Terrains_32x32.tsx",
+        "2_LivingRoom_32x32.tsx"
     ],
     "resizeMap.removeObjects": false,
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",

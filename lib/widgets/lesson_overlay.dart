@@ -3,7 +3,9 @@ import 'package:eco_conscience/components/story_progress.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/eco_meter_provider.dart';
 import 'dialog_typewriter_animated_text.dart';
 
 class LessonOverlay extends StatefulWidget {
@@ -70,7 +72,10 @@ class _LessonOverlayState extends State<LessonOverlay>
         ),
         child: Stack(
           children: [
-            animatedPlayerWidget(gameHeight, widget.game.player.character),
+            widget.game.currentStoryArc != StoryTitles.introArc.name
+                ? animatedPlayerWidget(
+                gameHeight, widget.game.player.character)
+                : Container(),
             AnimatedTextKit(
               animatedTexts: getAnimatedTextFromLessons(lessons),
               displayFullTextOnTap: true,
@@ -84,16 +89,17 @@ class _LessonOverlayState extends State<LessonOverlay>
                 StoryProgress
                     .allStoryArcsProgress[widget.game.currentStoryArc] = true;
 
-                if(widget.game.currentStoryArc == StoryTitles.introArc.name) {
+                if (widget.game.currentStoryArc == StoryTitles.introArc.name) {
                   widget.game.startGame();
                   return;
                 }
 
                 final isAccepted = widget.game.currentLesson.startsWith('true');
                 if (!isAccepted) {
-                  StoryProgress.ecoMeter -= 20;
+                  final provider = context.read<EcoMeterProvider>();
+                  provider.deductPoints();
+                  print('EcoMeter ${provider.ecoMeter}');
                 }
-                print('StoryProgress.ecoMeter ${StoryProgress.ecoMeter}');
 
                 widget.game.currentMap.removeInteractionPoint(isAccepted);
                 widget.game.playState = PlayState.playing;

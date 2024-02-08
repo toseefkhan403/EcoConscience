@@ -3,7 +3,9 @@ import 'package:eco_conscience/providers/eco_meter_provider.dart';
 import 'package:eco_conscience/providers/start_menu_provider.dart';
 import 'package:eco_conscience/widgets/button_controls_overlay.dart';
 import 'package:eco_conscience/widgets/custom_toast_overlay.dart';
+import 'package:eco_conscience/widgets/pause_button_overlay.dart';
 import 'package:eco_conscience/widgets/lesson_overlay.dart';
+import 'package:eco_conscience/widgets/pause_menu_overlay.dart';
 import 'package:eco_conscience/widgets/player_selection_overlay.dart';
 import 'package:eco_conscience/widgets/start_screen_overlay.dart';
 import 'package:eco_conscience/widgets/story_arc_overlay.dart';
@@ -50,6 +52,10 @@ class GameApp extends StatelessWidget {
                   LessonOverlay(game: game),
               'buttonControls': (context, EcoConscience game) =>
                   ButtonControlsOverlay(game: game),
+              'pauseButton': (context, EcoConscience game) =>
+                  PauseButtonOverlay(game: game),
+              'pauseMenu' : (context, EcoConscience game) =>
+                  PauseMenuOverlay(game: game),
               'playerSelection': (context, EcoConscience game) =>
                   PlayerSelectionOverlay(game: game),
             }),

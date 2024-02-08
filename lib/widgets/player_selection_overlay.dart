@@ -147,6 +147,7 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
                       if (formFieldKey.currentState!.validate()) {
                         widget.game.player.character =
                             characterSkins[characterSkinsIndex];
+                        widget.game.player.playerName = _textController.text.trim();
 
                         _controller.reverse().then((_) {
                           widget.game.overlays.remove('playerSelection');

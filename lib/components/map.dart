@@ -5,6 +5,7 @@ import 'package:eco_conscience/components/interaction_point.dart';
 import 'package:eco_conscience/components/utils.dart';
 import 'package:eco_conscience/eco_conscience.dart';
 import 'package:eco_conscience/components/story_progress.dart';
+import 'package:eco_conscience/providers/eco_meter_provider.dart';
 import 'package:eco_conscience/providers/start_menu_provider.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
@@ -162,6 +163,7 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
   }
 
   Future<void> loadParallaxBg() async {
+    final provider = gameRef.buildContext?.read<EcoMeterProvider>();
     if (name.contains('outdoors')) {
       parallaxComponent = await game.loadParallaxComponent([
         ParallaxImageData('Exteriors/skyline/1.png'),
@@ -180,7 +182,7 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
               game.currentMap.level.width, game.currentMap.level.height),
           priority: -10);
       parallaxComponent?.decorator.replaceLast(PaintDecorator.tint(
-          getBgColorBasedOnEcoMeter(StoryProgress.ecoMeter)));
+          getBgColorBasedOnEcoMeter(provider?.ecoMeter ?? 100)));
 
       add(parallaxComponent!);
     }
@@ -232,7 +234,7 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
                       .contains(PlayState.startScreen.name)) {
                     final provider =
                         gameRef.buildContext?.read<StartMenuProvider>();
-                    provider?.shouldShowMenu(true);
+                    provider?.showMenu = true;
                   }
                 })),
       );

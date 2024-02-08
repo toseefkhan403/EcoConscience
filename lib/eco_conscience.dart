@@ -15,13 +15,14 @@ import 'components/map.dart';
 // 4. angel and devil dev --done
 // 5. bathroom and house lights arc --done
 // 6. Map - road dev with changing skyline --done
+// 7. start anim and ecoMeter --done
+// 8. busToOffice arc, grocery littering arc --done
 
-// 7. start anim and ecoMeter
-// 8. busToOffice arc, grocery littering arc
 // 9. office tree plantation arc
 // 10. menu and sound fx
-// 11. add Japanese support and google pay cards integration
-// 12. cross platform testing and fixes
+// 11. add ecoMeter based dynamic characters and elements
+// 12. add Japanese support and google pay cards integration
+// 13. cross platform testing and fixes
 
 enum PlayState {
   startScreen,
@@ -54,6 +55,8 @@ class EcoConscience extends FlameGame
     _loadMap(
         mapName: 'startingSequence', mapResMultiplier: 1.5
     );
+    // overlays.add('pauseButton');
+
     return super.onLoad();
   }
 
@@ -89,6 +92,7 @@ class EcoConscience extends FlameGame
 
   void startGame() {
     playState = PlayState.playing;
-    loadNextMap('home', Vector2(48+64, 208));
+    overlays.add('pauseButton');
+    loadNextMap('home', Vector2(288, 224));
   }
 }

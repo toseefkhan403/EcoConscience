@@ -21,6 +21,7 @@ class Player extends SpriteAnimationGroupComponent
   final double headSpaceOffset = 18;
 
   String character;
+  String playerName = 'Player';
   PlayerDirection playerDirection = PlayerDirection.none;
   bool isRunning = false;
   List<CollisionBlock> collisionBlocks = [];

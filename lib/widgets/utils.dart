@@ -66,3 +66,20 @@ Widget gradientText(String text) => Expanded(
         ),
       ),
     );
+
+String getMsgBasedOnEcoMeter(int ecoMeter) {
+  switch (ecoMeter) {
+    case 80:
+      return 'Your choices are already shaping the fate of EcoVille!';
+    case 60:
+      return 'Git Gud';
+    case 40:
+      return 'You dirty little devil';
+    case 20:
+      return 'You are hopeless';
+    case 0:
+      return 'Everything is lost';
+    default:
+      return 'You are EcoVille\'s champion!';
+  }
+}

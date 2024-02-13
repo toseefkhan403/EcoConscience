@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:eco_conscience/components/story_progress.dart' as eco;
+import 'package:eco_conscience/components/story_progress.dart' as story;
+import 'package:eco_conscience/eco_conscience.dart' as eco;
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flutter/material.dart';
 
@@ -12,13 +13,14 @@ class DialogTypewriterAnimatedText extends AnimatedText {
   /// By default it is set to Curves.linear.
   final Curve curve;
 
-  final eco.MsgFormat msg;
-
+  final story.MsgFormat msg;
+  final eco.EcoConscience game;
   final Function(bool isAccepted)? acceptedOrRejectedCallback;
 
   DialogTypewriterAnimatedText(
     String text,
-    this.msg, {
+    this.msg,
+    this.game, {
     TextAlign textAlign = TextAlign.center,
     TextStyle? textStyle,
     this.speed = const Duration(milliseconds: 30),
@@ -80,7 +82,8 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              await playClickSound(game);
                               if (acceptedOrRejectedCallback != null) {
                                 acceptedOrRejectedCallback!(true);
                               }
@@ -95,7 +98,8 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+                              await playClickSound(game);
                               if (acceptedOrRejectedCallback != null) {
                                 acceptedOrRejectedCallback!(false);
                               }

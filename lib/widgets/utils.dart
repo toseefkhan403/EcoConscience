@@ -1,7 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:eco_conscience/eco_conscience.dart';
 import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Widget animatedPlayerWidget(double gameHeight, String character) => Align(
     alignment: Alignment.bottomCenter,
@@ -58,6 +61,7 @@ Widget gradientText(String text) => Expanded(
         child: AutoSizeText(
           text,
           textAlign: TextAlign.center,
+          minFontSize: 30,
           style: const TextStyle(
               fontFamily: '4B30',
               fontSize: 80,
@@ -69,17 +73,51 @@ Widget gradientText(String text) => Expanded(
 
 String getMsgBasedOnEcoMeter(int ecoMeter) {
   switch (ecoMeter) {
-    case 80:
-      return 'Your choices are already shaping the fate of EcoVille!';
-    case 60:
-      return 'Git Gud';
-    case 40:
-      return 'You dirty little devil';
-    case 20:
-      return 'You are hopeless';
-    case 0:
-      return 'Everything is lost';
-    default:
-      return 'You are EcoVille\'s champion!';
+  case 80:
+  return 'Keep shaping the destiny of EcoVille with your thoughtful choices!';
+  case 60:
+  return 'There\'s room for improvement. EcoVille\'s fate depends on you!';
+  case 40:
+  return 'You\'ve got some work to do. Make greener choices to turn things around!';
+  case 20:
+  case 0:
+  return 'It\'s never too late to change!';
+  default:
+  return 'Make positive choices to keep your environment healthy!';
   }
+}
+
+getTuneBasedOnEcoMeter(int ecoMeter) {
+  switch (ecoMeter) {
+    case 80:
+    case 60:
+      return 'Penguin-Town';
+    case 40:
+    case 20:
+    case 0:
+      return 'Save-the-City';
+    default:
+      return 'Princess-Quest';
+  }
+}
+
+playClickSound(EcoConscience game) async {
+  if (game.playSounds) await FlameAudio.play('click.wav', volume: game.volume);
+}
+
+textButton(String title, Function() onPressed, {Color color = Colors.white}) {
+  return Expanded(
+    child: InkWell(
+      onTap: onPressed,
+      child: AutoSizeText(
+        title,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontFamily: 'Arcade-In',
+            fontSize: 50,
+            color: color.withOpacity(0.8)
+        ),
+      ),
+    ),
+  );
 }

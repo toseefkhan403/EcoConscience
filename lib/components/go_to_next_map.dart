@@ -4,6 +4,7 @@ import 'package:eco_conscience/components/player.dart';
 import 'package:eco_conscience/eco_conscience.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 
 class GoToNextMap extends PositionComponent
     with HasGameRef<EcoConscience>, CollisionCallbacks {
@@ -28,6 +29,7 @@ class GoToNextMap extends PositionComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Player) {
+      if(game.playSounds) FlameAudio.play('teleport.wav', volume: game.volume);
       other.loadNextMap(nextMapName, nextSpawnX, nextSpawnY: nextSpawnY, mapResMultiplier: mapResMultiplier);
     }
     super.onCollisionStart(intersectionPoints, other);

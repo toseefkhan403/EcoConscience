@@ -1,13 +1,14 @@
-import 'package:eco_conscience/eco_conscience.dart';
+import 'package:eco_conscience/eco_conscience.dart' as eco;
 import 'package:eco_conscience/components/story_progress.dart';
 import 'package:eco_conscience/widgets/utils.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
 import 'dialog_typewriter_animated_text.dart';
 
 class StoryArcOverlay extends StatefulWidget {
-  final EcoConscience game;
+  final eco.EcoConscience game;
 
   const StoryArcOverlay({Key? key, required this.game}) : super(key: key);
 
@@ -23,6 +24,15 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
   @override
   void initState() {
     super.initState();
+    if (widget.game.playSounds) {
+      final dialogs = StoryProgress.gameStories[widget.game.currentStoryArc];
+      FlameAudio.bgm.play(
+          dialogs?[0].character == eco.Characters.angel
+              ? 'typing.mp3'
+              : 'typing_devil.mp3',
+          volume: widget.game.volume);
+    }
+
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
@@ -70,16 +80,37 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
                         gameHeight, widget.game.player.character)
                     : Container(),
                 AnimatedTextKit(
-                  animatedTexts: getAnimatedTextFromDialogs(dialogs),
+                  animatedTexts:
+                      getAnimatedTextFromDialogs(dialogs, widget.game),
                   displayFullTextOnTap: true,
                   pause: const Duration(seconds: 4),
                   isRepeatingAnimation: false,
                   stopPauseOnTap: true,
+                  onNextBeforePause: (i, isLast) {
+                    if (widget.game.playSounds) {
+                      FlameAudio.bgm.stop();
+                    }
+                  },
+                  onNext: (i, isLast) {
+                    print('isLast: $i');
+                    if (widget.game.playSounds) {
+                      if (isLast) {
+                        FlameAudio.bgm.stop();
+                      } else {
+                        FlameAudio.bgm.play(
+                            dialogs?[i+1].character == eco.Characters.angel
+                                ? 'typing.mp3'
+                                : 'typing_devil.mp3',
+                            volume: widget.game.volume);
+                      }
+                    }
+                  },
                   onFinished: () {
                     if (widget.game.currentStoryArc ==
                         StoryTitles.introArc.name) {
                       startLecture(false);
-                      widget.game.overlays.remove(PlayState.storyPlaying.name);
+                      widget.game.overlays
+                          .remove(eco.PlayState.storyPlaying.name);
                     }
                   },
                 ),
@@ -87,7 +118,8 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
             )));
   }
 
-  List<AnimatedText> getAnimatedTextFromDialogs(List<MsgFormat>? dialogs) {
+  List<AnimatedText> getAnimatedTextFromDialogs(
+      List<MsgFormat>? dialogs, eco.EcoConscience game) {
     List<AnimatedText> result = [];
     if (dialogs == null || dialogs.isEmpty) return result;
 
@@ -96,6 +128,7 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
         DialogTypewriterAnimatedText(
           dialog.msg,
           dialog,
+          game,
           textStyle: const TextStyle(
               fontSize: 40.0, color: Colors.black, fontWeight: FontWeight.w500),
           acceptedOrRejectedCallback: dialog.choices != null
@@ -112,8 +145,8 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
   }
 
   void startLecture(bool isAccepted) {
-    widget.game.playState = PlayState.lessonPlaying;
+    widget.game.playState = eco.PlayState.lessonPlaying;
     widget.game.currentLesson = '$isAccepted${widget.game.currentStoryArc}';
-    widget.game.overlays.add(PlayState.lessonPlaying.name);
+    widget.game.overlays.add(eco.PlayState.lessonPlaying.name);
   }
 }

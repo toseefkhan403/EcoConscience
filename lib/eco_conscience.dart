@@ -4,6 +4,7 @@ import 'package:eco_conscience/components/player.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 import 'components/map.dart';
@@ -18,9 +19,9 @@ import 'components/map.dart';
 // 7. start anim and ecoMeter --done
 // 8. busToOffice arc, grocery littering arc --done
 // 9. office tree plantation arc --done
+// 10. menu and sound fx --done
 
-// 10. menu and sound fx
-// 11. add ecoMeter based dynamic characters and elements
+// 11. add ecoMeter based dynamic characters and music based animations and add a ending to the game
 // 12. add Japanese support and google pay cards integration
 // 13. cross platform testing and fixes
 
@@ -33,6 +34,8 @@ enum PlayState {
   gameOver
 }
 
+enum Characters { player, angel, demon }
+
 class EcoConscience extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
   final Player player = Player(size: Vector2(32, 64));
@@ -41,6 +44,8 @@ class EcoConscience extends FlameGame
   late Map currentMap;
   String toastMsg = '';
   String currentStoryArc = 'introArc';
+  bool playSounds = true;
+  double volume = 1.0;
 
   // true/false+currentStoryArc
   String currentLesson = 'falseintroArc';
@@ -52,12 +57,24 @@ class EcoConscience extends FlameGame
   @override
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
-    // startGame();
+    // for testing
+    // startGamePlay();
+
     loadMap(
-        mapName: 'startingSequence', mapResMultiplier: 1.5,
+      mapName: 'startingSequence',
+      mapResMultiplier: 1.5,
     );
+    startBgmMusic();
 
     return super.onLoad();
+  }
+
+  void startBgmMusic() {
+    FlameAudio.bgm.initialize();
+    if (playSounds) {
+      FlameAudio.bgm
+          .play('Three-Red-Hearts-Penguin-Town.mp3', volume: volume * 0.5);
+    }
   }
 
   void loadMap(
@@ -86,10 +103,21 @@ class EcoConscience extends FlameGame
     overlays.add(PlayState.storyPlaying.name);
   }
 
-  void startGame() {
+  void startGamePlay() {
     playState = PlayState.playing;
     overlays.add('pauseButton');
     // loads the first map with initial spawn points
     loadMap(mapName: 'home', nextSpawnX: 288, nextSpawnY: 224);
+    if (playSounds) {
+      FlameAudio.bgm
+          .play('Three-Red-Hearts-Princess-Quest.mp3', volume: volume * 0.5);
+    }
+  }
+
+  @override
+  void onDispose() {
+    FlameAudio.bgm.stop();
+    FlameAudio.bgm.dispose();
+    super.onDispose();
   }
 }

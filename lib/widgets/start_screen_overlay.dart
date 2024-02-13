@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:eco_conscience/eco_conscience.dart';
 import 'package:eco_conscience/providers/start_menu_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 1100),
+      duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
 
@@ -69,18 +70,31 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
                       child: value.showMenu
                           ? Column(
                               children: [
-                                textButton('Start', () {
+                                textButton('Start', () async {
+                                  await playClickSound(widget.game);
                                   /// player selection
                                   widget.game.overlays.remove(PlayState.startScreen.name);
                                   widget.game.overlays.add('playerSelection');
                                 }),
-                                textButton('Settings', () {
-                                  // sound controls
-                                }),
-                                textButton('About', () {
+                                textButton('Sounds ${widget.game.playSounds ? 'ON' : 'OFF'}',
+                                        () async {
+                                      await playClickSound(widget.game);
+                                      widget.game.playSounds = !widget.game.playSounds;
+                                      if (widget.game.playSounds) {
+                                        FlameAudio.bgm.play(
+                                            'Three-Red-Hearts-Penguin-Town.mp3',
+                                            volume: widget.game.volume * 0.5);
+                                      } else {
+                                        FlameAudio.bgm.stop();
+                                      }
+                                      setState(() {});
+                                    }),
+                                textButton('About', () async {
+                                  await playClickSound(widget.game);
                                   // credits
                                 }),
-                                textButton('Exit', () {
+                                textButton('Exit', () async {
+                                  await playClickSound(widget.game);
                                   SystemNavigator.pop();
                                   exit(0);
                                 }),
@@ -93,20 +107,6 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
               ),
             );
           },
-        ),
-      ),
-    );
-  }
-
-  textButton(String title, Function() onPressed) {
-    return Expanded(
-      child: InkWell(
-        onTap: onPressed,
-        child: AutoSizeText(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-              fontFamily: 'Arcade-In', fontSize: 50, color: Colors.white),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:eco_conscience/eco_conscience.dart';
+import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class PauseButtonOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double rowHeight = MediaQuery.of(context).size.height * 0.08;
-    if(rowHeight < 32) {
+    if (rowHeight < 32) {
       rowHeight = 32;
     }
     return Align(
@@ -18,12 +19,12 @@ class PauseButtonOverlay extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SpriteButton(
-            sprite:
-                Sprite(game.images.fromCache('HUD/settings_button.png')),
+            sprite: Sprite(game.images.fromCache('HUD/settings_button.png')),
             pressedSprite: Sprite(
                 game.images.fromCache('HUD/settings_button_pressed.png')),
-            onPressed: () {
-              if(!game.overlays.activeOverlays.contains('pauseMenu')) {
+            onPressed: () async {
+              await playClickSound(game);
+              if (!game.overlays.activeOverlays.contains('pauseMenu')) {
                 game.overlays.add('pauseMenu');
                 game.pauseEngine();
               } else {
@@ -33,7 +34,7 @@ class PauseButtonOverlay extends StatelessWidget {
             },
             width: rowHeight,
             // height is 9.09% bigger than width
-            height: rowHeight+(rowHeight*0.0909),
+            height: rowHeight + (rowHeight * 0.0909),
             label: Container()),
       ),
     );

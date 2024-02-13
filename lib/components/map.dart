@@ -10,6 +10,7 @@ import 'package:eco_conscience/providers/start_menu_provider.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/parallax.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -226,8 +227,8 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
         MoveToEffect(
             Vector2(0, 400),
             EffectController(
-                startDelay: 3,
-                duration: 3,
+                startDelay: 3.5,
+                duration: 3.5,
                 // duration: 1,
                 onMax: () {
                   if (game.overlays.activeOverlays

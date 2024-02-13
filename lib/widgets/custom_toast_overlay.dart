@@ -1,4 +1,5 @@
 import 'package:eco_conscience/eco_conscience.dart';
+import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 
@@ -14,8 +15,8 @@ class CustomToastOverlay extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 5),
       child: InkWell(
-        onTap: () {
-          print('tapped');
+        onTap: () async {
+          await playClickSound(game);
           game.overlays.remove(PlayState.showingToast.name);
           game.startStoryArc();
         },

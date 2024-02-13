@@ -41,6 +41,7 @@ class GameApp extends StatelessWidget {
             textTheme: GoogleFonts.vt323TextTheme().apply(),
           ),
           home: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: GameWidget(game: EcoConscience(), overlayBuilderMap: {
               PlayState.startScreen.name: (context, EcoConscience game) =>
                   StartScreenOverlay(game: game),
@@ -54,7 +55,7 @@ class GameApp extends StatelessWidget {
                   ButtonControlsOverlay(game: game),
               'pauseButton': (context, EcoConscience game) =>
                   PauseButtonOverlay(game: game),
-              'pauseMenu' : (context, EcoConscience game) =>
+              'pauseMenu': (context, EcoConscience game) =>
                   PauseMenuOverlay(game: game),
               'playerSelection': (context, EcoConscience game) =>
                   PlayerSelectionOverlay(game: game),

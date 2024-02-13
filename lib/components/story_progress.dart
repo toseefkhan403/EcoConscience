@@ -1,3 +1,5 @@
+import '../eco_conscience.dart';
+
 enum StoryTitles {
   introArc,
   bathroomArc,
@@ -6,8 +8,6 @@ enum StoryTitles {
   officePlantationArc,
   tacoArc
 }
-
-enum Characters { player, angel, demon }
 
 class StoryProgress {
   static late final Map<String, bool> allStoryArcsProgress;

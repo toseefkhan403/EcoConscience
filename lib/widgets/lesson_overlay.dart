@@ -1,6 +1,7 @@
-import 'package:eco_conscience/eco_conscience.dart';
+import 'package:eco_conscience/eco_conscience.dart' as eco;
 import 'package:eco_conscience/components/story_progress.dart';
 import 'package:eco_conscience/widgets/utils.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,7 @@ import '../providers/eco_meter_provider.dart';
 import 'dialog_typewriter_animated_text.dart';
 
 class LessonOverlay extends StatefulWidget {
-  final EcoConscience game;
+  final eco.EcoConscience game;
 
   const LessonOverlay({super.key, required this.game});
 
@@ -24,7 +25,15 @@ class _LessonOverlayState extends State<LessonOverlay>
 
   @override
   void initState() {
-    super.initState();
+    if (widget.game.playSounds) {
+      final lessons = StoryProgress.gameLessons[widget.game.currentLesson];
+      FlameAudio.bgm.play(
+          lessons?[0].character == eco.Characters.angel
+              ? 'typing.mp3'
+              : 'typing_devil.mp3',
+          volume: widget.game.volume);
+    }
+
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
@@ -36,6 +45,7 @@ class _LessonOverlayState extends State<LessonOverlay>
     ).animate(_controller);
 
     _controller.forward();
+    super.initState();
   }
 
   @override
@@ -73,36 +83,59 @@ class _LessonOverlayState extends State<LessonOverlay>
         child: Stack(
           children: [
             widget.game.currentStoryArc != StoryTitles.introArc.name
-                ? animatedPlayerWidget(
-                gameHeight, widget.game.player.character)
+                ? animatedPlayerWidget(gameHeight, widget.game.player.character)
                 : Container(),
             AnimatedTextKit(
-              animatedTexts: getAnimatedTextFromLessons(lessons),
+              animatedTexts: getAnimatedTextFromLessons(lessons, widget.game),
               displayFullTextOnTap: true,
               pause: const Duration(seconds: 4),
               isRepeatingAnimation: false,
               stopPauseOnTap: true,
+              onNextBeforePause: (i, isLast) {
+                if (widget.game.playSounds) {
+                  FlameAudio.bgm.stop();
+                }
+              },
+              onNext: (i, isLast) {
+                if (widget.game.playSounds) {
+                  if (isLast) {
+                    FlameAudio.bgm.stop();
+                  } else {
+                    FlameAudio.bgm.play(
+                        lessons?[i + 1].character == eco.Characters.angel
+                            ? 'typing.mp3'
+                            : 'typing_devil.mp3',
+                        volume: widget.game.volume);
+                  }
+                }
+              },
               onFinished: () {
                 /// story ended - remove overlays, ecoPoints and interaction point
-                widget.game.overlays.remove(PlayState.lessonPlaying.name);
-                widget.game.overlays.remove(PlayState.storyPlaying.name);
+                widget.game.overlays.remove(eco.PlayState.lessonPlaying.name);
+                widget.game.overlays.remove(eco.PlayState.storyPlaying.name);
                 StoryProgress
                     .allStoryArcsProgress[widget.game.currentStoryArc] = true;
 
                 if (widget.game.currentStoryArc == StoryTitles.introArc.name) {
-                  widget.game.startGame();
+                  widget.game.startGamePlay();
                   return;
                 }
 
                 final isAccepted = widget.game.currentLesson.startsWith('true');
+                final provider = context.read<EcoMeterProvider>();
                 if (!isAccepted) {
-                  final provider = context.read<EcoMeterProvider>();
                   provider.deductPoints();
                   print('EcoMeter ${provider.ecoMeter}');
                 }
 
+                if (widget.game.playSounds) {
+                  FlameAudio.bgm.play(
+                      'Three-Red-Hearts-${getTuneBasedOnEcoMeter(provider.ecoMeter)}.mp3',
+                      volume: widget.game.volume * 0.5);
+                }
+
                 widget.game.currentMap.removeInteractionPoint(isAccepted);
-                widget.game.playState = PlayState.playing;
+                widget.game.playState = eco.PlayState.playing;
               },
             ),
           ],
@@ -111,7 +144,8 @@ class _LessonOverlayState extends State<LessonOverlay>
     );
   }
 
-  List<AnimatedText> getAnimatedTextFromLessons(List<MsgFormat>? lessons) {
+  List<AnimatedText> getAnimatedTextFromLessons(
+      List<MsgFormat>? lessons, eco.EcoConscience game) {
     List<AnimatedText> result = [];
     if (lessons == null || lessons.isEmpty) return result;
 
@@ -120,6 +154,7 @@ class _LessonOverlayState extends State<LessonOverlay>
         DialogTypewriterAnimatedText(
           lesson.msg,
           lesson,
+          game,
           textStyle: const TextStyle(
               fontSize: 40.0, color: Colors.black, fontWeight: FontWeight.w500),
         ),

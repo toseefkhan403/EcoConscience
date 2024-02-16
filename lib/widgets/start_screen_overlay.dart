@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:eco_conscience/eco_conscience.dart';
 import 'package:eco_conscience/providers/start_menu_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';

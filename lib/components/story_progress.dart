@@ -13,6 +13,7 @@ class StoryProgress {
   static late final Map<String, bool> allStoryArcsProgress;
   static late final Map<String, List<MsgFormat>> gameStories;
   static late final Map<String, List<MsgFormat>> gameLessons;
+  static late final Map<int, List<MsgFormat>> npcDialogs;
   static bool isHouseLightsOn = true;
 
   static init() {
@@ -196,6 +197,56 @@ class StoryProgress {
             "Enjoyment is subjective, but the positive impact of tree planting is undeniable. Let's strive to make choices that benefit both us and the world around us.",
             character: Characters.angel),
       ],
+    };
+
+    npcDialogs = {
+      100: [
+        MsgFormat('What a delightful day in EcoVille!',
+            character: Characters.npc),
+        MsgFormat('I can feel the positive vibes in the air!',
+            character: Characters.npc),
+        MsgFormat('Absolutely no pollution today! Clean air is a blessing.',
+            character: Characters.npc),
+      ],
+      80: [
+        MsgFormat('It\'s a bit hazy today, isn\'t it?',
+            character: Characters.npc),
+        MsgFormat('Breathing in the fresh air of EcoVille!',
+            character: Characters.npc),
+        MsgFormat('No pollution today! Good job, everyone.',
+            character: Characters.npc),
+      ],
+      60: [
+        MsgFormat(
+            'The air quality could use some improvement, don\'t you think?',
+            character: Characters.npc),
+        MsgFormat('More green spaces would really make EcoVille shine.',
+            character: Characters.npc),
+        MsgFormat(
+            'Let\'s join hands to make our environment healthier and vibrant!',
+            character: Characters.npc),
+      ],
+      40: [
+        MsgFormat('The pollution levels are rising; we need to act now.',
+            character: Characters.npc),
+        MsgFormat(
+            'Our beautiful EcoVille deserves better. Time to make changes!',
+            character: Characters.npc),
+        MsgFormat('Eco-conscious choices can turn things around for us!',
+            character: Characters.npc),
+      ],
+      20: [
+        MsgFormat('It\'s getting hard to breathe in this environment.',
+            character: Characters.npc),
+        MsgFormat('Garbage everywhere. We can\'t let this continue.',
+            character: Characters.npc),
+        MsgFormat('Maybe it\'s time to consider moving to a cleaner place.',
+            character: Characters.npc),
+      ],
+      0 : [
+        MsgFormat('Everything is lost.',
+            character: Characters.npc),
+      ]
     };
 
     allStoryArcsProgress = {

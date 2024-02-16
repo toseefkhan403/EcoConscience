@@ -20,10 +20,13 @@ import 'components/map.dart';
 // 8. busToOffice arc, grocery littering arc --done
 // 9. office tree plantation arc --done
 // 10. menu and sound fx --done
+// 11. add ecoMeter based dynamic characters and npc and add an ending to the game --done
 
-// 11. add ecoMeter based dynamic characters and music based animations and add a ending to the game
 // 12. add Japanese support and google pay cards integration
-// 13. cross platform testing and fixes
+// 13. gather ppl arc and save progress
+// 14. cross platform testing and fixes - player teleports first -> map loads later,
+// player keeps running on next map load, collision blocks correction
+// 14. submission video
 
 enum PlayState {
   startScreen,
@@ -34,7 +37,7 @@ enum PlayState {
   gameOver
 }
 
-enum Characters { player, angel, demon }
+enum Characters { player, angel, demon, npc }
 
 class EcoConscience extends FlameGame
     with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
@@ -44,6 +47,7 @@ class EcoConscience extends FlameGame
   late Map currentMap;
   String toastMsg = '';
   String currentStoryArc = 'introArc';
+  bool isStandingWithNpc = false;
   bool playSounds = true;
   double volume = 1.0;
 
@@ -119,5 +123,10 @@ class EcoConscience extends FlameGame
     FlameAudio.bgm.stop();
     FlameAudio.bgm.dispose();
     super.onDispose();
+  }
+
+  startNpcDialog() {
+    playState = PlayState.storyPlaying;
+    overlays.add('npcDialog');
   }
 }

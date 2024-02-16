@@ -16,7 +16,7 @@ class Player extends SpriteAnimationGroupComponent
     with HasGameRef<EcoConscience>, KeyboardHandler {
   Player({super.position, super.size, this.character = 'Bob'});
 
-  final double stepTime = 0.05;
+  final double stepTime = 0.10;
   final double moveSpeed = 150;
   final double headSpaceOffset = 18;
 

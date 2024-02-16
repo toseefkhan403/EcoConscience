@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:eco_conscience/components/player.dart';
 import 'package:eco_conscience/eco_conscience.dart';
@@ -6,7 +7,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/foundation.dart';
 
-class InteractionPoint extends SpriteAnimationComponent
+class InteractionPoint extends SpriteComponent
     with HasGameRef<EcoConscience>, CollisionCallbacks {
   InteractionPoint(
       {super.position,
@@ -18,6 +19,11 @@ class InteractionPoint extends SpriteAnimationComponent
   final double stepTime = 0.12;
   final String storyArc;
 
+  double amplitude = 2.5;
+  double frequency = 6.0;
+  double time = 0.0;
+  double initialY = 0.0;
+
   @override
   FutureOr<void> onLoad() {
     add(RectangleHitbox(
@@ -25,12 +31,17 @@ class InteractionPoint extends SpriteAnimationComponent
         position: Vector2(hitBoxOffset.x, hitBoxOffset.y),
         size: size,
         collisionType: CollisionType.passive));
-    debugMode = kDebugMode;
-    animation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('Interiors/32x32/mail_32x64.png'),
-        SpriteAnimationData.sequenced(
-            amount: 6, stepTime: stepTime, textureSize: Vector2(32, 64)));
+    // debugMode = kDebugMode;
+    sprite = Sprite(game.images.fromCache('Interiors/32x32/exclamation_32x32.png'));
+    initialY = position.y;
     return super.onLoad();
+  }
+
+  @override
+  void update(double dt) {
+    time += dt;
+    y = amplitude * sin(time * frequency) + initialY;
+    super.update(dt);
   }
 
   @override
@@ -41,6 +52,7 @@ class InteractionPoint extends SpriteAnimationComponent
       game.playState = PlayState.showingToast;
       game.overlays.add(PlayState.showingToast.name);
       game.currentStoryArc = storyArc;
+      game.isStandingWithNpc = false;
     }
     super.onCollisionStart(intersectionPoints, other);
   }

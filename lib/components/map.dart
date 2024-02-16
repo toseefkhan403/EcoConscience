@@ -10,14 +10,15 @@ import 'package:eco_conscience/providers/start_menu_provider.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/parallax.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/rendering.dart';
 import 'package:provider/provider.dart';
 
+import 'garbage_point.dart';
 import 'go_to_next_map.dart';
+import 'npc.dart';
 import 'other_interaction_point.dart';
 
 class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
@@ -106,12 +107,12 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
               StoryProgress.isHouseLightsOn) {
             final glowingLight = PolygonComponent.relative(
               [
-                Vector2(-0.3, -1.0),
-                Vector2(0.3, -1.0),
-                Vector2(2.0, 1.0),
-                Vector2(-2.0, 1.0),
+                Vector2(-0.3, -2.0),
+                Vector2(0.3, -2.0),
+                Vector2(2.0, 2.0),
+                Vector2(-2.0, 2.0),
               ],
-              position: Vector2(spawnPoint.x + 16, spawnPoint.y + 16 + 64),
+              position: Vector2(spawnPoint.x + 16, spawnPoint.y + 16 + 51),
               anchor: Anchor.center,
               paint: Paint()..color = const Color(0xfffcfe5f).withOpacity(0.2),
               parentSize: Vector2(spawnPoint.width, spawnPoint.height),
@@ -147,6 +148,27 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
             imageName: spawnPoint.properties.getValue('imageName') as String,
           );
           add(point);
+          break;
+        case 'GarbagePoint':
+          final ecoMeter =
+              gameRef.buildContext?.read<EcoMeterProvider>().ecoMeter;
+          final showWhen = spawnPoint.properties.getValue('showWhen') as int;
+          GarbagePoint point = GarbagePoint(
+            position: Vector2(spawnPoint.x, spawnPoint.y),
+            size: Vector2(spawnPoint.width, spawnPoint.height),
+            imageName: spawnPoint.properties.getValue('imageName') as String,
+          );
+          if (ecoMeter != null && ecoMeter <= showWhen) {
+            add(point);
+          }
+          break;
+        case 'NPC':
+          NPC npc = NPC(
+            position: Vector2(spawnPoint.x, spawnPoint.y),
+            size: Vector2(spawnPoint.width, spawnPoint.height),
+            npcName: spawnPoint.properties.getValue('npcName') as String,
+          );
+          if (canAddTacoTruckCrowd(npc)) add(npc);
           break;
       }
     }
@@ -242,5 +264,21 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
 
       game.overlays.add(PlayState.startScreen.name);
     }
+  }
+
+  bool canAddTacoTruckCrowd(NPC npc) {
+    final ecoMeter = gameRef.buildContext?.read<EcoMeterProvider>().ecoMeter;
+    if (ecoMeter == null) return true;
+
+    // first remove tomas then marcus
+    if (ecoMeter <= 60 && npc.npcName == 'tomas') {
+      return false;
+    }
+
+    if (ecoMeter <= 40 && npc.npcName == 'marcus') {
+      return false;
+    }
+
+    return true;
   }
 }

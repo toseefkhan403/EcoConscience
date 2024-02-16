@@ -28,10 +28,9 @@ class _LessonOverlayState extends State<LessonOverlay>
     if (widget.game.playSounds) {
       final lessons = StoryProgress.gameLessons[widget.game.currentLesson];
       FlameAudio.bgm.play(
-          lessons?[0].character == eco.Characters.angel
-              ? 'typing.mp3'
-              : 'typing_devil.mp3',
-          volume: widget.game.volume);
+          lessons?[0].character == eco.Characters.demon
+              ? 'typing_devil.mp3'
+              : 'typing.mp3');
     }
 
     _controller = AnimationController(
@@ -102,10 +101,9 @@ class _LessonOverlayState extends State<LessonOverlay>
                     FlameAudio.bgm.stop();
                   } else {
                     FlameAudio.bgm.play(
-                        lessons?[i + 1].character == eco.Characters.angel
-                            ? 'typing.mp3'
-                            : 'typing_devil.mp3',
-                        volume: widget.game.volume);
+                        lessons?[i+1].character == eco.Characters.demon
+                            ? 'typing_devil.mp3'
+                            : 'typing.mp3');
                   }
                 }
               },
@@ -136,6 +134,20 @@ class _LessonOverlayState extends State<LessonOverlay>
 
                 widget.game.currentMap.removeInteractionPoint(isAccepted);
                 widget.game.playState = eco.PlayState.playing;
+
+                // go to office after busToOfficeArc
+                if(widget.game.currentStoryArc == StoryTitles.busToOfficeArc.name) {
+                  widget.game.loadMap(mapName: 'office', nextSpawnX: 304, nextSpawnY: 256);
+                }
+
+                if(isGameOver()) {
+                  widget.game.playState = eco.PlayState.gameOver;
+                  widget.game.pauseEngine();
+                  widget.game.overlays.add(eco.PlayState.gameOver.name);
+                  if(widget.game.overlays.activeOverlays.contains('pauseButton')) {
+                    widget.game.overlays.remove('pauseButton');
+                  }
+                }
               },
             ),
           ],
@@ -162,5 +174,10 @@ class _LessonOverlayState extends State<LessonOverlay>
     }
 
     return result;
+  }
+
+  bool isGameOver() {
+    return !StoryProgress
+        .allStoryArcsProgress.values.contains(false);
   }
 }

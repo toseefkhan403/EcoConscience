@@ -103,30 +103,27 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
       ),
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
-      child: Opacity(
-        opacity: ecoMeter / 100,
-        child: Row(
-          children: [
-            const SizedBox(
-              width: 5,
+      child: Row(
+        children: [
+          const SizedBox(
+            width: 5,
+          ),
+          SizedBox(
+              width: boxHeight * 0.5,
+              height: boxHeight * 0.5,
+              child: SpriteWidget.asset(path: 'HUD/Earth.png')),
+          const SizedBox(
+            width: 15,
+          ),
+          Expanded(
+            child: AutoSizeText(
+              getMsgBasedOnEcoMeter(ecoMeter),
+              maxLines: 2,
+              style: const TextStyle(fontSize: 32, color: Colors.white),
+              textAlign: TextAlign.left,
             ),
-            SizedBox(
-                width: boxHeight * 0.5,
-                height: boxHeight * 0.5,
-                child: SpriteWidget.asset(path: 'HUD/Earth.png')),
-            const SizedBox(
-              width: 15,
-            ),
-            Expanded(
-              child: AutoSizeText(
-                getMsgBasedOnEcoMeter(ecoMeter),
-                maxLines: 2,
-                style: const TextStyle(fontSize: 32, color: Colors.white),
-                textAlign: TextAlign.left,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

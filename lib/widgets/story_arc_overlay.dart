@@ -27,9 +27,9 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
     if (widget.game.playSounds) {
       final dialogs = StoryProgress.gameStories[widget.game.currentStoryArc];
       FlameAudio.bgm.play(
-          dialogs?[0].character == eco.Characters.angel
-              ? 'typing.mp3'
-              : 'typing_devil.mp3',
+          dialogs?[0].character == eco.Characters.demon
+              ? 'typing_devil.mp3'
+              : 'typing.mp3',
           volume: widget.game.volume);
     }
 
@@ -98,10 +98,9 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
                         FlameAudio.bgm.stop();
                       } else {
                         FlameAudio.bgm.play(
-                            dialogs?[i+1].character == eco.Characters.angel
-                                ? 'typing.mp3'
-                                : 'typing_devil.mp3',
-                            volume: widget.game.volume);
+                            dialogs?[i+1].character == eco.Characters.demon
+                                ? 'typing_devil.mp3'
+                                : 'typing.mp3');
                       }
                     }
                   },

@@ -4,7 +4,6 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 Widget animatedPlayerWidget(double gameHeight, String character) => Align(
     alignment: Alignment.bottomCenter,
@@ -73,17 +72,35 @@ Widget gradientText(String text) => Expanded(
 
 String getMsgBasedOnEcoMeter(int ecoMeter) {
   switch (ecoMeter) {
-  case 80:
-  return 'Keep shaping the destiny of EcoVille with your thoughtful choices!';
-  case 60:
-  return 'There\'s room for improvement. EcoVille\'s fate depends on you!';
-  case 40:
-  return 'You\'ve got some work to do. Make greener choices to turn things around!';
-  case 20:
-  case 0:
-  return 'It\'s never too late to change!';
-  default:
-  return 'Make positive choices to keep your environment healthy!';
+    case 80:
+      return 'Keep shaping the destiny of EcoVille with your thoughtful choices!';
+    case 60:
+      return 'There\'s room for improvement. EcoVille\'s fate depends on you!';
+    case 40:
+      return 'You\'ve got some work to do. Make greener choices to turn things around!';
+    case 20:
+    case 0:
+      return 'It\'s never too late to change!';
+    default:
+      return 'Make positive choices to keep your environment healthy!';
+  }
+}
+
+String getGameOverMsgBasedOnEcoMeter(int ecoMeter) {
+  switch (ecoMeter) {
+    case 100:
+      return 'Incredible! You achieved a perfect 100! You were the unwavering champion of EcoVille!';
+    case 80:
+      return 'Great Job! Your eco-friendly actions significantly benefited the ecosystem of EcoVille.';
+    case 60:
+      return 'There was room for improvement. EcoVille\'s fate depended on your dedication!';
+    case 40:
+      return 'You had some work to do. Making greener choices would have turned things around for EcoVille!';
+    case 20:
+    case 0:
+      return 'It was never too late to change! Every positive choice counted towards a healthier environment.';
+    default:
+      return 'There was room for improvement. EcoVille\'s fate depended on your dedication!';
   }
 }
 
@@ -115,8 +132,7 @@ textButton(String title, Function() onPressed, {Color color = Colors.white}) {
         style: TextStyle(
             fontFamily: 'Arcade-In',
             fontSize: 50,
-            color: color.withOpacity(0.8)
-        ),
+            color: color.withOpacity(0.8)),
       ),
     ),
   );

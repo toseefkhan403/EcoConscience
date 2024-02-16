@@ -26,10 +26,10 @@
   <object id="15" x="480" y="192" width="96" height="32"/>
  </objectgroup>
  <objectgroup id="2" name="SpawnPoints">
-  <object id="11" name="Interaction" type="Interaction" x="352" y="64" width="32" height="64">
+  <object id="11" name="Interaction" type="Interaction" x="352" y="80" width="32" height="32">
    <properties>
     <property name="offsetX" type="float" value="0"/>
-    <property name="offsetY" type="float" value="0"/>
+    <property name="offsetY" type="float" value="16"/>
     <property name="storyArc" value="bathroomArc"/>
    </properties>
   </object>

@@ -10,15 +10,17 @@ class CustomToastOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 5),
+      width: width,
+      height: height,
+      margin: EdgeInsets.symmetric(horizontal: width / 5),
       child: InkWell(
         onTap: () async {
           await playClickSound(game);
           game.overlays.remove(PlayState.showingToast.name);
-          game.startStoryArc();
+          game.isStandingWithNpc ? game.startNpcDialog() : game.startStoryArc();
         },
         child: Align(
           alignment: Alignment.bottomCenter,
@@ -28,16 +30,16 @@ class CustomToastOverlay extends StatelessWidget {
               animatedTexts: [
                 FadeAnimatedText(game.toastMsg,
                     textAlign: TextAlign.center,
-                    textStyle: const TextStyle(
-                        fontSize: 30,
-                        color: Colors.black,
+                    textStyle: TextStyle(
+                        fontSize: height > 500 ? 40 : 28,
+                        color: Colors.white70,
                         fontWeight: FontWeight.w500),
                     duration: const Duration(milliseconds: 1000)),
               ],
-              onTap: () {
-                print('tapped2');
+              onTap: () async {
+                await playClickSound(game);
                 game.overlays.remove(PlayState.showingToast.name);
-                game.startStoryArc();
+                game.isStandingWithNpc ? game.startNpcDialog() : game.startStoryArc();
               },
               pause: const Duration(milliseconds: 10),
               repeatForever: true,

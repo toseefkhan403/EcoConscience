@@ -12,6 +12,7 @@ import 'package:eco_conscience/widgets/player_selection_overlay.dart';
 import 'package:eco_conscience/widgets/start_screen_overlay.dart';
 import 'package:eco_conscience/widgets/story_arc_overlay.dart';
 import 'package:eco_conscience/components/story_progress.dart';
+import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
@@ -44,28 +45,31 @@ class GameApp extends StatelessWidget {
           ),
           home: Scaffold(
             resizeToAvoidBottomInset: false,
-            body: GameWidget(game: EcoConscience(), overlayBuilderMap: {
-              PlayState.startScreen.name: (context, EcoConscience game) =>
-                  StartScreenOverlay(game: game),
-              PlayState.showingToast.name: (context, EcoConscience game) =>
-                  CustomToastOverlay(game: game),
-              PlayState.storyPlaying.name: (context, EcoConscience game) =>
-                  StoryArcOverlay(game: game),
-              PlayState.lessonPlaying.name: (context, EcoConscience game) =>
-                  LessonOverlay(game: game),
-              PlayState.gameOver.name: (context, EcoConscience game) =>
-                  GameOverOverlay(game: game),
-              'buttonControls': (context, EcoConscience game) =>
-                  ButtonControlsOverlay(game: game),
-              'pauseButton': (context, EcoConscience game) =>
-                  PauseButtonOverlay(game: game),
-              'pauseMenu': (context, EcoConscience game) =>
-                  PauseMenuOverlay(game: game),
-              'playerSelection': (context, EcoConscience game) =>
-                  PlayerSelectionOverlay(game: game),
-              'npcDialog': (context, EcoConscience game) =>
-                  NpcDialogOverlay(game: game),
-            }),
+            body: GameWidget(
+                game: EcoConscience(),
+                focusNode: gameFocus,
+                overlayBuilderMap: {
+                  PlayState.startScreen.name: (context, EcoConscience game) =>
+                      StartScreenOverlay(game: game),
+                  PlayState.showingToast.name: (context, EcoConscience game) =>
+                      CustomToastOverlay(game: game),
+                  PlayState.storyPlaying.name: (context, EcoConscience game) =>
+                      StoryArcOverlay(game: game),
+                  PlayState.lessonPlaying.name: (context, EcoConscience game) =>
+                      LessonOverlay(game: game),
+                  PlayState.gameOver.name: (context, EcoConscience game) =>
+                      GameOverOverlay(game: game),
+                  'buttonControls': (context, EcoConscience game) =>
+                      ButtonControlsOverlay(game: game),
+                  'pauseButton': (context, EcoConscience game) =>
+                      PauseButtonOverlay(game: game),
+                  'pauseMenu': (context, EcoConscience game) =>
+                      PauseMenuOverlay(game: game),
+                  'playerSelection': (context, EcoConscience game) =>
+                      PlayerSelectionOverlay(game: game),
+                  'npcDialog': (context, EcoConscience game) =>
+                      NpcDialogOverlay(game: game),
+                }),
           )),
     );
   }

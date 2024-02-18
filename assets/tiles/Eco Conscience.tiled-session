@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "outdoorsOffice.tmx",
+    "activeFile": "home.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -213,8 +213,8 @@
             "scale": 2,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 320,
-                "y": 191.75
+                "x": 318.5,
+                "y": 190.75
             }
         },
         "home2.tmx": {
@@ -297,20 +297,20 @@
             "scale": 2,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 319.5,
-                "y": 191.25
+                "x": 320,
+                "y": 191.75
             }
         },
         "outdoors.tmx": {
             "expandedObjectLayers": [
-                7,
-                6
+                6,
+                7
             ],
             "scale": 2,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 476,
-                "y": 460.75
+                "x": 474.5,
+                "y": 459.25
             }
         },
         "outdoors1.tmx": {
@@ -323,8 +323,8 @@
         },
         "outdoorsBus.tmx": {
             "expandedObjectLayers": [
-                4,
-                5
+                5,
+                4
             ],
             "scale": 1.5,
             "selectedLayer": 5,
@@ -341,8 +341,8 @@
             "scale": 1.5,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 674.6666666666667,
-                "y": 270.99999999999994
+                "x": 480,
+                "y": 271.66666666666663
             }
         },
         "outdoorsTaco.tmx": {
@@ -353,8 +353,8 @@
             "scale": 1.5,
             "selectedLayer": 5,
             "viewCenter": {
-                "x": 350,
-                "y": 385.66666666666663
+                "x": 480,
+                "y": 271.66666666666663
             }
         },
         "skyline.tsx": {
@@ -365,8 +365,8 @@
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 777,
-                "y": 639
+                "x": 772,
+                "y": 635
             }
         },
         "tacoTruck.tsx": {
@@ -394,7 +394,8 @@
         "outdoorsOffice.tmx",
         "home.tmx",
         "office.tmx",
-        "bathroom.tmx"
+        "bathroom.tmx",
+        "startingSequence.tmx"
     ],
     "project": "Eco Conscience.tiled-project",
     "property.type": "int",
@@ -402,15 +403,15 @@
         "outdoors.tmx",
         "outdoorsBus.tmx",
         "outdoorsTaco.tmx",
+        "outdoorsOffice.tmx",
+        "startingSequence.tmx",
         "bathroom.tmx",
         "office.tmx",
         "home.tmx",
-        "outdoorsOffice.tmx",
         "5_Classroom_and_library_32x32.tsx",
         "13_Conference_Hall_32x32.tsx",
         "4_1Generic_Buildings_32x32.tsx",
-        "16_1Office_32x32.tsx",
-        "tacoTruck.tsx"
+        "16_1Office_32x32.tsx"
     ],
     "resizeMap.removeObjects": false,
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",

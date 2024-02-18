@@ -22,9 +22,10 @@ import 'components/map.dart';
 // 10. menu and sound fx --done
 // 11. add ecoMeter based dynamic characters and npc and add an ending to the game --done
 
-// 12. make it work on web - flutter earlier v3.13.1
+// 12. make it work on web, add support for mobile browser
+// flutter earlier v3.13.1
 // 13. add Japanese support and google pay cards integration
-// 14. gather ppl arc and save progress
+// 14. gather ppl arc and save progress, integrate custom player name in dialogs
 // 15. cross platform testing and fixes - player teleports first -> map loads later,
 // player keeps running on next map load, collision blocks correction
 // 16. submission video
@@ -41,7 +42,7 @@ enum PlayState {
 enum Characters { player, angel, demon, npc }
 
 class EcoConscience extends FlameGame
-    with HasKeyboardHandlerComponents, DragCallbacks, HasCollisionDetection {
+    with HasKeyboardHandlerComponents, HasCollisionDetection {
   final Player player = Player(size: Vector2(32, 64));
 
   late CameraComponent cam;
@@ -87,8 +88,10 @@ class EcoConscience extends FlameGame
       double? nextSpawnX,
       double? nextSpawnY,
       double mapResMultiplier = 1.0}) {
-    removeWhere((component) => component is Map);
-    removeWhere((component) => component is CameraComponent);
+    removeWhere((component) =>
+        component is Map ||
+        component is Player ||
+        component is CameraComponent);
 
     currentMap =
         Map(name: mapName, nextSpawnX: nextSpawnX, nextSpawnY: nextSpawnY);
@@ -112,7 +115,12 @@ class EcoConscience extends FlameGame
     playState = PlayState.playing;
     overlays.add('pauseButton');
     // loads the first map with initial spawn points
-    loadMap(mapName: 'home', nextSpawnX: 288, nextSpawnY: 224);
+    // loadMap(mapName: 'home', nextSpawnX: 288, nextSpawnY: 224);
+    loadMap(
+        mapName: 'outdoors',
+        nextSpawnX: 96,
+        nextSpawnY: 384,
+        mapResMultiplier: 1.5);
     if (playSounds) {
       FlameAudio.bgm
           .play('Three-Red-Hearts-Princess-Quest.mp3', volume: volume * 0.5);

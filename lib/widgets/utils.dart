@@ -5,6 +5,8 @@ import 'package:flame/widgets.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
+FocusNode gameFocus = FocusNode();
+
 Widget animatedPlayerWidget(double gameHeight, String character) => Align(
     alignment: Alignment.bottomCenter,
     child: Container(

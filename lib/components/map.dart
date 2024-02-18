@@ -11,11 +11,13 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/parallax.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flame_tiled_utils/flame_tiled_utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/rendering.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/utils.dart';
 import 'garbage_point.dart';
 import 'go_to_next_map.dart';
 import 'npc.dart';
@@ -33,14 +35,9 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
 
   @override
   FutureOr<void> onLoad() async {
-    level = await TiledComponent.load(
-      '$name.tmx', Vector2.all(32),
-      // can lead to performance issues
-      atlasMaxX: 20000, atlasMaxY: 20000
-    );
+    await addLevel();
     addStartingSequence();
     loadParallaxBg();
-    await add(level);
     _addSpawnPoints();
     _addCollisions();
     return super.onLoad();
@@ -280,5 +277,23 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
     }
 
     return true;
+  }
+
+  addLevel() async {
+    level = await TiledComponent.load('$name.tmx', Vector2.all(32),
+        // can lead to performance issues
+        atlasMaxX: 20000,
+        atlasMaxY: 20000);
+    final imageCompiler = ImageBatchCompiler();
+    List<String>? layers = [];
+    for (var element in level.tileMap.renderableLayers) {
+      layers.add(element.layer.name);
+    }
+    final ground = imageCompiler.compileMapLayer(
+        tileMap: level.tileMap, layerNames: layers);
+    // can have different priorities
+    ground.priority = -1;
+    await add(ground);
+    gameFocus.requestFocus();
   }
 }

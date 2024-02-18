@@ -173,8 +173,6 @@ class Player extends SpriteAnimationGroupComponent
     try {
       showControls = Platform.isAndroid || Platform.isIOS;
     } catch (e) {
-      // add controls for web - keys don't work
-      game.overlays.add('buttonControls');
       print(e.toString());
     }
 

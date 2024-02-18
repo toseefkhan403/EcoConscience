@@ -47,7 +47,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     horizontalMovement = 0;
     verticalMovement = 0;
     final isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.keyA) ||
@@ -173,6 +173,8 @@ class Player extends SpriteAnimationGroupComponent
     try {
       showControls = Platform.isAndroid || Platform.isIOS;
     } catch (e) {
+      // add controls for web - keys don't work
+      game.overlays.add('buttonControls');
       print(e.toString());
     }
 

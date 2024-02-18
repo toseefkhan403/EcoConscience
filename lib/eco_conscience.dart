@@ -22,11 +22,12 @@ import 'components/map.dart';
 // 10. menu and sound fx --done
 // 11. add ecoMeter based dynamic characters and npc and add an ending to the game --done
 
-// 12. add Japanese support and google pay cards integration
-// 13. gather ppl arc and save progress
-// 14. cross platform testing and fixes - player teleports first -> map loads later,
+// 12. make it work on web - flutter earlier v3.13.1
+// 13. add Japanese support and google pay cards integration
+// 14. gather ppl arc and save progress
+// 15. cross platform testing and fixes - player teleports first -> map loads later,
 // player keeps running on next map load, collision blocks correction
-// 14. submission video
+// 16. submission video
 
 enum PlayState {
   startScreen,

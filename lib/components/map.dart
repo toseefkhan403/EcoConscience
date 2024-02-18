@@ -36,7 +36,7 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
     level = await TiledComponent.load(
       '$name.tmx', Vector2.all(32),
       // can lead to performance issues
-      // atlasMaxX: 20000, atlasMaxY: 20000
+      atlasMaxX: 20000, atlasMaxY: 20000
     );
     addStartingSequence();
     loadParallaxBg();

@@ -47,8 +47,10 @@ class _ButtonControlsOverlayState extends State<ButtonControlsOverlay> {
       height: 32 * 1.3,
       onTapDown: () {
         widget.game.player.onKeyEvent(
-          const RawKeyDownEvent(
-            data: RawKeyEventDataAndroid(),
+          const KeyDownEvent(
+            physicalKey: PhysicalKeyboardKey(0),
+            logicalKey: LogicalKeyboardKey(0),
+            timeStamp: Duration.zero,
           ),
           <LogicalKeyboardKey>{}..add(getKeysFromDirections(direction)),
         );

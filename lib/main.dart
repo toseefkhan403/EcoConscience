@@ -48,7 +48,7 @@ class GameApp extends StatelessWidget {
             body: GameWidget(
                 game: EcoConscience(),
                 focusNode: gameFocus,
-                backgroundBuilder: (_) => Center(child: gradientText("Loading...")),
+                // backgroundBuilder: (_) => Center(child: gradientText("Loading...")),
                 overlayBuilderMap: {
                   PlayState.startScreen.name: (context, EcoConscience game) =>
                       StartScreenOverlay(game: game),

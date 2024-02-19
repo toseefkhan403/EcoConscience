@@ -210,11 +210,11 @@
             "expandedObjectLayers": [
                 6
             ],
-            "scale": 2,
+            "scale": 1,
             "selectedLayer": 6,
             "viewCenter": {
-                "x": 318.5,
-                "y": 190.75
+                "x": 136,
+                "y": 153.5
             }
         },
         "home2.tmx": {
@@ -303,14 +303,14 @@
         },
         "outdoors.tmx": {
             "expandedObjectLayers": [
-                6,
-                7
+                7,
+                6
             ],
             "scale": 2,
             "selectedLayer": 4,
             "viewCenter": {
-                "x": 474.5,
-                "y": 459.25
+                "x": 476,
+                "y": 460.75
             }
         },
         "outdoors1.tmx": {
@@ -323,8 +323,8 @@
         },
         "outdoorsBus.tmx": {
             "expandedObjectLayers": [
-                5,
-                4
+                4,
+                5
             ],
             "scale": 1.5,
             "selectedLayer": 5,
@@ -365,8 +365,8 @@
             "scale": 0.5,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 772,
-                "y": 635
+                "x": 480,
+                "y": 481
             }
         },
         "tacoTruck.tsx": {

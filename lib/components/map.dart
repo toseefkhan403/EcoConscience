@@ -35,9 +35,9 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
 
   @override
   FutureOr<void> onLoad() async {
-    await addLevel();
-    addStartingSequence();
-    loadParallaxBg();
+    await _addLevel();
+    _addStartingSequence();
+    _loadParallaxBg();
     _addSpawnPoints();
     _addCollisions();
     return super.onLoad();
@@ -182,7 +182,7 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
     }
   }
 
-  Future<void> loadParallaxBg() async {
+  Future<void> _loadParallaxBg() async {
     final provider = gameRef.buildContext?.read<EcoMeterProvider>();
     if (name.contains('outdoors')) {
       parallaxComponent = await game.loadParallaxComponent([
@@ -215,7 +215,7 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
     }
   }
 
-  addStartingSequence() async {
+  _addStartingSequence() async {
     if (name == 'startingSequence') {
       final p1 = await game.loadParallaxComponent([
         ParallaxImageData('Exteriors/skyline/longBg.png'),
@@ -279,15 +279,16 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
     return true;
   }
 
-  addLevel() async {
+  _addLevel() async {
     level = await TiledComponent.load('$name.tmx', Vector2.all(32),
         // can lead to performance issues
         atlasMaxX: 20000,
         atlasMaxY: 20000);
+
     final imageCompiler = ImageBatchCompiler();
-    List<String>? layers = [];
-    for (var element in level.tileMap.renderableLayers) {
-      layers.add(element.layer.name);
+    List<String> layers = [];
+    for (var element in level.tileMap.map.layers) {
+      layers.add(element.name);
     }
     final ground = imageCompiler.compileMapLayer(
         tileMap: level.tileMap, layerNames: layers);

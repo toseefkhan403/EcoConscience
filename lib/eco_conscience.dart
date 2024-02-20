@@ -22,13 +22,14 @@ import 'components/map.dart';
 // 10. menu and sound fx --done
 // 11. add ecoMeter based dynamic characters and npc and add an ending to the game --done
 // 12. make it work on web, add support for mobile browser --done
+// 13. google wallet passes integration --done
 
-// 13. add Japanese support and google pay cards integration
-// 14. gather ppl arc and save progress, integrate custom player name in dialogs, change background/loading Builder
-// 15. cross platform testing and fixes - player teleports first -> map loads later,
+// 14. add Japanese support
+// 15. restart and save progress, gather ppl arc, integrate custom player name in dialogs, change background/loading Builder
+// 16. cross platform testing and fixes - player teleports first -> map loads later,
 // player keeps running on next map load, collision blocks correction,
 // decor layer missing in home if you travel to right first
-// 16. submission video
+// 17. submission video
 // flutter earlier v3.13.1
 
 enum PlayState {
@@ -141,7 +142,8 @@ class EcoConscience extends FlameGame
         overlays.add('buttonControls');
       }
     } else {
-      if (overlays.activeOverlays.contains('buttonControls')) {
+      if (!player.showControls &&
+          overlays.activeOverlays.contains('buttonControls')) {
         overlays.remove('buttonControls');
       }
     }

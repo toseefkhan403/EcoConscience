@@ -1,0 +1,13 @@
+{
+  "@@locale": "ja",
+  "appTitle": "エコシフト・クロニクル",
+  "pause": "一時停止",
+  "resume": "再開",
+  "language": "言語を",
+  "sounds": "サウンド",
+  "on": "オン",
+  "off": "オフ",
+  "about": "概要",
+  "exit": "終了",
+  "restart": "再起動"
+}

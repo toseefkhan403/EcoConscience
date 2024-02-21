@@ -1,5 +1,6 @@
 import 'package:eco_conscience/eco_conscience.dart' as eco;
 import 'package:eco_conscience/components/story_progress.dart';
+import 'package:eco_conscience/providers/locale_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
@@ -58,6 +59,8 @@ class _LessonOverlayState extends State<LessonOverlay>
     final lessons = StoryProgress.gameLessons[widget.game.currentLesson];
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
+    String locale = context.read<LocaleProvider>().locale.languageCode;
+
     return FadeTransition(
       opacity: _opacityAnimation,
       child: Container(
@@ -85,7 +88,7 @@ class _LessonOverlayState extends State<LessonOverlay>
                 ? animatedPlayerWidget(gameHeight, widget.game.player.character)
                 : Container(),
             AnimatedTextKit(
-              animatedTexts: getAnimatedTextFromLessons(lessons, widget.game),
+              animatedTexts: getAnimatedTextFromLessons(lessons, locale, widget.game),
               displayFullTextOnTap: true,
               pause: const Duration(seconds: 4),
               isRepeatingAnimation: false,
@@ -157,18 +160,19 @@ class _LessonOverlayState extends State<LessonOverlay>
   }
 
   List<AnimatedText> getAnimatedTextFromLessons(
-      List<MsgFormat>? lessons, eco.EcoConscience game) {
+      List<MsgFormat>? lessons, String locale, eco.EcoConscience game) {
     List<AnimatedText> result = [];
     if (lessons == null || lessons.isEmpty) return result;
 
     for (var lesson in lessons) {
       result.add(
         DialogTypewriterAnimatedText(
-          lesson.msg,
+          locale == 'en' ? lesson.msgEn : lesson.msgJa,
           lesson,
           game,
           textStyle: const TextStyle(
               fontSize: 40.0, color: Colors.black, fontWeight: FontWeight.w500),
+          speed: Duration(milliseconds: locale == 'en' ? 35 : 60),
         ),
       );
     }

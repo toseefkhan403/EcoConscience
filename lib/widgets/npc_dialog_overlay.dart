@@ -9,6 +9,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/eco_meter_provider.dart';
+import '../providers/locale_provider.dart';
 import 'dialog_typewriter_animated_text.dart';
 
 class NpcDialogOverlay extends StatefulWidget {
@@ -55,6 +56,8 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
   Widget build(BuildContext context) {
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
+    String locale = context.watch<LocaleProvider>().locale.languageCode;
+
     return FadeTransition(
       opacity: _opacityAnimation,
       child: Container(
@@ -67,7 +70,7 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
           ),
         ),
         child: AnimatedTextKit(
-          animatedTexts: getAnimatedTextBasedOnEcoMeter(widget.game),
+          animatedTexts: getAnimatedTextBasedOnEcoMeter(locale, widget.game),
           displayFullTextOnTap: true,
           pause: const Duration(seconds: 4),
           isRepeatingAnimation: false,
@@ -103,7 +106,7 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
     );
   }
 
-  List<AnimatedText> getAnimatedTextBasedOnEcoMeter(eco.EcoConscience game) {
+  List<AnimatedText> getAnimatedTextBasedOnEcoMeter(String locale, eco.EcoConscience game) {
     final ecoMeter = context.read<EcoMeterProvider>().ecoMeter;
     List<MsgFormat>? dialogs = StoryProgress.npcDialogs[ecoMeter];
     List<AnimatedText> result = [];
@@ -115,11 +118,12 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
 
     result.add(
       DialogTypewriterAnimatedText(
-        msg.msg,
+        locale == 'en' ? msg.msgEn : msg.msgJa,
         msg,
         game,
         textStyle: const TextStyle(
             fontSize: 40.0, color: Colors.black, fontWeight: FontWeight.w500),
+        speed: Duration(milliseconds: locale == 'en' ? 35 : 60),
       ),
     );
 

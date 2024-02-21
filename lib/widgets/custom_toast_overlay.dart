@@ -2,6 +2,12 @@ import 'package:eco_conscience/eco_conscience.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_ja.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/locale_provider.dart';
 
 class CustomToastOverlay extends StatelessWidget {
   final EcoConscience game;
@@ -12,6 +18,12 @@ class CustomToastOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final locale = context.watch<LocaleProvider>().locale;
+    late AppLocalizations local;
+    local = locale.languageCode == 'ja'
+        ? AppLocalizationsJa()
+        : AppLocalizationsEn();
+
     return Container(
       width: width,
       height: height,
@@ -28,7 +40,7 @@ class CustomToastOverlay extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 20),
             child: AnimatedTextKit(
               animatedTexts: [
-                FadeAnimatedText(game.toastMsg,
+                FadeAnimatedText(local.tapToContinue,
                     textAlign: TextAlign.center,
                     textStyle: TextStyle(
                         fontSize: height > 500 ? 40 : 28,
@@ -39,7 +51,9 @@ class CustomToastOverlay extends StatelessWidget {
               onTap: () async {
                 await playClickSound(game);
                 game.overlays.remove(PlayState.showingToast.name);
-                game.isStandingWithNpc ? game.startNpcDialog() : game.startStoryArc();
+                game.isStandingWithNpc
+                    ? game.startNpcDialog()
+                    : game.startStoryArc();
               },
               pause: const Duration(milliseconds: 10),
               repeatForever: true,

@@ -23,12 +23,13 @@ import 'components/map.dart';
 // 11. add ecoMeter based dynamic characters and npc and add an ending to the game --done
 // 12. make it work on web, add support for mobile browser --done
 // 13. google wallet passes integration --done
+// 14. add Japanese localization --done
 
-// 14. add Japanese support
 // 15. restart and save progress, gather ppl arc, integrate custom player name in dialogs, change background/loading Builder
 // 16. cross platform testing and fixes - player teleports first -> map loads later,
 // player keeps running on next map load, collision blocks correction,
 // decor layer missing in home if you travel to right first
+// can click tap to continue while pause overlay is on
 // 17. submission video
 // flutter earlier v3.13.1
 
@@ -49,7 +50,6 @@ class EcoConscience extends FlameGame
 
   late CameraComponent cam;
   late Map currentMap;
-  String toastMsg = '';
   String currentStoryArc = 'introArc';
   bool isStandingWithNpc = false;
   bool playSounds = true;

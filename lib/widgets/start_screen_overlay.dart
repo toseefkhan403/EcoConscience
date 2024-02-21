@@ -7,6 +7,11 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_ja.dart';
+
+import '../providers/locale_provider.dart';
 
 class StartScreenOverlay extends StatefulWidget {
   const StartScreenOverlay({super.key, required this.game});
@@ -21,6 +26,7 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
+  late AppLocalizations _local;
 
   @override
   void initState() {
@@ -46,6 +52,11 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.watch<LocaleProvider>().locale;
+    _local = locale.languageCode == 'ja'
+        ? AppLocalizationsJa()
+        : AppLocalizationsEn();
+
     return FadeTransition(
       opacity: _opacityAnimation,
       child: Center(
@@ -64,18 +75,24 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
                     : Colors.transparent,
                 child: Column(
                   children: [
-                    gradientText('Ecoshift\nChronicles'),
+                    gradientText(_local.appTitle),
                     Expanded(
                       child: value.showMenu
                           ? Column(
                               children: [
-                                textButton('Start', () async {
+                                textButton(_local.start, () async {
                                   await playClickSound(widget.game);
+                                  if (widget.game.playSounds && !FlameAudio.bgm.isPlaying) {
+                                    FlameAudio.bgm.play(
+                                        'Three-Red-Hearts-Penguin-Town.mp3',
+                                        volume: widget.game.volume * 0.5);
+                                  }
                                   /// player selection
                                   widget.game.overlays.remove(PlayState.startScreen.name);
                                   widget.game.overlays.add('playerSelection');
                                 }),
-                                textButton('Sounds ${widget.game.playSounds ? 'ON' : 'OFF'}',
+                                textButton(
+                                    '${_local.sounds} ${widget.game.playSounds ? _local.on : _local.off}',
                                         () async {
                                       await playClickSound(widget.game);
                                       widget.game.playSounds = !widget.game.playSounds;
@@ -88,14 +105,24 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
                                       }
                                       setState(() {});
                                     }),
-                                textButton('About', () async {
+                                textButton(
+                                    '${_local.language} ${_local.localeName == 'en' ? 'Japanese' : 'English'}',
+                                        () async {
+                                      await playClickSound(widget.game);
+                                      context.read<LocaleProvider>().switchLocale();
+                                    }),
+                                textButton(_local.about, () async {
                                   await playClickSound(widget.game);
                                   // credits
                                 }),
-                                textButton('Exit', () async {
+                                textButton(_local.exit, () async {
                                   await playClickSound(widget.game);
-                                  SystemNavigator.pop();
-                                  exit(0);
+                                  try {
+                                    SystemNavigator.pop();
+                                    exit(0);
+                                  } catch (e) {
+                                    print(e);
+                                  }
                                 }),
                               ],
                             )

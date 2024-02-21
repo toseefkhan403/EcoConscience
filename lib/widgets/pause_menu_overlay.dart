@@ -32,11 +32,9 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
     final width = MediaQuery.of(context).size.width * 0.5;
     final ecoMeter = context.watch<EcoMeterProvider>().ecoMeter;
     final locale = context.watch<LocaleProvider>().locale;
-    if (locale.languageCode == 'ja') {
-      _local = AppLocalizationsJa();
-    } else {
-      _local = AppLocalizationsEn();
-    }
+    _local = locale.languageCode == 'ja'
+        ? AppLocalizationsJa()
+        : AppLocalizationsEn();
 
     return Align(
       alignment: Alignment.center,
@@ -48,7 +46,7 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
           child: Column(
             children: [
               gradientText(_local.pause),
-              ecoMeterWidget(ecoMeter, width),
+              ecoMeterWidget(ecoMeter, width, _local),
               const SizedBox(
                 height: 10,
               ),
@@ -92,7 +90,6 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
                   exit(0);
                 } catch (e) {
                   print(e);
-                  // window.close();
                 }
               }, color: Colors.brown),
             ],
@@ -102,7 +99,7 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
     );
   }
 
-  ecoMeterWidget(int ecoMeter, double size) {
+  ecoMeterWidget(int ecoMeter, double size, AppLocalizations local) {
     final boxHeight = size * 0.15;
     final int fillValue = 100 - ecoMeter;
     double spread = 0.1;
@@ -146,7 +143,7 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
           ),
           Expanded(
             child: AutoSizeText(
-              getMsgBasedOnEcoMeter(ecoMeter),
+              getMsgBasedOnEcoMeter(ecoMeter, local),
               maxLines: 2,
               style: const TextStyle(fontSize: 32, color: Colors.white),
               textAlign: TextAlign.left,

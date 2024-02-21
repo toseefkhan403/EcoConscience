@@ -1,5 +1,5 @@
 {
-  "appTitle": "EcoShift Chronicles",
+  "appTitle": "EcoShift\nChronicles",
   "pause": "Pause",
   "resume": "Resume",
   "language": "Language to",
@@ -8,5 +8,24 @@
   "off": "OFF",
   "about": "About",
   "exit": "Exit",
-  "restart": "Restart"
+  "start": "Start",
+  "restart": "Restart",
+  "playerSelection": "Player Selection",
+  "enterName": "Enter your name",
+  "pleaseEnterName": "Please enter your name",
+  "validationText1": "Player name should be between 3 and 12 characters",
+  "validationText2": "Only alphanumeric values allowed",
+  "tapToContinue": "[Tap to continue]",
+  "msg80": "Keep shaping the destiny of EcoVille with your thoughtful choices!",
+  "msg60": "There's room for improvement. EcoVille's fate depends on you!",
+  "msg40": "You've got some work to do. Make greener choices to turn things around!",
+  "msg20": "It's never too late to change!",
+  "msgDefault": "Make positive choices to keep your environment healthy!",
+  "gameOver": "Game Over",
+  "gameOverMsg": "Collect your pass through Google Wallet based on your final score. Every score has a different collectable, which depends on your choices in the game! Gotta collect 'em all!",
+  "gameOverMsg100" : "Incredible! You achieved a perfect 100! You were the unwavering champion of EcoVille!",
+  "gameOverMsg80" : "Great Job! Your eco-friendly actions significantly benefited the ecosystem of EcoVille.",
+  "gameOverMsg60" : "There was room for improvement. EcoVille's fate depended on your dedication!",
+  "gameOverMsg40" : "You had some work to do. Making greener choices would have turned things around for EcoVille!",
+  "gameOverMsg20" : "It was never too late to change! Every positive choice counted towards a healthier environment."
 }

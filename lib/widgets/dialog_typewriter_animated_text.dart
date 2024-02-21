@@ -2,8 +2,10 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:eco_conscience/components/story_progress.dart' as story;
 import 'package:eco_conscience/eco_conscience.dart' as eco;
+import 'package:eco_conscience/providers/locale_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DialogTypewriterAnimatedText extends AnimatedText {
   final Duration speed;
@@ -50,6 +52,7 @@ class DialogTypewriterAnimatedText extends AnimatedText {
   Widget completeText(BuildContext context) {
     final dialogBoxWidth = MediaQuery.of(context).size.width;
     final dialogBoxHeight = MediaQuery.of(context).size.height / 5;
+    final locale = context.read<LocaleProvider>().locale.languageCode;
 
     return Column(
       children: [
@@ -66,7 +69,7 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                   alignment: Alignment.topCenter,
                   child: AutoSizeText(
                     text,
-                    maxLines: 2,
+                    // maxLines: 2,
                     textAlign: textAlign,
                     style: DefaultTextStyle.of(context)
                         .style
@@ -75,7 +78,7 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                   ),
                 ),
               ),
-              msg.choices == null
+              msg.choicesEn == null
                   ? Container()
                   : Expanded(
                       child: Row(
@@ -89,7 +92,7 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                               }
                             },
                             child: AutoSizeText(
-                              msg.choices![0],
+                              locale == 'en' ? msg.choicesEn![0] : msg.choicesJa![0],
                               style: DefaultTextStyle.of(context)
                                   .style
                                   .merge(textStyle)
@@ -105,7 +108,7 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                               }
                             },
                             child: AutoSizeText(
-                              msg.choices![1],
+                              locale == 'en' ? msg.choicesEn![1] : msg.choicesJa![1],
                               style: DefaultTextStyle.of(context)
                                   .style
                                   .merge(textStyle)
@@ -150,7 +153,7 @@ class DialogTypewriterAnimatedText extends AnimatedText {
           height: dialogBoxHeight,
           child: AutoSizeText(
             visibleString,
-            maxLines: 2,
+            // maxLines: 2,
             textAlign: textAlign,
             style: DefaultTextStyle.of(context)
                 .style
@@ -167,14 +170,14 @@ class DialogTypewriterAnimatedText extends AnimatedText {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            msg.character == eco.Characters.angel || msg.choices != null
+            msg.character == eco.Characters.angel || msg.choicesEn != null
                 ? Image.asset(
                     'assets/images/Characters/angel_dialog.png',
                     width: dialogBoxHeight,
                     fit: BoxFit.cover,
                   )
                 : Container(),
-            msg.character == eco.Characters.demon || msg.choices != null
+            msg.character == eco.Characters.demon || msg.choicesEn != null
                 ? Image.asset(
                     'assets/images/Characters/demon_dialog.png',
                     width: dialogBoxHeight,

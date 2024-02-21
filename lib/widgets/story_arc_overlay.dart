@@ -4,7 +4,9 @@ import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/locale_provider.dart';
 import 'dialog_typewriter_animated_text.dart';
 
 class StoryArcOverlay extends StatefulWidget {
@@ -57,6 +59,8 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
     final dialogs = StoryProgress.gameStories[widget.game.currentStoryArc];
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
+    String locale = context.read<LocaleProvider>().locale.languageCode;
+
     return FadeTransition(
         opacity: _opacityAnimation,
         child: Container(
@@ -81,7 +85,7 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
                     : Container(),
                 AnimatedTextKit(
                   animatedTexts:
-                      getAnimatedTextFromDialogs(dialogs, widget.game),
+                      getAnimatedTextFromDialogs(dialogs, locale, widget.game),
                   displayFullTextOnTap: true,
                   pause: const Duration(seconds: 4),
                   isRepeatingAnimation: false,
@@ -92,7 +96,6 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
                     }
                   },
                   onNext: (i, isLast) {
-                    print('isLast: $i');
                     if (widget.game.playSounds) {
                       if (isLast) {
                         FlameAudio.bgm.stop();
@@ -118,19 +121,20 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
   }
 
   List<AnimatedText> getAnimatedTextFromDialogs(
-      List<MsgFormat>? dialogs, eco.EcoConscience game) {
+      List<MsgFormat>? dialogs, String locale, eco.EcoConscience game) {
     List<AnimatedText> result = [];
     if (dialogs == null || dialogs.isEmpty) return result;
 
     for (var dialog in dialogs) {
       result.add(
         DialogTypewriterAnimatedText(
-          dialog.msg,
+          locale == 'en' ? dialog.msgEn : dialog.msgJa,
           dialog,
           game,
           textStyle: const TextStyle(
               fontSize: 40.0, color: Colors.black, fontWeight: FontWeight.w500),
-          acceptedOrRejectedCallback: dialog.choices != null
+            speed: Duration(milliseconds: locale == 'en' ? 35 : 60),
+            acceptedOrRejectedCallback: dialog.choicesEn != null
               ? (bool isAccepted) {
                   print("isAccepted $isAccepted");
                   startLecture(isAccepted);

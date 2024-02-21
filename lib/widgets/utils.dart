@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/widgets.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 FocusNode gameFocus = FocusNode();
 
@@ -72,37 +73,37 @@ Widget gradientText(String text) => Expanded(
       ),
     );
 
-String getMsgBasedOnEcoMeter(int ecoMeter) {
+String getMsgBasedOnEcoMeter(int ecoMeter, AppLocalizations local) {
   switch (ecoMeter) {
     case 80:
-      return 'Keep shaping the destiny of EcoVille with your thoughtful choices!';
+      return local.msg80;
     case 60:
-      return 'There\'s room for improvement. EcoVille\'s fate depends on you!';
+      return local.msg60;
     case 40:
-      return 'You\'ve got some work to do. Make greener choices to turn things around!';
+      return local.msg40;
     case 20:
     case 0:
-      return 'It\'s never too late to change!';
+      return local.msg20;
     default:
-      return 'Make positive choices to keep your environment healthy!';
+      return local.msgDefault;
   }
 }
 
-String getGameOverMsgBasedOnEcoMeter(int ecoMeter) {
+String getGameOverMsgBasedOnEcoMeter(int ecoMeter, AppLocalizations local) {
   switch (ecoMeter) {
     case 100:
-      return 'Incredible! You achieved a perfect 100! You were the unwavering champion of EcoVille!';
+      return local.gameOverMsg100;
     case 80:
-      return 'Great Job! Your eco-friendly actions significantly benefited the ecosystem of EcoVille.';
+      return local.gameOverMsg80;
     case 60:
-      return 'There was room for improvement. EcoVille\'s fate depended on your dedication!';
+      return local.gameOverMsg60;
     case 40:
-      return 'You had some work to do. Making greener choices would have turned things around for EcoVille!';
+      return local.gameOverMsg40;
     case 20:
     case 0:
-      return 'It was never too late to change! Every positive choice counted towards a healthier environment.';
+      return local.gameOverMsg20;
     default:
-      return 'There was room for improvement. EcoVille\'s fate depended on your dedication!';
+      return local.gameOverMsg60;
   }
 }
 

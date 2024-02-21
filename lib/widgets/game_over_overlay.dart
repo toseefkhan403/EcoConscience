@@ -7,6 +7,9 @@ import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_ja.dart';
 
 import 'google_wallet_button.dart';
 
@@ -23,6 +26,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
+  late AppLocalizations _local;
 
   final Map<int, String> jwts = {
     100:
@@ -53,6 +57,9 @@ class _GameOverOverlayState extends State<GameOverOverlay>
     final width = MediaQuery.of(context).size.width * 0.5;
     final ecoMeter = context.watch<EcoMeterProvider>().ecoMeter;
     final locale = context.read<LocaleProvider>().locale;
+    _local = locale.languageCode == 'ja'
+        ? AppLocalizationsJa()
+        : AppLocalizationsEn();
 
     return SlideTransition(
       position: _slideAnimation,
@@ -64,19 +71,19 @@ class _GameOverOverlayState extends State<GameOverOverlay>
             height: width,
             child: Column(
               children: [
-                gradientText('Game Over'),
+                gradientText(_local.gameOver),
                 const SizedBox(
                   height: 10,
                 ),
-                const Expanded(
+                Expanded(
                   child: AutoSizeText(
-                    "Collect your pass through Google Wallet based on your final score. Every score has a different collectable, which depends on your choices in the game! Gotta collect 'em all!",
-                    style: TextStyle(fontSize: 32),
+                    _local.gameOverMsg,
+                    style: const TextStyle(fontSize: 32),
                     textAlign: TextAlign.center,
                   ),
                 ),
                 Expanded(
-                  child: verdictWidget(ecoMeter, width),
+                  child: verdictWidget(ecoMeter, width, _local),
                 ),
                 const SizedBox(
                   height: 10,
@@ -94,7 +101,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
     );
   }
 
-  verdictWidget(int ecoMeter, double size) {
+  verdictWidget(int ecoMeter, double size, AppLocalizations local) {
     final boxHeight = size * 0.15;
     return Container(
       height: boxHeight,
@@ -125,7 +132,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
           ),
           Expanded(
             child: AutoSizeText(
-              getGameOverMsgBasedOnEcoMeter(ecoMeter),
+              getGameOverMsgBasedOnEcoMeter(ecoMeter, local),
               maxLines: 2,
               style: const TextStyle(fontSize: 32, color: Colors.white),
               textAlign: TextAlign.left,

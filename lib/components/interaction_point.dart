@@ -48,7 +48,6 @@ class InteractionPoint extends SpriteComponent
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Player) {
-      game.toastMsg = "[Tap to continue]";
       game.playState = PlayState.showingToast;
       game.overlays.add(PlayState.showingToast.name);
       game.currentStoryArc = storyArc;

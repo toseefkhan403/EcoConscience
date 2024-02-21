@@ -4,6 +4,12 @@ import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame/widgets.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations_ja.dart';
+
+import '../providers/locale_provider.dart';
 
 class PlayerSelectionOverlay extends StatefulWidget {
   const PlayerSelectionOverlay({Key? key, required this.game})
@@ -23,6 +29,7 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
   int characterSkinsIndex = 0;
+  late AppLocalizations _local;
 
   static final RegExp alphanumeric = RegExp(r'^[a-zA-Z0-9]+$');
 
@@ -50,6 +57,10 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final locale = context.read<LocaleProvider>().locale;
+    _local = locale.languageCode == 'ja'
+        ? AppLocalizationsJa()
+        : AppLocalizationsEn();
 
     return SlideTransition(
       position: _slideAnimation,
@@ -59,7 +70,7 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
           mainAxisSize: MainAxisSize.min,
           children: [
             const Spacer(),
-            gradientText('Player Selection'),
+            gradientText(_local.playerSelection),
             const SizedBox(height: 12,),
             brownContainer(
               width: width * 0.5,
@@ -122,19 +133,19 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
                         fontFamily: 'Arcade-In',
                         fontSize: 30,
                       ),
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your name',
-                        errorStyle: TextStyle(fontSize: 16),
+                      decoration: InputDecoration(
+                        hintText: _local.enterName,
+                        errorStyle: const TextStyle(fontSize: 16),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your name';
+                          return _local.pleaseEnterName;
                         }
                         if (value.length < 3 || value.length > 12) {
-                          return 'Player name should be between 3 and 12 characters';
+                          return _local.validationText1;
                         }
                         if (!alphanumeric.hasMatch(value)) {
-                          return 'Only alphanumeric values allowed';
+                          return _local.validationText2;
                         }
                         return null;
                       },

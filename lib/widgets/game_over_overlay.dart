@@ -5,9 +5,10 @@ import 'package:eco_conscience/providers/locale_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:google_wallet/google_wallet.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'google_wallet_button.dart';
 
 class GameOverOverlay extends StatefulWidget {
   const GameOverOverlay({Key? key, required this.game}) : super(key: key);
@@ -81,9 +82,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                   height: 10,
                 ),
                 GoogleWalletButton(
-                  style: GoogleWalletButtonStyle.condensed,
-                  height: 45,
-                  locale: locale.languageCode == 'en' ? 'en_US' : 'jp',
+                  locale: locale.languageCode,
                   onPressed: () => _savePassBrowser(ecoMeter),
                 ),
                 const Spacer(),

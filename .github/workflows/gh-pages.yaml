@@ -2,16 +2,27 @@ name: Gh-Pages
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-      - uses: bluefireteam/flutter-gh-pages@v8
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+          channel: 'stable'
+
+      - name: Generate Localization Files
+        run: flutter gen-l10n
+
+      - name: Build and Deploy to GitHub Pages
+        uses: bluefireteam/flutter-gh-pages@v8
         with:
           baseHref: /EcoConscience/
           webRenderer: canvaskit

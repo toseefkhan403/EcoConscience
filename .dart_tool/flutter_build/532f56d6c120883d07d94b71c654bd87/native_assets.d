@@ -1,0 +1,1 @@
+ C:\\Users\\MSI\ INDIA\\StudioProjects\\eco_conscience\\.dart_tool\\flutter_build\\532f56d6c120883d07d94b71c654bd87\\native_assets.yaml: 

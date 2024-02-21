@@ -162,8 +162,6 @@ class Player extends SpriteAnimationGroupComponent
   void loadNextMap(String nextMapName, double nextSpawnX,
       {double? nextSpawnY, double? mapResMultiplier}) {
     collisionBlocks = [];
-    horizontalMovement = 0;
-    verticalMovement = 0;
     game.loadMap(
         mapName: nextMapName,
         nextSpawnX: nextSpawnX,

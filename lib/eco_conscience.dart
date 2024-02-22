@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:eco_conscience/components/player.dart';
+import 'package:eco_conscience/providers/game_progress_provider.dart';
+import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
+import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 
 import 'components/map.dart';
@@ -24,13 +27,15 @@ import 'components/map.dart';
 // 12. make it work on web, add support for mobile browser --done
 // 13. google wallet passes integration --done
 // 14. add Japanese localization --done
+// 15. restart and save progress, restart warning dialog, change loading builder and add restart button on game over screen --done
 
-// 15. restart and save progress, gather ppl arc, integrate custom player name in dialogs, change background/loading Builder
 // 16. cross platform testing and fixes - player teleports first -> map loads later,
 // player keeps running on next map load, collision blocks correction,
 // decor layer missing in home if you travel to right first
 // can click tap to continue while pause overlay is on
-// 17. submission video
+// optimize maps and images
+// add credits
+// 17. gather ppl arc maybe - submission video
 // flutter earlier v3.13.1
 
 enum PlayState {
@@ -65,6 +70,7 @@ class EcoConscience extends FlameGame
   @override
   FutureOr<void> onLoad() async {
     await images.loadAllImages();
+    await preLoadMaps();
     // for testing
     // startGamePlay();
 
@@ -113,19 +119,20 @@ class EcoConscience extends FlameGame
     overlays.add(PlayState.storyPlaying.name);
   }
 
-  void startGamePlay() {
+  void startGamePlay(GameProgressProvider provider) {
     playState = PlayState.playing;
     overlays.add('pauseButton');
     // loads the first map with initial spawn points
-    loadMap(mapName: 'home', nextSpawnX: 288, nextSpawnY: 224);
-    // loadMap(
-    //     mapName: 'outdoors',
-    //     nextSpawnX: 96,
-    //     nextSpawnY: 384,
-    //     mapResMultiplier: 1.5);
+    // loadMap(mapName: 'home', nextSpawnX: 288, nextSpawnY: 224);
+    loadMap(
+        mapName: 'outdoors',
+        nextSpawnX: 96,
+        nextSpawnY: 384,
+        mapResMultiplier: 1.5);
     if (playSounds) {
-      FlameAudio.bgm
-          .play('Three-Red-Hearts-Princess-Quest.mp3', volume: volume * 0.5);
+      FlameAudio.bgm.play(
+          'Three-Red-Hearts-${getTuneBasedOnEcoMeter(provider.ecoMeter)}.mp3',
+          volume: volume * 0.5);
     }
   }
 
@@ -156,4 +163,23 @@ class EcoConscience extends FlameGame
     FlameAudio.bgm.dispose();
     super.onDispose();
   }
+
+  preLoadMaps() async {
+    FlameAudio.bgm.play('typing.mp3', volume: 0);
+    FlameAudio.bgm.play('typing_devil.mp3', volume: 0);
+    await loadTiledComponent('outdoors');
+    await loadTiledComponent('home');
+    await loadTiledComponent('startingSequence');
+    await loadTiledComponent('outdoorsOffice');
+    await loadTiledComponent('outdoorsBus');
+    await loadTiledComponent('outdoorsTaco');
+    await loadTiledComponent('office');
+    await loadTiledComponent('bathroom');
+  }
+
+  loadTiledComponent(String name) async =>
+      await TiledComponent.load('$name.tmx', Vector2.all(32),
+          // can lead to performance issues
+          atlasMaxX: 20000,
+          atlasMaxY: 20000);
 }

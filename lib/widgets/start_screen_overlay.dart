@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:eco_conscience/eco_conscience.dart';
+import 'package:eco_conscience/providers/game_progress_provider.dart';
 import 'package:eco_conscience/providers/start_menu_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame_audio/flame_audio.dart';
@@ -63,11 +64,14 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
         child: Consumer<StartMenuProvider>(
           builder:
               (BuildContext context, StartMenuProvider value, Widget? child) {
+            final provider = context.read<GameProgressProvider>();
+
             return AnimatedSwitcher(
               duration: const Duration(milliseconds: 500),
               child: Container(
                 key: ValueKey<bool>(value.showMenu),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
                 width: double.infinity,
                 height: double.infinity,
                 color: value.showMenu
@@ -80,37 +84,52 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
                       child: value.showMenu
                           ? Column(
                               children: [
-                                textButton(_local.start, () async {
+                                if(provider.doesSaveExist())
+                                    textButton(_local.resume, () async {
+                                        await playClickSound(widget.game);
+                                        provider.loadProgress();
+                                        widget.game.overlays
+                                            .remove(PlayState.startScreen.name);
+                                        widget.game.startGamePlay(provider);
+                                      }),
+                                textButton(_local.newGame, () async {
                                   await playClickSound(widget.game);
-                                  if (widget.game.playSounds && !FlameAudio.bgm.isPlaying) {
+                                  if (widget.game.playSounds &&
+                                      !FlameAudio.bgm.isPlaying) {
                                     FlameAudio.bgm.play(
                                         'Three-Red-Hearts-Penguin-Town.mp3',
                                         volume: widget.game.volume * 0.5);
                                   }
+
+                                  /// reset progress - start fresh
+                                  provider.resetProgress();
+
                                   /// player selection
-                                  widget.game.overlays.remove(PlayState.startScreen.name);
+                                  widget.game.overlays
+                                      .remove(PlayState.startScreen.name);
                                   widget.game.overlays.add('playerSelection');
                                 }),
                                 textButton(
                                     '${_local.sounds} ${widget.game.playSounds ? _local.on : _local.off}',
-                                        () async {
-                                      await playClickSound(widget.game);
-                                      widget.game.playSounds = !widget.game.playSounds;
-                                      if (widget.game.playSounds) {
-                                        FlameAudio.bgm.play(
-                                            'Three-Red-Hearts-Penguin-Town.mp3',
-                                            volume: widget.game.volume * 0.5);
-                                      } else {
-                                        FlameAudio.bgm.stop();
-                                      }
-                                      setState(() {});
-                                    }),
+                                    () async {
+                                  await playClickSound(widget.game);
+                                  widget.game.playSounds =
+                                      !widget.game.playSounds;
+                                  if (widget.game.playSounds) {
+                                    FlameAudio.bgm.play(
+                                        'Three-Red-Hearts-Penguin-Town.mp3',
+                                        volume: widget.game.volume * 0.5);
+                                  } else {
+                                    FlameAudio.bgm.stop();
+                                  }
+                                  setState(() {});
+                                }),
                                 textButton(
                                     '${_local.language} ${_local.localeName == 'en' ? 'Japanese' : 'English'}',
-                                        () async {
-                                      await playClickSound(widget.game);
-                                      context.read<LocaleProvider>().switchLocale();
-                                    }),
+                                    () async {
+                                  await playClickSound(widget.game);
+                                  context.read<LocaleProvider>().switchLocale();
+                                }),
                                 textButton(_local.about, () async {
                                   await playClickSound(widget.game);
                                   // credits

@@ -8,8 +8,9 @@
   "off": "OFF",
   "about": "About",
   "exit": "Exit",
-  "start": "Start",
+  "newGame": "New Game",
   "restart": "Restart",
+  "restartTheGame": "Restart the game",
   "playerSelection": "Player Selection",
   "enterName": "Enter your name",
   "pleaseEnterName": "Please enter your name",
@@ -27,5 +28,8 @@
   "gameOverMsg80" : "Great Job! Your eco-friendly actions significantly benefited the ecosystem of EcoVille.",
   "gameOverMsg60" : "There was room for improvement. EcoVille's fate depended on your dedication!",
   "gameOverMsg40" : "You had some work to do. Making greener choices would have turned things around for EcoVille!",
-  "gameOverMsg20" : "It was never too late to change! Every positive choice counted towards a healthier environment."
+  "gameOverMsg20" : "It was never too late to change! Every positive choice counted towards a healthier environment.",
+  "warning" : "Warning",
+  "warningMsg" : "Your current saved progress will be lost. Do you wish to continue?",
+  "cancel" : "Cancel"
 }

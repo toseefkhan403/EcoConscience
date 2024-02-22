@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/game_progress_provider.dart';
 import '../providers/locale_provider.dart';
 import 'dialog_typewriter_animated_text.dart';
 
@@ -60,6 +61,7 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
     String locale = context.read<LocaleProvider>().locale.languageCode;
+    String character = context.read<GameProgressProvider>().character;
 
     return FadeTransition(
         opacity: _opacityAnimation,
@@ -80,8 +82,7 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
             child: Stack(
               children: [
                 widget.game.currentStoryArc != StoryTitles.introArc.name
-                    ? animatedPlayerWidget(
-                        gameHeight, widget.game.player.character)
+                    ? animatedPlayerWidget(gameHeight, character)
                     : Container(),
                 AnimatedTextKit(
                   animatedTexts:
@@ -101,7 +102,7 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
                         FlameAudio.bgm.stop();
                       } else {
                         FlameAudio.bgm.play(
-                            dialogs?[i+1].character == eco.Characters.demon
+                            dialogs?[i + 1].character == eco.Characters.demon
                                 ? 'typing_devil.mp3'
                                 : 'typing.mp3');
                       }
@@ -133,8 +134,8 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
           game,
           textStyle: const TextStyle(
               fontSize: 40.0, color: Colors.black, fontWeight: FontWeight.w500),
-            speed: Duration(milliseconds: locale == 'en' ? 35 : 60),
-            acceptedOrRejectedCallback: dialog.choicesEn != null
+          speed: Duration(milliseconds: locale == 'en' ? 35 : 60),
+          acceptedOrRejectedCallback: dialog.choicesEn != null
               ? (bool isAccepted) {
                   print("isAccepted $isAccepted");
                   startLecture(isAccepted);

@@ -1,5 +1,6 @@
 import 'package:eco_conscience/components/story_progress.dart';
 import 'package:eco_conscience/eco_conscience.dart';
+import 'package:eco_conscience/providers/game_progress_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame/widgets.dart';
 import 'package:flame_audio/flame_audio.dart';
@@ -31,7 +32,8 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
   int characterSkinsIndex = 0;
   late AppLocalizations _local;
 
-  static final RegExp alphanumeric = RegExp(r'^[a-zA-Z0-9]+$');
+  static final RegExp alphanumericWithJapanese =
+      RegExp(r'^[a-zA-Z0-9\u3040-\u309F\u30A0-\u30FF]+$');
 
   @override
   void initState() {
@@ -71,7 +73,9 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
           children: [
             const Spacer(),
             gradientText(_local.playerSelection),
-            const SizedBox(height: 12,),
+            const SizedBox(
+              height: 12,
+            ),
             brownContainer(
               width: width * 0.5,
               child: Column(
@@ -144,7 +148,7 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
                         if (value.length < 3 || value.length > 12) {
                           return _local.validationText1;
                         }
-                        if (!alphanumeric.hasMatch(value)) {
+                        if (!alphanumericWithJapanese.hasMatch(value)) {
                           return _local.validationText2;
                         }
                         return null;
@@ -159,15 +163,17 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
                     width: 180,
                     height: 50,
                     onPressed: () async {
+                      final provider = context.read<GameProgressProvider>();
                       await playClickSound(widget.game);
                       if (formFieldKey.currentState!.validate()) {
-                        widget.game.player.character =
-                            characterSkins[characterSkinsIndex];
-                        widget.game.player.playerName = _textController.text.trim();
+                        provider.savePlayerInfo(
+                            characterSkins[characterSkinsIndex],
+                            _textController.text.trim());
 
                         _controller.reverse().then((_) {
                           widget.game.overlays.remove('playerSelection');
-                          widget.game.currentStoryArc = StoryTitles.introArc.name;
+                          widget.game.currentStoryArc =
+                              StoryTitles.introArc.name;
                           FlameAudio.bgm.stop();
                           widget.game.startStoryArc();
                         });

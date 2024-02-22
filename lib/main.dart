@@ -1,5 +1,5 @@
 import 'package:eco_conscience/eco_conscience.dart';
-import 'package:eco_conscience/providers/eco_meter_provider.dart';
+import 'package:eco_conscience/providers/game_progress_provider.dart';
 import 'package:eco_conscience/providers/locale_provider.dart';
 import 'package:eco_conscience/providers/restart_provider.dart';
 import 'package:eco_conscience/providers/start_menu_provider.dart';
@@ -11,6 +11,7 @@ import 'package:eco_conscience/widgets/pause_button_overlay.dart';
 import 'package:eco_conscience/widgets/lesson_overlay.dart';
 import 'package:eco_conscience/widgets/pause_menu_overlay.dart';
 import 'package:eco_conscience/widgets/player_selection_overlay.dart';
+import 'package:eco_conscience/widgets/restart_warning_overlay.dart';
 import 'package:eco_conscience/widgets/start_screen_overlay.dart';
 import 'package:eco_conscience/widgets/story_arc_overlay.dart';
 import 'package:eco_conscience/components/story_progress.dart';
@@ -38,7 +39,7 @@ class GameApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => StartMenuProvider()),
-          ChangeNotifierProvider(create: (_) => EcoMeterProvider()),
+          ChangeNotifierProvider(create: (_) => GameProgressProvider()),
           ChangeNotifierProvider(create: (_) => LocaleProvider()),
           ChangeNotifierProvider(create: (_) => RestartProvider()),
         ],
@@ -57,7 +58,11 @@ class GameApp extends StatelessWidget {
                 body: GameWidget(
                     game: EcoConscience(),
                     focusNode: gameFocus,
-                    // backgroundBuilder: (_) => Center(child: gradientText("Loading...")),
+                    loadingBuilder: (_) => const Center(
+                            child: Text(
+                          "Loading...",
+                          style: TextStyle(color: Colors.white, fontSize: 24),
+                        )),
                     overlayBuilderMap: {
                       PlayState.startScreen.name:
                           (context, EcoConscience game) =>
@@ -83,6 +88,8 @@ class GameApp extends StatelessWidget {
                           PlayerSelectionOverlay(game: game),
                       'npcDialog': (context, EcoConscience game) =>
                           NpcDialogOverlay(game: game),
+                      'restartWarning': (context, EcoConscience game) =>
+                          RestartWarningOverlay(game: game),
                     }),
               ));
         }));

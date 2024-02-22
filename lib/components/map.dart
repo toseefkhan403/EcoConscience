@@ -5,7 +5,7 @@ import 'package:eco_conscience/components/interaction_point.dart';
 import 'package:eco_conscience/components/utils.dart';
 import 'package:eco_conscience/eco_conscience.dart';
 import 'package:eco_conscience/components/story_progress.dart';
-import 'package:eco_conscience/providers/eco_meter_provider.dart';
+import 'package:eco_conscience/providers/game_progress_provider.dart';
 import 'package:eco_conscience/providers/start_menu_provider.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
@@ -76,6 +76,8 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
   }
 
   void _addSpawnPoints() {
+    final provider = gameRef.buildContext?.read<GameProgressProvider>();
+
     // spawn the player
     if (nextSpawnX != null) {
       Vector2 spawn =
@@ -90,8 +92,8 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
       switch (spawnPoint.class_) {
         case 'Interaction':
           final storyArc = spawnPoint.properties.getValue('storyArc') as String;
-          if (StoryProgress.allStoryArcsProgress[storyArc] != null &&
-              !StoryProgress.allStoryArcsProgress[storyArc]!) {
+          if (provider?.allStoryArcsProgress[storyArc] != null &&
+              !provider!.allStoryArcsProgress[storyArc]!) {
             InteractionPoint point = InteractionPoint(
                 position: Vector2(spawnPoint.x, spawnPoint.y),
                 size: Vector2(spawnPoint.width, spawnPoint.height),
@@ -101,7 +103,7 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
             add(point);
           }
           if (storyArc == StoryTitles.houseLightsArc.name &&
-              StoryProgress.isHouseLightsOn) {
+              provider!.isHouseLightsOn) {
             final glowingLight = PolygonComponent.relative(
               [
                 Vector2(-0.3, -2.0),
@@ -147,15 +149,13 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
           add(point);
           break;
         case 'GarbagePoint':
-          final ecoMeter =
-              gameRef.buildContext?.read<EcoMeterProvider>().ecoMeter;
           final showWhen = spawnPoint.properties.getValue('showWhen') as int;
           GarbagePoint point = GarbagePoint(
             position: Vector2(spawnPoint.x, spawnPoint.y),
             size: Vector2(spawnPoint.width, spawnPoint.height),
             imageName: spawnPoint.properties.getValue('imageName') as String,
           );
-          if (ecoMeter != null && ecoMeter <= showWhen) {
+          if (provider?.ecoMeter != null && provider!.ecoMeter <= showWhen) {
             add(point);
           }
           break;
@@ -165,25 +165,26 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
             size: Vector2(spawnPoint.width, spawnPoint.height),
             npcName: spawnPoint.properties.getValue('npcName') as String,
           );
-          if (canAddTacoTruckCrowd(npc)) add(npc);
+          if (canAddTacoTruckCrowd(npc, provider?.ecoMeter)) add(npc);
           break;
       }
     }
   }
 
-  removeInteractionPoint(bool isAccepted) {
+  removeInteractionPoint(bool isAccepted, GameProgressProvider provider) {
     removeWhere((component) =>
         component is InteractionPoint &&
         component.storyArc == game.currentStoryArc);
 
     if (game.currentStoryArc == StoryTitles.houseLightsArc.name && isAccepted) {
-      StoryProgress.isHouseLightsOn = false;
+      provider.turnOffHouseLights();
       removeWhere((component) => component is PolygonComponent);
     }
   }
 
   Future<void> _loadParallaxBg() async {
-    final provider = gameRef.buildContext?.read<EcoMeterProvider>();
+    final provider = gameRef.buildContext?.read<GameProgressProvider>();
+
     if (name.contains('outdoors')) {
       parallaxComponent = await game.loadParallaxComponent([
         ParallaxImageData('Exteriors/skyline/1.png'),
@@ -263,8 +264,7 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
     }
   }
 
-  bool canAddTacoTruckCrowd(NPC npc) {
-    final ecoMeter = gameRef.buildContext?.read<EcoMeterProvider>().ecoMeter;
+  bool canAddTacoTruckCrowd(NPC npc, int? ecoMeter) {
     if (ecoMeter == null) return true;
 
     // first remove tomas then marcus

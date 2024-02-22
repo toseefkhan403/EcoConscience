@@ -3,10 +3,12 @@ import 'dart:io';
 
 import 'package:eco_conscience/components/utils.dart';
 import 'package:eco_conscience/eco_conscience.dart';
+import 'package:eco_conscience/providers/game_progress_provider.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import 'collision_block.dart';
 
@@ -14,14 +16,12 @@ enum PlayerDirection { left, right, up, down, none }
 
 class Player extends SpriteAnimationGroupComponent
     with HasGameRef<EcoConscience>, KeyboardHandler {
-  Player({super.position, super.size, this.character = 'Bob'});
+  Player({super.position, super.size});
 
   final double stepTime = 0.10;
   final double moveSpeed = 150;
   final double headSpaceOffset = 18;
 
-  String character;
-  String playerName = 'Player';
   PlayerDirection playerDirection = PlayerDirection.none;
   bool isRunning = false;
   List<CollisionBlock> collisionBlocks = [];
@@ -121,6 +121,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   _getPlayerAnim(PlayerDirection direction, bool isRunning) {
+    final character = gameRef.buildContext?.read<GameProgressProvider>().character;
     int startFrame = getFrameBasedOnDirection(direction);
     return SpriteAnimation.fromFrameData(
         game.images.fromCache(

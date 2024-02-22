@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:eco_conscience/eco_conscience.dart';
-import 'package:eco_conscience/providers/eco_meter_provider.dart';
+import 'package:eco_conscience/providers/game_progress_provider.dart';
 import 'package:eco_conscience/providers/locale_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame/widgets.dart';
@@ -11,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations_ja.dart';
 
+import '../providers/restart_provider.dart';
 import 'google_wallet_button.dart';
 
 class GameOverOverlay extends StatefulWidget {
@@ -55,7 +56,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width * 0.5;
-    final ecoMeter = context.watch<EcoMeterProvider>().ecoMeter;
+    final ecoMeter = context.watch<GameProgressProvider>().ecoMeter;
     final locale = context.read<LocaleProvider>().locale;
     _local = locale.languageCode == 'ja'
         ? AppLocalizationsJa()
@@ -92,6 +93,10 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                   locale: locale.languageCode,
                   onPressed: () => _savePassBrowser(ecoMeter),
                 ),
+                textButton(_local.restartTheGame, () async {
+                  await playClickSound(widget.game);
+                  context.read<RestartProvider>().restartTheGame(context);
+                }, color: Colors.brown),
                 const Spacer(),
               ],
             ),

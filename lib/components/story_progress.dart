@@ -10,11 +10,9 @@ enum StoryTitles {
 }
 
 class StoryProgress {
-  static late final Map<String, bool> allStoryArcsProgress;
   static late final Map<String, List<MsgFormat>> gameStories;
   static late final Map<String, List<MsgFormat>> gameLessons;
   static late final Map<int, List<MsgFormat>> npcDialogs;
-  static bool isHouseLightsOn = true;
 
   static init() {
     gameStories = {
@@ -310,15 +308,6 @@ class StoryProgress {
         MsgFormat('Everything is lost.', 'すべてが失われました。',
             character: Characters.npc),
       ]
-    };
-
-    allStoryArcsProgress = {
-      StoryTitles.introArc.name: false,
-      StoryTitles.bathroomArc.name: false,
-      StoryTitles.houseLightsArc.name: false,
-      StoryTitles.busToOfficeArc.name: false,
-      StoryTitles.officePlantationArc.name: false,
-      StoryTitles.tacoArc.name: false,
     };
   }
 }

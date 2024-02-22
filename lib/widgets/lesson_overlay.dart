@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/eco_meter_provider.dart';
+import '../providers/game_progress_provider.dart';
 import 'dialog_typewriter_animated_text.dart';
 
 class LessonOverlay extends StatefulWidget {
@@ -28,10 +28,9 @@ class _LessonOverlayState extends State<LessonOverlay>
   void initState() {
     if (widget.game.playSounds) {
       final lessons = StoryProgress.gameLessons[widget.game.currentLesson];
-      FlameAudio.bgm.play(
-          lessons?[0].character == eco.Characters.demon
-              ? 'typing_devil.mp3'
-              : 'typing.mp3');
+      FlameAudio.bgm.play(lessons?[0].character == eco.Characters.demon
+          ? 'typing_devil.mp3'
+          : 'typing.mp3');
     }
 
     _controller = AnimationController(
@@ -60,6 +59,7 @@ class _LessonOverlayState extends State<LessonOverlay>
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
     String locale = context.read<LocaleProvider>().locale.languageCode;
+    String character = context.read<GameProgressProvider>().character;
 
     return FadeTransition(
       opacity: _opacityAnimation,
@@ -85,10 +85,11 @@ class _LessonOverlayState extends State<LessonOverlay>
         child: Stack(
           children: [
             widget.game.currentStoryArc != StoryTitles.introArc.name
-                ? animatedPlayerWidget(gameHeight, widget.game.player.character)
+                ? animatedPlayerWidget(gameHeight, character)
                 : Container(),
             AnimatedTextKit(
-              animatedTexts: getAnimatedTextFromLessons(lessons, locale, widget.game),
+              animatedTexts:
+                  getAnimatedTextFromLessons(lessons, locale, widget.game),
               displayFullTextOnTap: true,
               pause: const Duration(seconds: 4),
               isRepeatingAnimation: false,
@@ -104,26 +105,26 @@ class _LessonOverlayState extends State<LessonOverlay>
                     FlameAudio.bgm.stop();
                   } else {
                     FlameAudio.bgm.play(
-                        lessons?[i+1].character == eco.Characters.demon
+                        lessons?[i + 1].character == eco.Characters.demon
                             ? 'typing_devil.mp3'
                             : 'typing.mp3');
                   }
                 }
               },
               onFinished: () {
+                final provider = context.read<GameProgressProvider>();
+
                 /// story ended - remove overlays, ecoPoints and interaction point
                 widget.game.overlays.remove(eco.PlayState.lessonPlaying.name);
                 widget.game.overlays.remove(eco.PlayState.storyPlaying.name);
-                StoryProgress
-                    .allStoryArcsProgress[widget.game.currentStoryArc] = true;
+                provider.updateStoryProgress(widget.game.currentStoryArc);
 
                 if (widget.game.currentStoryArc == StoryTitles.introArc.name) {
-                  widget.game.startGamePlay();
+                  widget.game.startGamePlay(provider);
                   return;
                 }
 
                 final isAccepted = widget.game.currentLesson.startsWith('true');
-                final provider = context.read<EcoMeterProvider>();
                 if (!isAccepted) {
                   provider.deductPoints();
                   print('EcoMeter ${provider.ecoMeter}');
@@ -135,19 +136,23 @@ class _LessonOverlayState extends State<LessonOverlay>
                       volume: widget.game.volume * 0.5);
                 }
 
-                widget.game.currentMap.removeInteractionPoint(isAccepted);
+                widget.game.currentMap
+                    .removeInteractionPoint(isAccepted, provider);
                 widget.game.playState = eco.PlayState.playing;
 
                 // go to office after busToOfficeArc
-                if(widget.game.currentStoryArc == StoryTitles.busToOfficeArc.name) {
-                  widget.game.loadMap(mapName: 'office', nextSpawnX: 304, nextSpawnY: 256);
+                if (widget.game.currentStoryArc ==
+                    StoryTitles.busToOfficeArc.name) {
+                  widget.game.loadMap(
+                      mapName: 'office', nextSpawnX: 304, nextSpawnY: 256);
                 }
 
-                if(isGameOver()) {
+                if (isGameOver(provider)) {
                   widget.game.playState = eco.PlayState.gameOver;
                   widget.game.pauseEngine();
                   widget.game.overlays.add(eco.PlayState.gameOver.name);
-                  if(widget.game.overlays.activeOverlays.contains('pauseButton')) {
+                  if (widget.game.overlays.activeOverlays
+                      .contains('pauseButton')) {
                     widget.game.overlays.remove('pauseButton');
                   }
                 }
@@ -180,8 +185,7 @@ class _LessonOverlayState extends State<LessonOverlay>
     return result;
   }
 
-  bool isGameOver() {
-    return !StoryProgress
-        .allStoryArcsProgress.values.contains(false);
+  bool isGameOver(GameProgressProvider provider) {
+    return !provider.allStoryArcsProgress.values.contains(false);
   }
 }

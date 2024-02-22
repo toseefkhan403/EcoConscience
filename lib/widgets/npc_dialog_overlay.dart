@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/eco_meter_provider.dart';
+import '../providers/game_progress_provider.dart';
 import '../providers/locale_provider.dart';
 import 'dialog_typewriter_animated_text.dart';
 
@@ -95,7 +95,7 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
             widget.game.isStandingWithNpc = false;
 
             if (widget.game.playSounds) {
-              final provider = context.read<EcoMeterProvider>();
+              final provider = context.read<GameProgressProvider>();
               FlameAudio.bgm.play(
                   'Three-Red-Hearts-${getTuneBasedOnEcoMeter(provider.ecoMeter)}.mp3',
                   volume: widget.game.volume * 0.5);
@@ -107,7 +107,7 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
   }
 
   List<AnimatedText> getAnimatedTextBasedOnEcoMeter(String locale, eco.EcoConscience game) {
-    final ecoMeter = context.read<EcoMeterProvider>().ecoMeter;
+    final ecoMeter = context.read<GameProgressProvider>().ecoMeter;
     List<MsgFormat>? dialogs = StoryProgress.npcDialogs[ecoMeter];
     List<AnimatedText> result = [];
 

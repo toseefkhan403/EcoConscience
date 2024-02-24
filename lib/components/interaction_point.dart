@@ -32,7 +32,7 @@ class InteractionPoint extends SpriteComponent
         size: size,
         collisionType: CollisionType.passive));
     // debugMode = kDebugMode;
-    sprite = Sprite(game.images.fromCache('Interiors/32x32/exclamation_32x32.png'));
+    sprite = Sprite(game.images.fromCache('Interiors/exclamation_32x32.png'));
     initialY = position.y;
     return super.onLoad();
   }

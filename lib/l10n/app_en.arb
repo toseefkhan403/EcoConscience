@@ -31,5 +31,8 @@
   "gameOverMsg20" : "It was never too late to change! Every positive choice counted towards a healthier environment.",
   "warning" : "Warning",
   "warningMsg" : "Your current saved progress will be lost. Do you wish to continue?",
-  "cancel" : "Cancel"
+  "cancel" : "Cancel",
+  "developedBy" : "Developed by ",
+  "musicCredits" : "Music credits to ",
+  "gameAssetsCredits" : "Game assets credits to "
 }

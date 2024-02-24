@@ -32,9 +32,8 @@ class PauseButtonOverlay extends StatelessWidget {
                 game.resumeEngine();
               }
 
-              if (game.overlays.activeOverlays.contains('restartWarning')) {
-                game.overlays.remove('restartWarning');
-              }
+              game.overlays.remove('restartWarning');
+              game.overlays.remove(PlayState.showingToast.name);
             },
             width: rowHeight,
             // height is 9.09% bigger than width

@@ -16,7 +16,7 @@ class OtherInteractionPoint extends SpriteAnimationComponent
   @override
   FutureOr<void> onLoad() {
     animation = SpriteAnimation.fromFrameData(
-        game.images.fromCache('Interiors/32x32/$imageName.png'),
+        game.images.fromCache('Interiors/$imageName.png'),
         SpriteAnimationData.sequenced(
             amount: 6,
             stepTime: stepTime,

@@ -29,14 +29,19 @@ import 'components/map.dart';
 // 14. add Japanese localization --done
 // 15. restart and save progress, restart warning dialog, change loading builder and add restart button on game over screen --done
 
-// 16. cross platform testing and fixes - player teleports first -> map loads later,
-// player keeps running on next map load, collision blocks correction,
-// decor layer missing in home if you travel to right first
-// can click tap to continue while pause overlay is on
-// optimize maps and images
-// add credits
-// 17. gather ppl arc maybe - submission video
-// flutter earlier v3.13.1
+// 16. cross platform testing and fixes
+// player teleports first -> map loads later --done
+// player keeps running on next map load, collision blocks correction --done
+// decor layer missing in home if you travel to right first --done
+// can click tap to continue while pause overlay is on --done
+// optimize maps and images --done
+// add credits -done
+
+// accessibility stuff - add semantics to images and buttons
+// add higher priority cityProps for player
+// gather ppl arc maybe
+// google wallet api publishing access
+// 17. submission video
 
 enum PlayState {
   startScreen,
@@ -142,22 +147,6 @@ class EcoConscience extends FlameGame
   }
 
   @override
-  void onGameResize(Vector2 size) {
-    if (size.x < 600) {
-      if (!overlays.activeOverlays.contains('buttonControls') &&
-          overlays.activeOverlays.contains('pauseButton')) {
-        overlays.add('buttonControls');
-      }
-    } else {
-      if (!player.showControls &&
-          overlays.activeOverlays.contains('buttonControls')) {
-        overlays.remove('buttonControls');
-      }
-    }
-    super.onGameResize(size);
-  }
-
-  @override
   void onDispose() {
     FlameAudio.bgm.stop();
     FlameAudio.bgm.dispose();
@@ -179,7 +168,6 @@ class EcoConscience extends FlameGame
 
   loadTiledComponent(String name) async =>
       await TiledComponent.load('$name.tmx', Vector2.all(32),
-          // can lead to performance issues
           atlasMaxX: 20000,
           atlasMaxY: 20000);
 }

@@ -32,5 +32,8 @@
   "gameOverMsg20": "変えるのはいつでも遅くありません！すべてのポジティブな選択が健康な環境に寄与しました。",
   "warning": "警告",
   "warningMsg": "現在のセーブされた進捗が失われます。続行しますか？",
-  "cancel": "キャンセル"
+  "cancel": "キャンセル",
+  "developedBy": "開発者：",
+  "musicCredits": "音楽クレジット：",
+  "gameAssetsCredits": "ゲームアセットのクレジット："
 }

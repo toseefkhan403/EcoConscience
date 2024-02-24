@@ -76,12 +76,13 @@ flutter:
   assets:
     - assets/images/
     - assets/tiles/
+    - assets/tiles/tileSets/
     - assets/images/Characters/
     - assets/images/HUD/
-    - assets/images/Lessons/
-    - assets/images/Interiors/32x32/
+    - assets/images/Interiors/
     - assets/images/Exteriors/
     - assets/images/Exteriors/skyline/
+    - assets/images/Lessons/
     - assets/google_fonts/
     - assets/audio/
     - assets/google_buttons/
@@ -105,10 +106,6 @@ flutter:
     - family: Arcade-Out
       fonts:
         - asset: assets/fonts/8-bit Arcade Out.ttf
-
-    - family: Crang
-      fonts:
-        - asset: assets/fonts/Crang.ttf
 
     - family: 4B30
       fonts:

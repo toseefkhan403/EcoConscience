@@ -81,7 +81,7 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
               }, color: Colors.brown),
               textButton(_local.about, () async {
                 await playClickSound(widget.game);
-                // todo credits
+                widget.game.overlays.add('about');
               }, color: Colors.brown),
               textButton(_local.exit, () async {
                 await playClickSound(widget.game);

@@ -132,7 +132,7 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
                                 }),
                                 textButton(_local.about, () async {
                                   await playClickSound(widget.game);
-                                  // credits
+                                  widget.game.overlays.add('about');
                                 }),
                                 textButton(_local.exit, () async {
                                   await playClickSound(widget.game);

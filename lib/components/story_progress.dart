@@ -18,12 +18,12 @@ class StoryProgress {
     gameStories = {
       StoryTitles.introArc.name: [
         MsgFormat(
-            'In a world where every choice echoes through the fabric of existence, you hold the power to shape the destiny of this realm. Welcome to the EcoShift Chronicles, where your decisions influence the harmony or discord of this world.',
-            'ここは選択の影響が存在の織りなす世界。あなたはこの領域の運命を形作る力を持っています。エコシフト・クロニクルへようこそ。あなたの決断がこの世界の調和または不和に影響を与えます。',
+            "In a world where every move you make ripples, you have the ability to shape the fate of this world. Welcome to the EcoShift Chronicles, where what you decide affects whether things stay in sync or go haywire.",
+            'すべての行動が影響を及ぼす世界。あなたはこの場所の運命を形作る力を持っています。エコシフト・クロニクルへようこそ。あなたの決断がこの世界の調和か混乱かに影響を与えます。',
             character: Characters.angel),
         MsgFormat(
-            "Ah, welcome to the playground of choices! The EcoShift Chronicles await, where every decision holds consequences. But who says you always have to be the hero? Why not embrace the dark side of choices?",
-            "ああ、選択の遊び場へようこそ！エコシフト・クロニクルが待っています。ここではすべての決断には結果が伴います。しかし、いつもヒーローである必要があると誰が言いますか？なぜ暗い選択の側面を受け入れないのですか？",
+            "Ah, welcome to the playground of choices! Every decision holds consequences. But who says you always have to be the hero? Why not embrace the dark side of choices?",
+            "ああ、選択の遊び場へようこそ！すべての決断には結果が伴います。しかし、いつもヒーローである必要があると誰が言いますか？なぜ選択の暗い側面を受け入れないのですか？",
             character: Characters.demon),
         MsgFormat(
             'Embrace the path of balance and watch as the world transforms into a harmonious paradise.',
@@ -147,8 +147,8 @@ class StoryProgress {
     gameLessons = {
       'false${StoryTitles.introArc.name}': [
         MsgFormat(
-            'Or revel in chaos and witness the town succumb to the consequences of indulgence. The choice is yours.',
-            'あるいは混沌に浸り、町が放縦の結果に陥る様子を目の当たりにしてください。選択はあなた次第です。',
+            "Or choose chaos, and see the town face the consequences of indulgence. It's your call!",
+            'あるいは混沌に身を委ね、町が放縦の結果に直面する様子をご覧ください。選択はあなた次第です。',
             character: Characters.demon),
       ],
       'true${StoryTitles.bathroomArc.name}': [

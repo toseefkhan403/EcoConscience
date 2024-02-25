@@ -18,8 +18,8 @@ class StoryProgress {
     gameStories = {
       StoryTitles.introArc.name: [
         MsgFormat(
-            "In a world where every move you make ripples, you have the ability to shape the fate of this world. Welcome to the EcoShift Chronicles, where what you decide affects whether things stay in sync or go haywire.",
-            'すべての行動が影響を及ぼす世界。あなたはこの場所の運命を形作る力を持っています。エコシフト・クロニクルへようこそ。あなたの決断がこの世界の調和か混乱かに影響を与えます。',
+            "In a world where every choice you make carries consequences, you have the ability to shape the fate of this world. Welcome to the EcoShift Chronicles, where what you decide affects whether things stay in sync or go haywire.",
+            "あらゆる選択が結果を伴う世界。あなたはこの世界の運命を形作る力を持っています。エコシフト・クロニクルへようこそ。あなたの決定が物事を調和させるか、乱れさせるかを左右します。",
             character: Characters.angel),
         MsgFormat(
             "Ah, welcome to the playground of choices! Every decision holds consequences. But who says you always have to be the hero? Why not embrace the dark side of choices?",
@@ -39,8 +39,8 @@ class StoryProgress {
             'やあ、友よ！ちょっとの水の無駄はどうだろう？便利さが重要だよね。',
             character: Characters.demon),
         MsgFormat(
-            "Hello, dear! Consider the environment. Turning off the tap while brushing your teeth can save so much water. It's a small gesture, but it makes a big difference.",
-            "こんにちは、親愛なる人よ！環境を考えてみて。歯を磨くときに蛇口を閉めることで、たくさんの水を節約できます。小さなジェスチャーですが、大きな違いを生み出します。",
+            "Hello, {username}! Consider the environment. Turning off the tap while brushing your teeth can save so much water. It's a small gesture, but it makes a big difference.",
+            "こんにちは、{username}さん！環境を考えてみて。歯を磨くときに蛇口を閉めることで、たくさんの水を節約できます。小さなジェスチャーですが、大きな違いを生み出します。",
             character: Characters.angel),
         MsgFormat(
             "Ugh, really? You're going to obsess over every drop of water? Come on, it's just a little thing. Who cares?",
@@ -91,8 +91,8 @@ class StoryProgress {
             "本気で？見知らぬ人たちと一緒にバスに詰め込むつもりなの？ちょっとした追加の排出物なんて誰も気にしないよ。",
             character: Characters.demon),
         MsgFormat(
-            "Every small choice matters. By driving your car, you contribute to traffic and air pollution. Let's strive for a more eco-friendly commute.",
-            "すべての小さな選択が重要です。車で通勤することで、あなたは交通渋滞や大気汚染に寄与します。よりエコフレンドリーな通勤を目指しましょう。",
+            "Every small choice matters, {username}. By driving your car, you contribute to traffic and air pollution. Let's strive for a more eco-friendly commute.",
+            "すべての小さな選択が重要です、{username}さん。車で通勤することで、あなたは交通渋滞や大気汚染に寄与します。よりエコフレンドリーな通勤を目指しましょう。",
             character: Characters.angel),
         MsgFormat("What do you choose?", "あなたは何を選びますか？",
             choicesEn: ["Bus", "Car"], choicesJa: ["バス", "車"]),
@@ -104,8 +104,8 @@ class StoryProgress {
             "ねえ、そのタコの包み紙はどこにでも投げてしまえ！ちょっとしたゴミなんて誰も気にしないよ。",
             character: Characters.demon),
         MsgFormat(
-            "Oh no, let's not litter. Proper disposal is essential. Use the dustbin to keep our surroundings clean and protect the environment.",
-            "ああ、いいえ、ゴミを捨てないでください。適切な処分が重要です。ゴミ箱を使って周囲をきれいに保ち、環境を守りましょう。",
+            "Oh no {username}, let's not litter. Proper disposal is essential. Use the dustbin to keep our surroundings clean and protect the environment.",
+            "ああ、いいえ、{username}さん、ゴミを捨てないでください。適切な処分が重要です。ゴミ箱を使って周囲をきれいに保ち、環境を守りましょう。",
             character: Characters.angel),
         MsgFormat(
             "Seriously? It's just a taco wrapper. What harm can it do lying around for a bit?",
@@ -127,8 +127,8 @@ class StoryProgress {
             "樹木植樹？どれほど陳腐なことか。楽しいことができるときに、なぜ汚れと汗をかく必要があるのか？",
             character: Characters.demon),
         MsgFormat(
-            "What a wonderful opportunity! Joining your colleagues for a tree plantation activity can make a positive impact on the environment!",
-            "素晴らしい機会だね！同僚たちと一緒に樹木植樹活動に参加することは、環境に良い影響を与えることができます！",
+            "What a wonderful opportunity, {username}! Joining your colleagues for a tree plantation activity can make a positive impact on the environment!",
+            "素晴らしい機会だね、{username}さん！同僚たちと一緒に樹木植樹活動に参加することは、環境に良い影響を与えることができます！",
             character: Characters.angel),
         MsgFormat(
             "Seriously? You're actually going to waste your time planting trees? Do you really think one sapling is going to make a difference?",
@@ -153,8 +153,8 @@ class StoryProgress {
       ],
       'true${StoryTitles.bathroomArc.name}': [
         MsgFormat(
-            "Thank you! Small actions like these contribute to water conservation.",
-            "ありがとう！これらの小さな行動は水の保存に貢献します。",
+            "Thank you, {username}! Small actions like these contribute to water conservation.",
+            "ありがとう、{username}さん！これらの小さな行動は水の保存に貢献します。",
             character: Characters.angel),
         MsgFormat(
             "Seriously? You're not going to win any popularity contests by being a water-saving hero. It's just a drop in the ocean, literally!",
@@ -171,14 +171,14 @@ class StoryProgress {
             "少しの水が排水されても誰も傷つきません。私たちは干ばつではないですよね？",
             character: Characters.demon),
         MsgFormat(
-            "It might be a drop, but every drop adds up. Conserving water is a responsibility we all share. Let's make choices that benefit not just us, but the entire ecosystem",
+            "It might be a drop, but every drop adds up, {username}. Conserving water is a responsibility we all share. Let's make choices that benefit not just us, but the entire ecosystem",
             "それは一滴かもしれませんが、すべての滴が積み重なります。水を節約することは私たち全員の責任です。私たちは自分だけでなく、全生態系に利益をもたらす選択をしましょう。",
             character: Characters.angel),
       ],
       'true${StoryTitles.houseLightsArc.name}': [
         MsgFormat(
-            "Well done! Your choice to switch off the lights is commendable. It not only saves energy but also helps create a more sustainable living environment.",
-            "よくやりました！ライトを消す選択は賞賛に値します。それはエネルギーを節約するだけでなく、より持続可能な生活環境を作り出すのにも役立ちます。",
+            "Well done, {username}! Your choice to switch off the lights is commendable. It not only saves energy but also helps create a more sustainable living environment.",
+            "よくやりました、{username}さん！ライトを消す選択は賞賛に値します。それはエネルギーを節約するだけでなく、より持続可能な生活環境を作り出すのにも役立ちます。",
             character: Characters.angel),
       ],
       'false${StoryTitles.houseLightsArc.name}': [
@@ -187,14 +187,14 @@ class StoryProgress {
             "ああ、数キロワットの余分なことなんて誰も気にしません。まるで環境がそれを感じるかのようですね！",
             character: Characters.demon),
         MsgFormat(
-            "It's disappointing to see the lights left on. Wasting energy has consequences, and unfortunately, our environment pays the price.",
-            "ライトをつけたままにするのはがっかりです。エネルギーの浪費には結果が伴います。残念ながら、私たちの環境がその代償を支払います。",
+            "It's disappointing to see the lights left on, {username}. Wasting energy has consequences, and unfortunately, our environment pays the price.",
+            "ライトをつけたままにするのはがっかりです、{username}さん。エネルギーの浪費には結果が伴います。残念ながら、私たちの環境がその代償を支払います。",
             character: Characters.angel),
       ],
       'true${StoryTitles.busToOfficeArc.name}': [
         MsgFormat(
-            "Congratulations on choosing the bus! Public transportation is an excellent choice for a cleaner and more sustainable commute.",
-            "バスを選んでおめでとうございます！公共交通機関はより清潔で持続可能な通勤の優れた選択肢です。",
+            "Congratulations on choosing the bus, {username}! Public transportation is an excellent choice for a cleaner and more sustainable commute.",
+            "バスを選んでおめでとうございます、{username}さん！公共交通機関はより清潔で持続可能な通勤の優れた選択肢です。",
             character: Characters.angel),
         MsgFormat(
             "Fine, be the bus adventurer. I hope you enjoy the extra time it takes, not to mention the inconvenience.",
@@ -213,8 +213,8 @@ class StoryProgress {
       ],
       'true${StoryTitles.tacoArc.name}': [
         MsgFormat(
-            "Well done! Choosing to use the dustbin helps maintain a clean environment. Small actions like these make a big difference.",
-            "よくやりました！ゴミ箱を使う選択はきれいな環境を維持するのに役立ちます。これらの小さな行動は大きな違いを生み出します。",
+            "Well done, {username}! Choosing to use the dustbin helps maintain a clean environment. Small actions like these make a big difference.",
+            "よくやりました、{username}さん！ゴミ箱を使う選択はきれいな環境を維持するのに役立ちます。これらの小さな行動は大きな違いを生み出します。",
             character: Characters.angel),
       ],
       'false${StoryTitles.tacoArc.name}': [
@@ -229,8 +229,8 @@ class StoryProgress {
       ],
       'true${StoryTitles.officePlantationArc.name}': [
         MsgFormat(
-            "Well done! Your choice to join the tree plantation activity is commendable. It's these collective efforts that lead to a more sustainable and beautiful world.",
-            "よくやりました！樹木植樹活動に参加することを選んだあなたに敬意を表します。これらの集合的な努力が、より持続可能で美しい世界につながります。",
+            "Well done, {username}! Your choice to join the tree plantation activity is commendable. It's these collective efforts that lead to a more sustainable and beautiful world.",
+            "よくやりました、{username}さん！樹木植樹活動に参加することを選んだあなたに敬意を表します。これらの集合的な努力が、より持続可能で美しい世界につながります。",
             character: Characters.angel),
       ],
       'false${StoryTitles.officePlantationArc.name}': [
@@ -238,8 +238,9 @@ class StoryProgress {
             "It's disheartening to see the missed opportunity. Tree planting has a cascading positive effect on the environment, and your participation could have made a significant difference.",
             "逃した機会を見るのは心が沈みますね。樹木植樹は環境に連鎖的な良い影響を与え、あなたの参加が重要な違いをもたらす可能性がありました。",
             character: Characters.angel),
-        MsgFormat("Never mind, you can now do something more enjoyable.",
-            "気にしないで、今はもっと楽しいことができますよ。",
+        MsgFormat(
+            "Never mind {username}, you can now do something more enjoyable.",
+            "気にしないで、{username}さん、今はもっと楽しいことができますよ。",
             character: Characters.demon),
         MsgFormat(
             "Enjoyment is subjective, but the positive impact of tree planting is undeniable. Let's strive to make choices that benefit both us and the world around us.",

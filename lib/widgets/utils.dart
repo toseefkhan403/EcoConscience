@@ -73,22 +73,6 @@ Widget gradientText(String text) => Expanded(
       ),
     );
 
-String getMsgBasedOnEcoMeter(int ecoMeter, AppLocalizations local) {
-  switch (ecoMeter) {
-    case 80:
-      return local.msg80;
-    case 60:
-      return local.msg60;
-    case 40:
-      return local.msg40;
-    case 20:
-    case 0:
-      return local.msg20;
-    default:
-      return local.msgDefault;
-  }
-}
-
 String getGameOverMsgBasedOnEcoMeter(int ecoMeter, AppLocalizations local) {
   switch (ecoMeter) {
     case 100:
@@ -127,15 +111,18 @@ playClickSound(EcoConscience game) async {
 
 textButton(String title, Function() onPressed, {Color color = Colors.white}) {
   return Expanded(
-    child: InkWell(
-      onTap: onPressed,
-      child: AutoSizeText(
-        title,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontFamily: 'Arcade-In',
-            fontSize: 50,
-            color: color.withOpacity(0.8)),
+    child: Semantics(
+      label: '$title button',
+      child: InkWell(
+        onTap: onPressed,
+        child: AutoSizeText(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontFamily: 'Arcade-In',
+              fontSize: 50,
+              color: color.withOpacity(0.8)),
+        ),
       ),
     ),
   );

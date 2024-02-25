@@ -37,9 +37,14 @@ import 'components/map.dart';
 // optimize maps and images --done
 // add credits -done
 
+// improvements
+// loop the map --done
+// score or game progress --done
+// toast msg after lesson --done
+// personalization --done
+
 // accessibility stuff - add semantics to images and buttons
-// add higher priority cityProps for player
-// gather ppl arc maybe
+// tutorial, add higher priority cityProps for player, gather ppl arc - maybe
 // google wallet api publishing access
 // 17. submission video
 

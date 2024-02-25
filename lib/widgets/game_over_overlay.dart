@@ -56,6 +56,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width * 0.5;
+    final height = MediaQuery.of(context).size.height;
     final ecoMeter = context.watch<GameProgressProvider>().ecoMeter;
     final locale = context.read<LocaleProvider>().locale;
     _local = locale.languageCode == 'ja'
@@ -78,14 +79,16 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                 ),
                 Expanded(
                   child: AutoSizeText(
-                    _local.gameOverMsg,
+                    "${_local.gameOverMsg}\n${_local.finalScoreIs} $ecoMeter ${_local.outOf100}",
                     style: const TextStyle(fontSize: 32),
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Expanded(
-                  child: verdictWidget(ecoMeter, width, _local),
-                ),
+                height > 500
+                    ? Expanded(
+                        child: verdictWidget(ecoMeter, width, _local),
+                      )
+                    : Container(),
                 const SizedBox(
                   height: 10,
                 ),
@@ -97,7 +100,7 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                   await playClickSound(widget.game);
                   context.read<RestartProvider>().restartTheGame(context);
                 }, color: Colors.brown),
-                const Spacer(),
+                height > 500 ? const Spacer() : Container(),
               ],
             ),
           ),

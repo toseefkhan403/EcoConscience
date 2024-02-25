@@ -59,7 +59,7 @@ class _LessonOverlayState extends State<LessonOverlay>
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
     String locale = context.read<LocaleProvider>().locale.languageCode;
-    String character = context.read<GameProgressProvider>().character;
+    final provider = context.read<GameProgressProvider>();
 
     return FadeTransition(
       opacity: _opacityAnimation,
@@ -74,7 +74,7 @@ class _LessonOverlayState extends State<LessonOverlay>
               colorFilter: ColorFilter.mode(
                   widget.game.currentLesson.startsWith('false')
                       ? const Color(0x8B7A0909)
-                      : Colors.green.withOpacity(0.5),
+                      : Colors.green.withOpacity(0.75),
                   BlendMode.softLight),
               fit: BoxFit.cover),
           border: Border.all(
@@ -85,11 +85,11 @@ class _LessonOverlayState extends State<LessonOverlay>
         child: Stack(
           children: [
             widget.game.currentStoryArc != StoryTitles.introArc.name
-                ? animatedPlayerWidget(gameHeight, character)
+                ? animatedPlayerWidget(gameHeight, provider.character)
                 : Container(),
             AnimatedTextKit(
-              animatedTexts:
-                  getAnimatedTextFromLessons(lessons, locale, widget.game),
+              animatedTexts: getAnimatedTextFromLessons(
+                  lessons, locale, widget.game, provider.playerName),
               displayFullTextOnTap: true,
               pause: const Duration(seconds: 4),
               isRepeatingAnimation: false,
@@ -123,6 +123,8 @@ class _LessonOverlayState extends State<LessonOverlay>
                   widget.game.startGamePlay(provider);
                   return;
                 }
+
+                widget.game.overlays.add('feedBackToast');
 
                 final isAccepted = widget.game.currentLesson.startsWith('true');
                 if (!isAccepted) {
@@ -164,15 +166,16 @@ class _LessonOverlayState extends State<LessonOverlay>
     );
   }
 
-  List<AnimatedText> getAnimatedTextFromLessons(
-      List<MsgFormat>? lessons, String locale, eco.EcoConscience game) {
+  List<AnimatedText> getAnimatedTextFromLessons(List<MsgFormat>? lessons,
+      String locale, eco.EcoConscience game, String playerName) {
     List<AnimatedText> result = [];
     if (lessons == null || lessons.isEmpty) return result;
 
     for (var lesson in lessons) {
       result.add(
         DialogTypewriterAnimatedText(
-          locale == 'en' ? lesson.msgEn : lesson.msgJa,
+          (locale == 'en' ? lesson.msgEn : lesson.msgJa)
+              .replaceAll('{username}', playerName),
           lesson,
           game,
           textStyle: const TextStyle(

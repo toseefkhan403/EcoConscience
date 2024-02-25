@@ -17,11 +17,6 @@
   "validationText1": "Player name should be between 3 and 12 characters",
   "validationText2": "Only alphanumeric values allowed",
   "tapToContinue": "[Tap to continue]",
-  "msg80": "Keep shaping the destiny of EcoVille with your thoughtful choices!",
-  "msg60": "There's room for improvement. EcoVille's fate depends on you!",
-  "msg40": "You've got some work to do. Make greener choices to turn things around!",
-  "msg20": "It's never too late to change!",
-  "msgDefault": "Make positive choices to keep your environment healthy!",
   "gameOver": "Game Over",
   "gameOverMsg": "Collect your pass through Google Wallet based on your final score. Every score has a different collectable, which depends on your choices in the game! Gotta collect 'em all!",
   "gameOverMsg100" : "Incredible! You achieved a perfect 100! You were the unwavering champion of EcoVille!",
@@ -34,5 +29,15 @@
   "cancel" : "Cancel",
   "developedBy" : "Developed by ",
   "musicCredits" : "Music credits to ",
-  "gameAssetsCredits" : "Game assets credits to "
+  "gameAssetsCredits" : "Game assets credits to ",
+  "ecoMeter" : "Eco Meter:",
+  "gameCompletion" : "Game Completion:",
+  "positiveFeedback1" : "[Environment quality improved]",
+  "positiveFeedback2" : "[Positive environmental change]",
+  "positiveFeedback3" : "[Pollution levels decreased]",
+  "negativeFeedback1" : "[Pollution levels increased]",
+  "negativeFeedback2" : "[Negative environmental impact]",
+  "negativeFeedback3" : "[Environment quality degraded]",
+  "finalScoreIs" : "Your final score is:",
+  "outOf100" : "(out of 100)"
 }

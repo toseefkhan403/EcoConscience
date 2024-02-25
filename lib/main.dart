@@ -6,6 +6,7 @@ import 'package:eco_conscience/providers/start_menu_provider.dart';
 import 'package:eco_conscience/widgets/about_overlay.dart';
 import 'package:eco_conscience/widgets/button_controls_overlay.dart';
 import 'package:eco_conscience/widgets/custom_toast_overlay.dart';
+import 'package:eco_conscience/widgets/feedback_toast_overlay.dart';
 import 'package:eco_conscience/widgets/game_over_overlay.dart';
 import 'package:eco_conscience/widgets/npc_dialog_overlay.dart';
 import 'package:eco_conscience/widgets/pause_button_overlay.dart';
@@ -93,6 +94,8 @@ class GameApp extends StatelessWidget {
                           RestartWarningOverlay(game: game),
                       'about': (context, EcoConscience game) =>
                           AboutOverlay(game: game),
+                      'feedBackToast': (context, EcoConscience game) =>
+                          FeedBackToastOverlay(game: game),
                     }),
               ));
         }));

@@ -29,7 +29,7 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width * 0.5;
-    final ecoMeter = context.watch<GameProgressProvider>().ecoMeter;
+    final provider = context.watch<GameProgressProvider>();
     final locale = context.watch<LocaleProvider>().locale;
     _local = locale.languageCode == 'ja'
         ? AppLocalizationsJa()
@@ -45,7 +45,7 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
           child: Column(
             children: [
               gradientText(_local.pause),
-              ecoMeterWidget(ecoMeter, width, _local),
+              ecoMeterWidget(provider.ecoMeter, width, _local, provider),
               const SizedBox(
                 height: 10,
               ),
@@ -66,7 +66,7 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
                 widget.game.playSounds = !widget.game.playSounds;
                 if (widget.game.playSounds) {
                   FlameAudio.bgm.play(
-                      'Three-Red-Hearts-${getTuneBasedOnEcoMeter(ecoMeter)}.mp3',
+                      'Three-Red-Hearts-${getTuneBasedOnEcoMeter(provider.ecoMeter)}.mp3',
                       volume: widget.game.volume * 0.5);
                 } else {
                   FlameAudio.bgm.stop();
@@ -99,13 +99,21 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
     );
   }
 
-  ecoMeterWidget(int ecoMeter, double size, AppLocalizations local) {
+  ecoMeterWidget(int ecoMeter, double size, AppLocalizations local,
+      GameProgressProvider provider) {
     final boxHeight = size * 0.15;
     final int fillValue = 100 - ecoMeter;
     double spread = 0.1;
     if (fillValue == 0 || fillValue == 100) {
       spread = 0;
     }
+
+    int tasksDone = 0;
+    for (var value in provider.allStoryArcsProgress.values) {
+      if (value) tasksDone++;
+    }
+    final String gameCompletion = ((tasksDone / 6) * 100).toStringAsFixed(2);
+
     return Container(
       height: boxHeight,
       decoration: BoxDecoration(
@@ -143,7 +151,7 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
           ),
           Expanded(
             child: AutoSizeText(
-              getMsgBasedOnEcoMeter(ecoMeter, local),
+              '${local.ecoMeter} $ecoMeter%\n${local.gameCompletion} $gameCompletion%',
               maxLines: 2,
               style: const TextStyle(fontSize: 32, color: Colors.white),
               textAlign: TextAlign.left,

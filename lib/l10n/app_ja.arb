@@ -18,11 +18,6 @@
   "validationText1": "プレイヤー名は3〜12文字である必要があります",
   "validationText2": "英数字のみが許可されています",
   "tapToContinue": "[タップして続行]",
-  "msg80": "慎重な選択でEcoVilleの運命を形作り続けましょう！",
-  "msg60": "改善の余地があります。 EcoVilleの運命はあなた次第です！",
-  "msg40": "やることがあります。環境を改善するために緑の選択をしましょう！",
-  "msg20": "変えるのはいつでも遅くありません！",
-  "msgDefault": "環境を健康に保つためにポジティブな選択をしましょう！",
   "gameOver": "ゲームオーバー",
   "gameOverMsg": "最終スコアに基づいてGoogleウォレットでパスを収集してください。ゲーム内での選択に依存する異なるコレクタブルがあります！全て集めよう！",
   "gameOverMsg100": "素晴らしい！完璧な100を達成しました！あなたはEcoVilleの不動のチャンピオンでした！",
@@ -35,5 +30,15 @@
   "cancel": "キャンセル",
   "developedBy": "開発者：",
   "musicCredits": "音楽クレジット：",
-  "gameAssetsCredits": "ゲームアセットのクレジット："
+  "gameAssetsCredits": "ゲームアセットのクレジット：",
+  "ecoMeter": "エコメーター:",
+  "gameCompletion": "ゲーム完了度:",
+  "positiveFeedback1": "[環境の品質が向上しました]",
+  "positiveFeedback2": "[ポジティブな環境変化]",
+  "positiveFeedback3": "[汚染レベルが低下しました]",
+  "negativeFeedback1": "[汚染レベルが上昇しました]",
+  "negativeFeedback2": "[ネガティブな環境影響]",
+  "negativeFeedback3": "[環境の品質が低下しました]",
+  "finalScoreIs": "最終スコア:",
+  "outOf100": "(100点中)"
 }

@@ -61,7 +61,7 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
     String locale = context.read<LocaleProvider>().locale.languageCode;
-    String character = context.read<GameProgressProvider>().character;
+    final provider = context.read<GameProgressProvider>();
 
     return FadeTransition(
         opacity: _opacityAnimation,
@@ -82,11 +82,11 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
             child: Stack(
               children: [
                 widget.game.currentStoryArc != StoryTitles.introArc.name
-                    ? animatedPlayerWidget(gameHeight, character)
+                    ? animatedPlayerWidget(gameHeight, provider.character)
                     : Container(),
                 AnimatedTextKit(
-                  animatedTexts:
-                      getAnimatedTextFromDialogs(dialogs, locale, widget.game),
+                  animatedTexts: getAnimatedTextFromDialogs(
+                      dialogs, locale, widget.game, provider.playerName),
                   displayFullTextOnTap: true,
                   pause: const Duration(seconds: 4),
                   isRepeatingAnimation: false,
@@ -121,15 +121,16 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
             )));
   }
 
-  List<AnimatedText> getAnimatedTextFromDialogs(
-      List<MsgFormat>? dialogs, String locale, eco.EcoConscience game) {
+  List<AnimatedText> getAnimatedTextFromDialogs(List<MsgFormat>? dialogs,
+      String locale, eco.EcoConscience game, String playerName) {
     List<AnimatedText> result = [];
     if (dialogs == null || dialogs.isEmpty) return result;
 
     for (var dialog in dialogs) {
       result.add(
         DialogTypewriterAnimatedText(
-          locale == 'en' ? dialog.msgEn : dialog.msgJa,
+          (locale == 'en' ? dialog.msgEn : dialog.msgJa)
+              .replaceAll('{username}', playerName),
           dialog,
           game,
           textStyle: const TextStyle(

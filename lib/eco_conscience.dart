@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 
 import 'components/map.dart';
 
-// todo - 3 days per task
 // 1. Character anims - collisions --done
 // 2. Map - house, bathroom - changing levels --done
 // 3. text bubbles, generated images and interactions --done
@@ -36,17 +35,17 @@ import 'components/map.dart';
 // can click tap to continue while pause overlay is on --done
 // optimize maps and images --done
 // add credits -done
-
 // improvements
 // loop the map --done
 // score or game progress --done
 // toast msg after lesson --done
 // personalization --done
-
-// accessibility stuff - add semantics to images and buttons
+// keep overlay in game screen --done
+// update start screen overlay --done
+// accessibility stuff - add semantics to images and buttons --done
 // tutorial, add higher priority cityProps for player, gather ppl arc - maybe
 // google wallet api publishing access
-// 17. submission video
+// 17. submission video and cool thumbnail
 
 enum PlayState {
   startScreen,
@@ -173,6 +172,5 @@ class EcoConscience extends FlameGame
 
   loadTiledComponent(String name) async =>
       await TiledComponent.load('$name.tmx', Vector2.all(32),
-          atlasMaxX: 20000,
-          atlasMaxY: 20000);
+          atlasMaxX: 20000, atlasMaxY: 20000);
 }

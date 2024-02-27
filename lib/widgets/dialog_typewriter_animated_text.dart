@@ -4,7 +4,9 @@ import 'package:eco_conscience/components/story_progress.dart' as story;
 import 'package:eco_conscience/eco_conscience.dart' as eco;
 import 'package:eco_conscience/providers/locale_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class DialogTypewriterAnimatedText extends AnimatedText {
@@ -84,36 +86,46 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          GestureDetector(
-                            onTap: () async {
-                              await playClickSound(game);
-                              if (acceptedOrRejectedCallback != null) {
-                                acceptedOrRejectedCallback!(true);
-                              }
-                            },
-                            child: AutoSizeText(
-                              locale == 'en' ? msg.choicesEn![0] : msg.choicesJa![0],
-                              style: DefaultTextStyle.of(context)
-                                  .style
-                                  .merge(textStyle)
-                                  .copyWith(color: Colors.green),
-                              textAlign: textAlign,
+                          Semantics(
+                            label: 'Positive option button',
+                            child: GestureDetector(
+                              onTap: () async {
+                                await playClickSound(game);
+                                if (acceptedOrRejectedCallback != null) {
+                                  acceptedOrRejectedCallback!(true);
+                                }
+                              },
+                              child: AutoSizeText(
+                                locale == 'en'
+                                    ? msg.choicesEn![0]
+                                    : msg.choicesJa![0],
+                                style: DefaultTextStyle.of(context)
+                                    .style
+                                    .merge(textStyle)
+                                    .copyWith(color: Colors.green),
+                                textAlign: textAlign,
+                              ),
                             ),
                           ),
-                          GestureDetector(
-                            onTap: () async {
-                              await playClickSound(game);
-                              if (acceptedOrRejectedCallback != null) {
-                                acceptedOrRejectedCallback!(false);
-                              }
-                            },
-                            child: AutoSizeText(
-                              locale == 'en' ? msg.choicesEn![1] : msg.choicesJa![1],
-                              style: DefaultTextStyle.of(context)
-                                  .style
-                                  .merge(textStyle)
-                                  .copyWith(color: Colors.red),
-                              textAlign: textAlign,
+                          Semantics(
+                            label: 'Negative option button',
+                            child: GestureDetector(
+                              onTap: () async {
+                                await playClickSound(game);
+                                if (acceptedOrRejectedCallback != null) {
+                                  acceptedOrRejectedCallback!(false);
+                                }
+                              },
+                              child: AutoSizeText(
+                                locale == 'en'
+                                    ? msg.choicesEn![1]
+                                    : msg.choicesJa![1],
+                                style: DefaultTextStyle.of(context)
+                                    .style
+                                    .merge(textStyle)
+                                    .copyWith(color: Colors.red),
+                                textAlign: textAlign,
+                              ),
                             ),
                           ),
                         ],

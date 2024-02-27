@@ -24,39 +24,44 @@ class CustomToastOverlay extends StatelessWidget {
         ? AppLocalizationsJa()
         : AppLocalizationsEn();
 
-    return Container(
-      width: width,
-      height: height,
-      margin: EdgeInsets.symmetric(horizontal: width / 5),
-      child: InkWell(
-        onTap: () async {
-          await playClickSound(game);
-          game.overlays.remove(PlayState.showingToast.name);
-          game.isStandingWithNpc ? game.startNpcDialog() : game.startStoryArc();
-        },
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: AnimatedTextKit(
-              animatedTexts: [
-                FadeAnimatedText(local.tapToContinue,
-                    textAlign: TextAlign.center,
-                    textStyle: TextStyle(
-                        fontSize: height > 500 ? 40 : 28,
-                        color: Colors.white70,
-                        fontWeight: FontWeight.w500),
-                    duration: const Duration(milliseconds: 1000)),
-              ],
-              onTap: () async {
-                await playClickSound(game);
-                game.overlays.remove(PlayState.showingToast.name);
-                game.isStandingWithNpc
-                    ? game.startNpcDialog()
-                    : game.startStoryArc();
-              },
-              pause: const Duration(milliseconds: 10),
-              repeatForever: true,
+    return Semantics(
+      label: 'Tap to continue area',
+      child: Container(
+        width: width,
+        height: height,
+        margin: EdgeInsets.symmetric(horizontal: width / 5),
+        child: InkWell(
+          onTap: () async {
+            await playClickSound(game);
+            game.overlays.remove(PlayState.showingToast.name);
+            game.isStandingWithNpc
+                ? game.startNpcDialog()
+                : game.startStoryArc();
+          },
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: AnimatedTextKit(
+                animatedTexts: [
+                  FadeAnimatedText(local.tapToContinue,
+                      textAlign: TextAlign.center,
+                      textStyle: TextStyle(
+                          fontSize: height > 500 ? 40 : 28,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w500),
+                      duration: const Duration(milliseconds: 1000)),
+                ],
+                onTap: () async {
+                  await playClickSound(game);
+                  game.overlays.remove(PlayState.showingToast.name);
+                  game.isStandingWithNpc
+                      ? game.startNpcDialog()
+                      : game.startStoryArc();
+                },
+                pause: const Duration(milliseconds: 10),
+                repeatForever: true,
+              ),
             ),
           ),
         ),

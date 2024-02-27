@@ -69,44 +69,48 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
             width: 1.0,
           ),
         ),
-        child: AnimatedTextKit(
-          animatedTexts: getAnimatedTextBasedOnEcoMeter(locale, widget.game),
-          displayFullTextOnTap: true,
-          pause: const Duration(seconds: 4),
-          isRepeatingAnimation: false,
-          stopPauseOnTap: true,
-          onNextBeforePause: (i, isLast) {
-            if (widget.game.playSounds) {
-              FlameAudio.bgm.stop();
-            }
-          },
-          onNext: (i, isLast) {
-            if (widget.game.playSounds) {
-              if (isLast) {
+        child: Semantics(
+          label: 'Dialogue box',
+          child: AnimatedTextKit(
+            animatedTexts: getAnimatedTextBasedOnEcoMeter(locale, widget.game),
+            displayFullTextOnTap: true,
+            pause: const Duration(seconds: 4),
+            isRepeatingAnimation: false,
+            stopPauseOnTap: true,
+            onNextBeforePause: (i, isLast) {
+              if (widget.game.playSounds) {
                 FlameAudio.bgm.stop();
-              } else {
-                FlameAudio.bgm.play('typing.mp3', volume: widget.game.volume);
               }
-            }
-          },
-          onFinished: () {
-            widget.game.overlays.remove('npcDialog');
-            widget.game.playState = eco.PlayState.playing;
-            widget.game.isStandingWithNpc = false;
+            },
+            onNext: (i, isLast) {
+              if (widget.game.playSounds) {
+                if (isLast) {
+                  FlameAudio.bgm.stop();
+                } else {
+                  FlameAudio.bgm.play('typing.mp3', volume: widget.game.volume);
+                }
+              }
+            },
+            onFinished: () {
+              widget.game.overlays.remove('npcDialog');
+              widget.game.playState = eco.PlayState.playing;
+              widget.game.isStandingWithNpc = false;
 
-            if (widget.game.playSounds) {
-              final provider = context.read<GameProgressProvider>();
-              FlameAudio.bgm.play(
-                  'Three-Red-Hearts-${getTuneBasedOnEcoMeter(provider.ecoMeter)}.mp3',
-                  volume: widget.game.volume * 0.5);
-            }
-          },
+              if (widget.game.playSounds) {
+                final provider = context.read<GameProgressProvider>();
+                FlameAudio.bgm.play(
+                    'Three-Red-Hearts-${getTuneBasedOnEcoMeter(provider.ecoMeter)}.mp3',
+                    volume: widget.game.volume * 0.5);
+              }
+            },
+          ),
         ),
       ),
     );
   }
 
-  List<AnimatedText> getAnimatedTextBasedOnEcoMeter(String locale, eco.EcoConscience game) {
+  List<AnimatedText> getAnimatedTextBasedOnEcoMeter(
+      String locale, eco.EcoConscience game) {
     final ecoMeter = context.read<GameProgressProvider>().ecoMeter;
     List<MsgFormat>? dialogs = StoryProgress.npcDialogs[ecoMeter];
     List<AnimatedText> result = [];

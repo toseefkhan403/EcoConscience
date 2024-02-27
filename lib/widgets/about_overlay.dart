@@ -24,6 +24,7 @@ class _AboutOverlayState extends State<AboutOverlay>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
+  double initialGameHeight = 360;
 
   @override
   void initState() {
@@ -38,6 +39,8 @@ class _AboutOverlayState extends State<AboutOverlay>
     ).animate(_controller);
 
     _controller.forward();
+    initialGameHeight = widget.game.size.y;
+
     super.initState();
   }
 
@@ -58,44 +61,47 @@ class _AboutOverlayState extends State<AboutOverlay>
 
     return FadeTransition(
       opacity: _opacityAnimation,
-      child: Container(
-        width: width,
-        height: height,
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(
-                    'assets/images/Exteriors/skyline/longEvening.png'),
-                fit: BoxFit.cover)),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            gradientText(local.appTitle),
-            const SizedBox(
-              height: 10,
-            ),
-            typerWidget(
-                text: local.developedBy,
-                linkText: 'Toseef Ali Khan',
-                link: 'https://www.linkedin.com/in/toseef-khan/',
-                pause: 0),
-            typerWidget(
-                text: local.musicCredits,
-                linkText: 'Abstraction',
-                link: 'https://abstractionmusic.com/',
-                pause: 1800),
-            typerWidget(
-                text: local.gameAssetsCredits,
-                linkText: 'LimeZu',
-                link: '',
-                pause: 3500),
-            textButton(
-              local.exit,
-              () async {
-                await playClickSound(widget.game);
-                widget.game.overlays.remove('about');
-              },
-            ),
-          ],
+      child: Semantics(
+        label: 'game credits overlay',
+        child: Container(
+          width: width,
+          height: height,
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(
+                      'assets/images/Exteriors/skyline/longEvening.png'),
+                  fit: BoxFit.cover)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              gradientText(local.appTitle),
+              const SizedBox(
+                height: 10,
+              ),
+              typerWidget(
+                  text: local.developedBy,
+                  linkText: 'Toseef Ali Khan',
+                  link: 'https://www.linkedin.com/in/toseef-khan/',
+                  pause: 0),
+              typerWidget(
+                  text: local.musicCredits,
+                  linkText: 'Abstraction',
+                  link: 'https://abstractionmusic.com/',
+                  pause: 1800),
+              typerWidget(
+                  text: local.gameAssetsCredits,
+                  linkText: 'LimeZu',
+                  link: '',
+                  pause: 3500),
+              textButton(
+                local.exit,
+                () async {
+                  await playClickSound(widget.game);
+                  widget.game.overlays.remove('about');
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -113,7 +119,7 @@ class _AboutOverlayState extends State<AboutOverlay>
           text,
           link: link,
           linkText: linkText,
-          textStyle: TextStyle(fontSize: widget.game.size.y < 600 ? 24 : 32),
+          textStyle: TextStyle(fontSize: initialGameHeight < 600 ? 24 : 32),
         ),
       ],
       pause: Duration(milliseconds: pause),

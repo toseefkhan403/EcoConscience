@@ -29,6 +29,7 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width * 0.5;
+    final height = MediaQuery.of(context).size.height;
     final provider = context.watch<GameProgressProvider>();
     final locale = context.watch<LocaleProvider>().locale;
     _local = locale.languageCode == 'ja'
@@ -44,7 +45,9 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
           height: width,
           child: Column(
             children: [
-              gradientText(_local.pause),
+              width > 400 && height > 500
+                  ? gradientText(_local.pause)
+                  : Container(),
               ecoMeterWidget(provider.ecoMeter, width, _local, provider),
               const SizedBox(
                 height: 10,

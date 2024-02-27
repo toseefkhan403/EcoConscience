@@ -72,10 +72,7 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
           mainAxisSize: MainAxisSize.min,
           children: [
             const Spacer(),
-            gradientText(_local.playerSelection),
-            const SizedBox(
-              height: 12,
-            ),
+            height > 500 ? gradientText(_local.playerSelection) : Container(),
             brownContainer(
               width: width * 0.5,
               child: Column(
@@ -84,102 +81,115 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SpriteButton(
-                        sprite: Sprite(
-                            widget.game.images.fromCache('HUD/arrow_l.png')),
-                        pressedSprite: Sprite(widget.game.images
-                            .fromCache('HUD/arrow_l_pressed.png')),
-                        width: 40,
-                        height: 60,
-                        onPressed: () {
-                          playClickSound(widget.game);
-                          if (characterSkinsIndex == 0) {
-                            characterSkinsIndex = characterSkins.length - 1;
-                          } else {
-                            characterSkinsIndex--;
-                          }
-                          setState(() {});
-                        },
-                        label: const Text(''),
+                      Semantics(
+                        label: 'Change character',
+                        child: SpriteButton(
+                          sprite: Sprite(
+                              widget.game.images.fromCache('HUD/arrow_l.png')),
+                          pressedSprite: Sprite(widget.game.images
+                              .fromCache('HUD/arrow_l_pressed.png')),
+                          width: 40,
+                          height: 60,
+                          onPressed: () {
+                            playClickSound(widget.game);
+                            if (characterSkinsIndex == 0) {
+                              characterSkinsIndex = characterSkins.length - 1;
+                            } else {
+                              characterSkinsIndex--;
+                            }
+                            setState(() {});
+                          },
+                          label: const Text(''),
+                        ),
                       ),
                       Expanded(
                         child: animatedPlayerWidget(
                             height * 0.4, characterSkins[characterSkinsIndex]),
                       ),
-                      SpriteButton(
-                        sprite: Sprite(
-                            widget.game.images.fromCache('HUD/arrow_r.png')),
-                        pressedSprite: Sprite(widget.game.images
-                            .fromCache('HUD/arrow_r_pressed.png')),
-                        width: 40,
-                        height: 60,
-                        onPressed: () {
-                          playClickSound(widget.game);
-                          if (characterSkinsIndex ==
-                              characterSkins.length - 1) {
-                            characterSkinsIndex = 0;
-                          } else {
-                            characterSkinsIndex++;
-                          }
-                          setState(() {});
-                        },
-                        label: const Text(''),
+                      Semantics(
+                        label: 'Change character',
+                        child: SpriteButton(
+                          sprite: Sprite(
+                              widget.game.images.fromCache('HUD/arrow_r.png')),
+                          pressedSprite: Sprite(widget.game.images
+                              .fromCache('HUD/arrow_r_pressed.png')),
+                          width: 40,
+                          height: 60,
+                          onPressed: () {
+                            playClickSound(widget.game);
+                            if (characterSkinsIndex ==
+                                characterSkins.length - 1) {
+                              characterSkinsIndex = 0;
+                            } else {
+                              characterSkinsIndex++;
+                            }
+                            setState(() {});
+                          },
+                          label: const Text(''),
+                        ),
                       ),
                     ],
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                    child: TextFormField(
-                      key: formFieldKey,
-                      controller: _textController,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontFamily: 'Arcade-In',
-                        fontSize: 30,
+                    child: Semantics(
+                      label: 'Enter your name',
+                      textField: true,
+                      child: TextFormField(
+                        key: formFieldKey,
+                        controller: _textController,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontFamily: 'Arcade-In',
+                          fontSize: 30,
+                        ),
+                        decoration: InputDecoration(
+                          hintText: _local.enterName,
+                          errorStyle: const TextStyle(fontSize: 16),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return _local.pleaseEnterName;
+                          }
+                          if (value.length < 3 || value.length > 12) {
+                            return _local.validationText1;
+                          }
+                          if (!alphanumericWithJapanese.hasMatch(value)) {
+                            return _local.validationText2;
+                          }
+                          return null;
+                        },
                       ),
-                      decoration: InputDecoration(
-                        hintText: _local.enterName,
-                        errorStyle: const TextStyle(fontSize: 16),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return _local.pleaseEnterName;
-                        }
-                        if (value.length < 3 || value.length > 12) {
-                          return _local.validationText1;
-                        }
-                        if (!alphanumericWithJapanese.hasMatch(value)) {
-                          return _local.validationText2;
-                        }
-                        return null;
-                      },
                     ),
                   ),
-                  SpriteButton(
-                    sprite: Sprite(
-                        widget.game.images.fromCache('HUD/play_button.png')),
-                    pressedSprite: Sprite(widget.game.images
-                        .fromCache('HUD/play_button_pressed.png')),
-                    width: 180,
-                    height: 50,
-                    onPressed: () async {
-                      final provider = context.read<GameProgressProvider>();
-                      await playClickSound(widget.game);
-                      if (formFieldKey.currentState!.validate()) {
-                        provider.savePlayerInfo(
-                            characterSkins[characterSkinsIndex],
-                            _textController.text.trim());
+                  Semantics(
+                    label: 'Play button',
+                    child: SpriteButton(
+                      sprite: Sprite(
+                          widget.game.images.fromCache('HUD/play_button.png')),
+                      pressedSprite: Sprite(widget.game.images
+                          .fromCache('HUD/play_button_pressed.png')),
+                      width: 180,
+                      height: 50,
+                      onPressed: () async {
+                        final provider = context.read<GameProgressProvider>();
+                        await playClickSound(widget.game);
+                        if (formFieldKey.currentState!.validate()) {
+                          provider.savePlayerInfo(
+                              characterSkins[characterSkinsIndex],
+                              _textController.text.trim());
 
-                        _controller.reverse().then((_) {
-                          widget.game.overlays.remove('playerSelection');
-                          widget.game.currentStoryArc =
-                              StoryTitles.introArc.name;
-                          FlameAudio.bgm.stop();
-                          widget.game.startStoryArc();
-                        });
-                      }
-                    },
-                    label: const Text(''),
+                          _controller.reverse().then((_) {
+                            widget.game.overlays.remove('playerSelection');
+                            widget.game.currentStoryArc =
+                                StoryTitles.introArc.name;
+                            FlameAudio.bgm.stop();
+                            widget.game.startStoryArc();
+                          });
+                        }
+                      },
+                      label: const Text(''),
+                    ),
                   ),
                 ],
               ),

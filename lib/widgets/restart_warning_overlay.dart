@@ -3,6 +3,7 @@ import 'package:eco_conscience/eco_conscience.dart';
 import 'package:eco_conscience/providers/locale_provider.dart';
 import 'package:eco_conscience/providers/restart_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -52,6 +53,9 @@ class RestartWarningOverlay extends StatelessWidget {
                     }, color: Colors.brown),
                     textButton(local.restart, () async {
                       await playClickSound(game);
+                      if(game.playSounds) {
+                        FlameAudio.bgm.stop();
+                      }
                       context.read<RestartProvider>().restartTheGame(context);
                     }, color: Colors.red),
                   ],

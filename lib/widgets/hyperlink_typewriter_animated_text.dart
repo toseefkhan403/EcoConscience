@@ -40,25 +40,30 @@ class HyperlinkTypewriterAnimatedText extends AnimatedText {
   }
 
   @override
-  Widget completeText(BuildContext context) => AutoSizeText.rich(
-        TextSpan(
-          children: [
-            TextSpan(text: text),
-            TextSpan(
-              text: linkText,
-              style: DefaultTextStyle.of(context)
-                  .style
-                  .merge(textStyle)
-                  .copyWith(color: const Color(0xff0a66c2), fontFamily: '4B30'),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  openLink(link);
-                },
-            ),
-          ],
-          style: DefaultTextStyle.of(context).style.merge(textStyle),
+  Widget completeText(BuildContext context) => Semantics(
+        label: 'game credits external link',
+        link: true,
+        child: AutoSizeText.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: text),
+              TextSpan(
+                text: linkText,
+                style: DefaultTextStyle.of(context)
+                    .style
+                    .merge(textStyle)
+                    .copyWith(
+                        color: const Color(0xff0a66c2), fontFamily: '4B30'),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    openLink(link);
+                  },
+              ),
+            ],
+            style: DefaultTextStyle.of(context).style.merge(textStyle),
+          ),
+          textAlign: textAlign,
         ),
-        textAlign: textAlign,
       );
 
   /// Widget showing partial text

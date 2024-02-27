@@ -50,9 +50,10 @@ class FeedBackToastOverlay extends StatelessWidget {
                     : negativeFeedback[randomIndex],
                 textAlign: TextAlign.center,
                 textStyle: TextStyle(
-                  fontSize: height > 500 ? 40 : 28,
-                  color:
-                      isAccepted ? Colors.green.shade400 : Colors.red,
+                  fontSize: height > 500 ? 36 : 26,
+                  color: isAccepted
+                      ? Colors.green.shade400
+                      : Colors.red.withOpacity(0.8),
                 ),
                 fadeInEnd: 0.1,
                 fadeOutBegin: 0.9,

@@ -4,6 +4,8 @@ import 'package:eco_conscience/providers/game_progress_provider.dart';
 import 'package:eco_conscience/providers/locale_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame/widgets.dart';
+import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -92,12 +94,18 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                 const SizedBox(
                   height: 10,
                 ),
-                GoogleWalletButton(
-                  locale: locale.languageCode,
-                  onPressed: () => _savePassBrowser(ecoMeter),
+                Semantics(
+                  label: 'Add to google wallet button',
+                  child: GoogleWalletButton(
+                    locale: locale.languageCode,
+                    onPressed: () => _savePassBrowser(ecoMeter),
+                  ),
                 ),
                 textButton(_local.restartTheGame, () async {
                   await playClickSound(widget.game);
+                  if(widget.game.playSounds) {
+                    FlameAudio.bgm.stop();
+                  }
                   context.read<RestartProvider>().restartTheGame(context);
                 }, color: Colors.brown),
                 height > 500 ? const Spacer() : Container(),

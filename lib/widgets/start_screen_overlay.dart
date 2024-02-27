@@ -53,6 +53,7 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
 
   @override
   Widget build(BuildContext context) {
+    double heightDiff = calculateBlackAreaHeight(context);
     final locale = context.watch<LocaleProvider>().locale;
     _local = locale.languageCode == 'ja'
         ? AppLocalizationsJa()
@@ -60,98 +61,112 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
 
     return FadeTransition(
       opacity: _opacityAnimation,
-      child: Center(
-        child: Consumer<StartMenuProvider>(
-          builder:
-              (BuildContext context, StartMenuProvider value, Widget? child) {
-            final provider = context.read<GameProgressProvider>();
-
-            return AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              child: Container(
-                key: ValueKey<bool>(value.showMenu),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-                width: double.infinity,
-                height: double.infinity,
-                color: value.showMenu
-                    ? Colors.blueGrey.withOpacity(0.25)
-                    : Colors.transparent,
-                child: Column(
-                  children: [
-                    gradientText(_local.appTitle),
-                    Expanded(
-                      child: value.showMenu
-                          ? Column(
-                              children: [
-                                if(provider.doesSaveExist())
-                                    textButton(_local.resume, () async {
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: heightDiff / 2),
+        child: Center(
+          child: Consumer<StartMenuProvider>(
+            builder:
+                (BuildContext context, StartMenuProvider value, Widget? child) {
+              final provider = context.read<GameProgressProvider>();
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: Container(
+                  key: ValueKey<bool>(value.showMenu),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+                  child: Column(
+                    children: [
+                      gradientText(_local.appTitle),
+                      Expanded(
+                        child: value.showMenu
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                  colors: [
+                                    const Color(0xff595555).withOpacity(0.2),
+                                    Colors.black.withOpacity(0.22),
+                                    const Color(0xff747372).withOpacity(0.2)
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                )),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 20),
+                                child: Column(
+                                  children: [
+                                    if (provider.doesSaveExist())
+                                      textButton(_local.resume, () async {
                                         await playClickSound(widget.game);
                                         provider.loadProgress();
                                         widget.game.overlays
                                             .remove(PlayState.startScreen.name);
                                         widget.game.startGamePlay(provider);
                                       }),
-                                textButton(_local.newGame, () async {
-                                  await playClickSound(widget.game);
-                                  if (widget.game.playSounds &&
-                                      !FlameAudio.bgm.isPlaying) {
-                                    FlameAudio.bgm.play(
-                                        'Three-Red-Hearts-Penguin-Town.mp3',
-                                        volume: widget.game.volume * 0.5);
-                                  }
+                                    textButton(_local.newGame, () async {
+                                      await playClickSound(widget.game);
+                                      if (widget.game.playSounds &&
+                                          !FlameAudio.bgm.isPlaying) {
+                                        FlameAudio.bgm.play(
+                                            'Three-Red-Hearts-Penguin-Town.mp3',
+                                            volume: widget.game.volume * 0.5);
+                                      }
 
-                                  /// reset progress - start fresh
-                                  provider.resetProgress();
+                                      /// reset progress - start fresh
+                                      provider.resetProgress();
 
-                                  /// player selection
-                                  widget.game.overlays
-                                      .remove(PlayState.startScreen.name);
-                                  widget.game.overlays.add('playerSelection');
-                                }),
-                                textButton(
-                                    '${_local.sounds} ${widget.game.playSounds ? _local.on : _local.off}',
-                                    () async {
-                                  await playClickSound(widget.game);
-                                  widget.game.playSounds =
-                                      !widget.game.playSounds;
-                                  if (widget.game.playSounds) {
-                                    FlameAudio.bgm.play(
-                                        'Three-Red-Hearts-Penguin-Town.mp3',
-                                        volume: widget.game.volume * 0.5);
-                                  } else {
-                                    FlameAudio.bgm.stop();
-                                  }
-                                  setState(() {});
-                                }),
-                                textButton(
-                                    '${_local.language} ${_local.localeName == 'en' ? 'Japanese' : 'English'}',
-                                    () async {
-                                  await playClickSound(widget.game);
-                                  context.read<LocaleProvider>().switchLocale();
-                                }),
-                                textButton(_local.about, () async {
-                                  await playClickSound(widget.game);
-                                  widget.game.overlays.add('about');
-                                }),
-                                textButton(_local.exit, () async {
-                                  await playClickSound(widget.game);
-                                  try {
-                                    SystemNavigator.pop();
-                                    exit(0);
-                                  } catch (e) {
-                                    print(e);
-                                  }
-                                }),
-                              ],
-                            )
-                          : const SizedBox(),
-                    ),
-                  ],
+                                      /// player selection
+                                      widget.game.overlays
+                                          .remove(PlayState.startScreen.name);
+                                      widget.game.overlays
+                                          .add('playerSelection');
+                                    }),
+                                    textButton(
+                                        '${_local.sounds} ${widget.game.playSounds ? _local.on : _local.off}',
+                                        () async {
+                                      await playClickSound(widget.game);
+                                      widget.game.playSounds =
+                                          !widget.game.playSounds;
+                                      if (widget.game.playSounds) {
+                                        FlameAudio.bgm.play(
+                                            'Three-Red-Hearts-Penguin-Town.mp3',
+                                            volume: widget.game.volume * 0.5);
+                                      } else {
+                                        FlameAudio.bgm.stop();
+                                      }
+                                      setState(() {});
+                                    }),
+                                    textButton(
+                                        '${_local.language} ${_local.localeName == 'en' ? 'Japanese' : 'English'}',
+                                        () async {
+                                      await playClickSound(widget.game);
+                                      context
+                                          .read<LocaleProvider>()
+                                          .switchLocale();
+                                    }),
+                                    textButton(_local.about, () async {
+                                      await playClickSound(widget.game);
+                                      widget.game.overlays.add('about');
+                                    }),
+                                    textButton(_local.exit, () async {
+                                      await playClickSound(widget.game);
+                                      try {
+                                        SystemNavigator.pop();
+                                        exit(0);
+                                      } catch (e) {
+                                        print(e);
+                                      }
+                                    }),
+                                  ],
+                                ),
+                              )
+                            : const SizedBox(),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

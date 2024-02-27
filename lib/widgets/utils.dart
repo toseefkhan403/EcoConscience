@@ -60,15 +60,18 @@ Widget gradientText(String text) => Expanded(
             end: Alignment.bottomCenter,
           ).createShader(bounds);
         },
-        child: AutoSizeText(
-          text,
-          textAlign: TextAlign.center,
-          minFontSize: 30,
-          style: const TextStyle(
-              fontFamily: '4B30',
-              fontSize: 80,
-              fontWeight: FontWeight.bold,
-              color: Colors.white),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: AutoSizeText(
+            text,
+            textAlign: TextAlign.center,
+            minFontSize: 30,
+            style: const TextStyle(
+                fontFamily: '4B30',
+                fontSize: 80,
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
         ),
       ),
     );
@@ -118,6 +121,7 @@ textButton(String title, Function() onPressed, {Color color = Colors.white}) {
         child: AutoSizeText(
           title,
           textAlign: TextAlign.center,
+          minFontSize: 20,
           style: TextStyle(
               fontFamily: 'Arcade-In',
               fontSize: 50,
@@ -126,4 +130,16 @@ textButton(String title, Function() onPressed, {Color color = Colors.white}) {
       ),
     ),
   );
+}
+
+double calculateBlackAreaHeight(BuildContext context) {
+  const imageAspectRatio = 16/9;
+  double screenWidth = MediaQuery.of(context).size.width;
+  double screenHeight = MediaQuery.of(context).size.height;
+
+  double expectedImageHeight = screenWidth / imageAspectRatio;
+  double blackAreaHeight = screenHeight - expectedImageHeight;
+  blackAreaHeight = blackAreaHeight < 0 ? 0 : blackAreaHeight;
+
+  return blackAreaHeight;
 }

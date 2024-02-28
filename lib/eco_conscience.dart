@@ -94,6 +94,12 @@ class EcoConscience extends FlameGame
 
   void startBgmMusic() {
     FlameAudio.bgm.initialize();
+    FlameAudio.audioCache.loadAll([
+      'click.wav',
+      'teleport.wav',
+      'typing.mp3',
+      'typing_devil.mp3'
+    ]);
     if (playSounds) {
       FlameAudio.bgm
           .play('Three-Red-Hearts-Penguin-Town.mp3', volume: volume * 0.5);
@@ -158,8 +164,8 @@ class EcoConscience extends FlameGame
   }
 
   preLoadMaps() async {
-    FlameAudio.bgm.play('typing.mp3', volume: 0);
-    FlameAudio.bgm.play('typing_devil.mp3', volume: 0);
+    // FlameAudio.bgm.play('typing.mp3', volume: 0);
+    // FlameAudio.bgm.play('typing_devil.mp3', volume: 0);
     await loadTiledComponent('outdoors');
     await loadTiledComponent('home');
     await loadTiledComponent('startingSequence');

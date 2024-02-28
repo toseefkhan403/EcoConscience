@@ -1,5 +1,5 @@
 # EcoShift Chronicles
-EcoShift Chronicles is live! [Try it out here](https://toseefkhan403.github.io/EcoConscience/)
+EcoShift Chronicles is live! [Try it out here](https://toseefkhan403.github.io/EcoConscience/)\
 [Available](https://drive.google.com/drive/folders/11WUSuBVBJ2bkoXtuM_RQgYM5vfZ82h5e?usp=sharing) on Web, Android, iOS, Windows, Linux and macOS.
 
 ## Description

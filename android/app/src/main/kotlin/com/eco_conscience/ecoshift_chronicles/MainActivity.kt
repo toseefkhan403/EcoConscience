@@ -1,4 +1,4 @@
-package com.example.eco_conscience
+package com.eco_conscience.ecoshift_chronicles
 
 import io.flutter.embedding.android.FlutterActivity
 

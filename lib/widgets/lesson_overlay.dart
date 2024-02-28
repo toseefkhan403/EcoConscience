@@ -3,7 +3,6 @@ import 'package:eco_conscience/components/story_progress.dart';
 import 'package:eco_conscience/providers/locale_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
@@ -80,10 +79,6 @@ class _LessonOverlayState extends State<LessonOverlay>
                         : Colors.green.withOpacity(0.75),
                     BlendMode.softLight),
                 fit: BoxFit.cover),
-            border: Border.all(
-              color: const Color(0xffb5754d),
-              width: 1.0,
-            ),
           ),
           child: Stack(
             children: [

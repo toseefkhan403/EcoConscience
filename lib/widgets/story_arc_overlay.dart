@@ -77,10 +77,6 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
                       'assets/images/Lessons/${widget.game.currentStoryArc}.png',
                     ),
                     fit: BoxFit.cover),
-                border: Border.all(
-                  color: const Color(0xffb5754d),
-                  width: 1.0,
-                ),
               ),
               child: Stack(
                 children: [

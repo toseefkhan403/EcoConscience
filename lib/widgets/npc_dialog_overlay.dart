@@ -60,15 +60,9 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
 
     return FadeTransition(
       opacity: _opacityAnimation,
-      child: Container(
+      child: SizedBox(
         width: gameWidth,
         height: gameHeight,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: const Color(0xffb5754d),
-            width: 1.0,
-          ),
-        ),
         child: Semantics(
           label: 'Dialogue box',
           child: AnimatedTextKit(

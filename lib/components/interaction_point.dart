@@ -5,7 +5,6 @@ import 'package:eco_conscience/components/player.dart';
 import 'package:eco_conscience/eco_conscience.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/foundation.dart';
 
 class InteractionPoint extends SpriteComponent
     with HasGameRef<EcoConscience>, CollisionCallbacks {

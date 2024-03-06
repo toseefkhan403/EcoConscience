@@ -1,36 +1,50 @@
 # EcoShift Chronicles
-EcoShift Chronicles is live! [Try it out here](https://toseefkhan403.github.io/EcoConscience/)\
-[Available](https://drive.google.com/drive/folders/11WUSuBVBJ2bkoXtuM_RQgYM5vfZ82h5e?usp=sharing) on Web, Android, iOS, Windows, Linux and macOS.
+EcoShift Chronicles is live! [Try it out here!](https://toseefkhan403.github.io/EcoConscience/)\
+[Available](https://drive.google.com/drive/folders/11WUSuBVBJ2bkoXtuM_RQgYM5vfZ82h5e?usp=sharing) on Web, [Android](https://play.google.com/store/apps/details?id=com.eco_conscience.ecoshift_chronicles), iOS, Windows, Linux and macOS.
+
+This project is my submission for the [Global Gamers Challenge](https://flutter.dev/global-gamers). Check out the Devpost page [here!](https://devpost.com/software/ecoshift-chronicles)
 
 ## Description
 A 2D-pixel art video game built using Flutter and Flame where your choices matter and transform the world!
 
-## Inspiration
-In our daily choices lies the power to create a healthier planet. Small decisions, when combined, have a profound impact. This game aims to raise awareness about the consequences of our actions, inspiring positive choices for a greener and more sustainable future.
+## Features
+- Make eco-conscious choices and witness the world transform.
+- Engaging dialogues with personalized messages.
+- Save progress, pause, restart – enjoy a seamless gaming experience.
+- Explore on Web, Android, Windows, iOS, macOS, and Linux.
+- Track progress in the pause menu
+- Receive a Google Pass based on your score.
+- Japanese localization for a global gaming experience.
 
-## What it does
-EcoShift Chronicles is an engaging 2D-pixel art game where players make choices influencing the environment. Every decision impacts the world, presenting dilemmas influenced by angels and devils, and shaping branching storylines. It combines vibrant graphics, music, and real-life choices for an immersive experience. Players have the option to select distinct characters, save their game progress, and experience gameplay in Japanese.
+## Getting Started
 
-## How we built it
-- Built with Flutter and Flame
-- Uses Flame Tiled for 2D maps and graphics
-- Animations feature sprite animation, parallax components, and Flutter animation widgets
-- Dialogs are created using Flutter overlays
-- Flame Audio is employed for music
-- Game progress is saved with Shared Preferences
-- State management handled through Provider
-- Japanese localization is integrated
-- Generic pass from Google Wallet API is included
+### Prerequisites
 
-## Challenges we ran into
-The main challenge was making it work on the web. The graphics looked distorted and sometimes didn't load properly. We fixed this by changing how we load the map. Instead of loading it directly, we combined a layer of the map into a component to show it as one image. This made the game run better on big maps. Creating animations and dialogues also took some time.
-Another tough part was adding the generic passes feature because Dart support is limited in the Google Wallet API.
+- Flutter: Ensure you have the latest version of Flutter installed. If not, follow the [Flutter installation guide](https://flutter.dev/docs/get-started/install).
 
-## Accomplishments that we're proud of
-Creating a game that not only entertains but also raises awareness about real-world environmental choices is something that we're proud of. Pushing the boundaries of the Flame package in the Flutter ecosystem, the integration of dynamic storytelling, graphics, and user choices is an accomplishment in itself.
+### Installation
 
-## What we learned
-Throughout the development, we gained insights into effectively merging educational elements with gameplay. Understanding the nuances of Flutter and Flame for game development expanded our technical expertise. Player feedback played a crucial role in refining the game's narrative and mechanics.
+1. Clone the repository to your local machine:
 
-## What's next for EcoShift Chronicles
-The journey continues with ongoing updates, introducing new storylines, characters, and environmental challenges. We plan to add more choices and integrate community-driven features. Expanding to other languages ensures EcoShift Chronicles reaches a diverse and global audience.
+   ```bash
+   git clone https://github.com/toseefkhan403/EcoConscience.git
+
+2. Open the project in your preferred code editor.
+
+3. Install the required dependencies by running:
+
+    ```bash
+   flutter pub get
+
+4. Generate localization files by running:
+
+    ```bash
+   flutter gen-l10n
+
+5. Run the app on chrome or an emulator:
+
+    ```bash
+   flutter run
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.

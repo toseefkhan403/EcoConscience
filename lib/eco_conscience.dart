@@ -47,6 +47,18 @@ import 'components/map.dart';
 // google wallet api publishing access
 // 17. submission video and cool thumbnail
 
+// Improvements:
+// 1. Updating the intro video on devpost
+// 2. Updating some character dialogues
+// 3. Updating the initial sky colour --done
+// 4. Adding Japanese Google Wallet passes
+// 5. Add press any button to start screen
+// 6. exit -> hackathon page --done
+// 7. spacebar for tap to continue?
+// 8. yes and no -> same color --done
+// 9. pixel art japanese font --done
+// 10. player keeps moving if tab changes
+
 enum PlayState {
   startScreen,
   playing,

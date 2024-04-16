@@ -45,7 +45,7 @@ class GameApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => LocaleProvider()),
           ChangeNotifierProvider(create: (_) => RestartProvider()),
         ],
-        child: Consumer<RestartProvider>(builder: (context, localeRef, child) {
+        child: Consumer<RestartProvider>(builder: (context, ref, child) {
           /// restart game
           return MaterialApp(
               debugShowCheckedModeBanner: false,

@@ -54,7 +54,7 @@ class _AboutOverlayState extends State<AboutOverlay>
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final locale = context.watch<LocaleProvider>().locale;
+    final locale = context.read<LocaleProvider>().locale;
     AppLocalizations local = locale.languageCode == 'ja'
         ? AppLocalizationsJa()
         : AppLocalizationsEn();
@@ -95,6 +95,7 @@ class _AboutOverlayState extends State<AboutOverlay>
                   pause: 3500),
               textButton(
                 local.exit,
+                context,
                 () async {
                   await playClickSound(widget.game);
                   widget.game.overlays.remove('about');
@@ -112,6 +113,7 @@ class _AboutOverlayState extends State<AboutOverlay>
       required String link,
       required String linkText,
       required int pause}) {
+    final locale = context.read<LocaleProvider>();
     return AnimatedTextKit(
       animatedTexts: [
         TypewriterAnimatedText(''),
@@ -119,7 +121,10 @@ class _AboutOverlayState extends State<AboutOverlay>
           text,
           link: link,
           linkText: linkText,
-          textStyle: TextStyle(fontSize: initialGameHeight < 600 ? 24 : 32),
+          textStyle: TextStyle(
+            fontSize: initialGameHeight < 600 ? 24 : 32,
+            fontFamily: locale.getFontFamily(),
+          ),
         ),
       ],
       pause: Duration(milliseconds: pause),

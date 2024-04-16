@@ -18,8 +18,8 @@ class RestartWarningOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width * 0.5;
-    final locale = context.watch<LocaleProvider>().locale;
-    AppLocalizations local = locale.languageCode == 'ja'
+    final localeProvider = context.read<LocaleProvider>();
+    AppLocalizations local = localeProvider.locale.languageCode == 'ja'
         ? AppLocalizationsJa()
         : AppLocalizationsEn();
 
@@ -40,20 +40,23 @@ class RestartWarningOverlay extends StatelessWidget {
               Expanded(
                   child: AutoSizeText(
                 local.warningMsg,
-                style: const TextStyle(fontSize: 32),
+                style: TextStyle(
+                  fontSize: 32,
+                  fontFamily: localeProvider.getFontFamily(),
+                ),
                 textAlign: TextAlign.center,
               )),
               Expanded(
                 child: Row(
                   children: [
-                    textButton(local.cancel, () async {
+                    textButton(local.cancel, context, () async {
                       await playClickSound(game);
                       game.overlays.remove('restartWarning');
                       game.resumeEngine();
                     }, color: Colors.brown),
-                    textButton(local.restart, () async {
+                    textButton(local.restart, context, () async {
                       await playClickSound(game);
-                      if(game.playSounds) {
+                      if (game.playSounds) {
                         FlameAudio.bgm.stop();
                       }
                       context.read<RestartProvider>().restartTheGame(context);

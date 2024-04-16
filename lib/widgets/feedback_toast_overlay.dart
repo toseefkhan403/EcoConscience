@@ -18,10 +18,10 @@ class FeedBackToastOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    final locale = context.watch<LocaleProvider>().locale;
+    final localeProvider = context.watch<LocaleProvider>();
     final isAccepted = game.currentLesson.startsWith('true');
     late AppLocalizations local;
-    local = locale.languageCode == 'ja'
+    local = localeProvider.locale.languageCode == 'ja'
         ? AppLocalizationsJa()
         : AppLocalizationsEn();
 
@@ -54,6 +54,7 @@ class FeedBackToastOverlay extends StatelessWidget {
                   color: isAccepted
                       ? Colors.green.shade400
                       : Colors.red.withOpacity(0.8),
+                  fontFamily: localeProvider.getFontFamily(),
                 ),
                 fadeInEnd: 0.1,
                 fadeOutBegin: 0.9,

@@ -60,8 +60,8 @@ class _GameOverOverlayState extends State<GameOverOverlay>
     final width = MediaQuery.of(context).size.width * 0.5;
     final height = MediaQuery.of(context).size.height;
     final ecoMeter = context.watch<GameProgressProvider>().ecoMeter;
-    final locale = context.read<LocaleProvider>().locale;
-    _local = locale.languageCode == 'ja'
+    final localeProvider = context.read<LocaleProvider>();
+    _local = localeProvider.locale.languageCode == 'ja'
         ? AppLocalizationsJa()
         : AppLocalizationsEn();
 
@@ -82,13 +82,17 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                 Expanded(
                   child: AutoSizeText(
                     "${_local.gameOverMsg}\n${_local.finalScoreIs} $ecoMeter ${_local.outOf100}",
-                    style: const TextStyle(fontSize: 32),
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontFamily: localeProvider.getFontFamily(),
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
                 height > 500
                     ? Expanded(
-                        child: verdictWidget(ecoMeter, width, _local),
+                        child: verdictWidget(
+                            ecoMeter, width, _local, localeProvider.getFontFamily()),
                       )
                     : Container(),
                 const SizedBox(
@@ -97,13 +101,13 @@ class _GameOverOverlayState extends State<GameOverOverlay>
                 Semantics(
                   label: 'Add to google wallet button',
                   child: GoogleWalletButton(
-                    locale: locale.languageCode,
+                    locale: localeProvider.locale.languageCode,
                     onPressed: () => _savePassBrowser(ecoMeter),
                   ),
                 ),
-                textButton(_local.restartTheGame, () async {
+                textButton(_local.restartTheGame, context, () async {
                   await playClickSound(widget.game);
-                  if(widget.game.playSounds) {
+                  if (widget.game.playSounds) {
                     FlameAudio.bgm.stop();
                   }
                   context.read<RestartProvider>().restartTheGame(context);
@@ -117,7 +121,8 @@ class _GameOverOverlayState extends State<GameOverOverlay>
     );
   }
 
-  verdictWidget(int ecoMeter, double size, AppLocalizations local) {
+  verdictWidget(
+      int ecoMeter, double size, AppLocalizations local, String fontFamily) {
     final boxHeight = size * 0.15;
     return Container(
       height: boxHeight,
@@ -150,7 +155,11 @@ class _GameOverOverlayState extends State<GameOverOverlay>
             child: AutoSizeText(
               getGameOverMsgBasedOnEcoMeter(ecoMeter, local),
               maxLines: 2,
-              style: const TextStyle(fontSize: 32, color: Colors.white),
+              style: TextStyle(
+                fontSize: 32,
+                color: Colors.white,
+                fontFamily: fontFamily,
+              ),
               textAlign: TextAlign.left,
             ),
           ),

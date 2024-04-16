@@ -18,9 +18,9 @@ class CustomToastOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final locale = context.watch<LocaleProvider>().locale;
+    final locale = context.watch<LocaleProvider>();
     late AppLocalizations local;
-    local = locale.languageCode == 'ja'
+    local = locale.locale.languageCode == 'ja'
         ? AppLocalizationsJa()
         : AppLocalizationsEn();
 
@@ -49,6 +49,7 @@ class CustomToastOverlay extends StatelessWidget {
                       textStyle: TextStyle(
                           fontSize: height > 500 ? 40 : 28,
                           color: Colors.white70,
+                          fontFamily: locale.getFontFamily(),
                           fontWeight: FontWeight.w500),
                       duration: const Duration(milliseconds: 1000)),
                 ],

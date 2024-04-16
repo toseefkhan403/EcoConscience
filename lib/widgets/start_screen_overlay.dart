@@ -95,14 +95,16 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
                                 child: Column(
                                   children: [
                                     if (provider.doesSaveExist())
-                                      textButton(_local.resume, () async {
+                                      textButton(_local.resume, context,
+                                          () async {
                                         await playClickSound(widget.game);
                                         provider.loadProgress();
                                         widget.game.overlays
                                             .remove(PlayState.startScreen.name);
                                         widget.game.startGamePlay(provider);
                                       }),
-                                    textButton(_local.newGame, () async {
+                                    textButton(_local.newGame, context,
+                                        () async {
                                       await playClickSound(widget.game);
                                       if (widget.game.playSounds &&
                                           !FlameAudio.bgm.isPlaying) {
@@ -122,7 +124,7 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
                                     }),
                                     textButton(
                                         '${_local.sounds} ${widget.game.playSounds ? _local.on : _local.off}',
-                                        () async {
+                                        context, () async {
                                       await playClickSound(widget.game);
                                       widget.game.playSounds =
                                           !widget.game.playSounds;
@@ -137,24 +139,20 @@ class _StartScreenOverlayState extends State<StartScreenOverlay>
                                     }),
                                     textButton(
                                         '${_local.language} ${_local.localeName == 'en' ? 'Japanese' : 'English'}',
-                                        () async {
+                                        context, () async {
                                       await playClickSound(widget.game);
                                       context
                                           .read<LocaleProvider>()
                                           .switchLocale();
                                     }),
-                                    textButton(_local.about, () async {
+                                    textButton(_local.about, context, () async {
                                       await playClickSound(widget.game);
                                       widget.game.overlays.add('about');
                                     }),
-                                    textButton(_local.exit, () async {
+                                    textButton(_local.exit, context, () async {
                                       await playClickSound(widget.game);
-                                      try {
-                                        SystemNavigator.pop();
-                                        exit(0);
-                                      } catch (e) {
-                                        print(e);
-                                      }
+                                      openLink(
+                                          "https://devpost.com/software/ecoshift-chronicles");
                                     }),
                                   ],
                                 ),

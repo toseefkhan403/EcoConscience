@@ -61,7 +61,6 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
     final dialogs = StoryProgress.gameStories[widget.game.currentStoryArc];
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
-    String locale = context.read<LocaleProvider>().locale.languageCode;
     final provider = context.read<GameProgressProvider>();
 
     return FadeTransition(
@@ -87,7 +86,7 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
                     label: 'Dialogue box',
                     child: AnimatedTextKit(
                       animatedTexts: getAnimatedTextFromDialogs(
-                          dialogs, locale, widget.game, provider.playerName),
+                          dialogs, widget.game, provider.playerName),
                       displayFullTextOnTap: true,
                       pause: const Duration(seconds: 4),
                       isRepeatingAnimation: false,
@@ -124,21 +123,28 @@ class _StoryArcOverlayState extends State<StoryArcOverlay>
         ));
   }
 
-  List<AnimatedText> getAnimatedTextFromDialogs(List<MsgFormat>? dialogs,
-      String locale, eco.EcoConscience game, String playerName) {
+  List<AnimatedText> getAnimatedTextFromDialogs(
+      List<MsgFormat>? dialogs, eco.EcoConscience game, String playerName) {
     List<AnimatedText> result = [];
     if (dialogs == null || dialogs.isEmpty) return result;
+
+    final localeProvider = context.read<LocaleProvider>();
+    final langCode = localeProvider.locale.languageCode;
 
     for (var dialog in dialogs) {
       result.add(
         DialogTypewriterAnimatedText(
-          (locale == 'en' ? dialog.msgEn : dialog.msgJa)
+          (langCode == 'en' ? dialog.msgEn : dialog.msgJa)
               .replaceAll('{username}', playerName),
           dialog,
           game,
-          textStyle: const TextStyle(
-              fontSize: 40.0, color: Colors.black, fontWeight: FontWeight.w500),
-          speed: Duration(milliseconds: locale == 'en' ? 35 : 60),
+          textStyle: TextStyle(
+            fontSize: 40.0,
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontFamily: localeProvider.getFontFamily(),
+          ),
+          speed: Duration(milliseconds: langCode == 'en' ? 35 : 60),
           acceptedOrRejectedCallback: dialog.choicesEn != null
               ? (bool isAccepted) {
                   print("isAccepted $isAccepted");

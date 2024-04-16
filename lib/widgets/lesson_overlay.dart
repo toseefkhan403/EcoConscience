@@ -58,7 +58,6 @@ class _LessonOverlayState extends State<LessonOverlay>
     final lessons = StoryProgress.gameLessons[widget.game.currentLesson];
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
-    String locale = context.read<LocaleProvider>().locale.languageCode;
     final provider = context.read<GameProgressProvider>();
 
     return FadeTransition(
@@ -89,7 +88,7 @@ class _LessonOverlayState extends State<LessonOverlay>
                 label: 'Dialogue box',
                 child: AnimatedTextKit(
                   animatedTexts: getAnimatedTextFromLessons(
-                      lessons, locale, widget.game, provider.playerName),
+                      lessons, widget.game, provider.playerName),
                   displayFullTextOnTap: true,
                   pause: const Duration(seconds: 4),
                   isRepeatingAnimation: false,
@@ -172,21 +171,28 @@ class _LessonOverlayState extends State<LessonOverlay>
     );
   }
 
-  List<AnimatedText> getAnimatedTextFromLessons(List<MsgFormat>? lessons,
-      String locale, eco.EcoConscience game, String playerName) {
+  List<AnimatedText> getAnimatedTextFromLessons(
+      List<MsgFormat>? lessons, eco.EcoConscience game, String playerName) {
     List<AnimatedText> result = [];
     if (lessons == null || lessons.isEmpty) return result;
+
+    final localeProvider = context.read<LocaleProvider>();
+    final langCode = localeProvider.locale.languageCode;
 
     for (var lesson in lessons) {
       result.add(
         DialogTypewriterAnimatedText(
-          (locale == 'en' ? lesson.msgEn : lesson.msgJa)
+          (langCode == 'en' ? lesson.msgEn : lesson.msgJa)
               .replaceAll('{username}', playerName),
           lesson,
           game,
-          textStyle: const TextStyle(
-              fontSize: 40.0, color: Colors.black, fontWeight: FontWeight.w500),
-          speed: Duration(milliseconds: locale == 'en' ? 35 : 60),
+          textStyle: TextStyle(
+            fontSize: 40.0,
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontFamily: localeProvider.getFontFamily(),
+          ),
+          speed: Duration(milliseconds: langCode == 'en' ? 35 : 60),
         ),
       );
     }

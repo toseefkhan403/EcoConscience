@@ -26,4 +26,8 @@ class LocaleProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  String getFontFamily({String englishFont = "VT323"}) {
+    return locale.languageCode == 'ja' ? "Jackey" : englishFont;
+  }
 }

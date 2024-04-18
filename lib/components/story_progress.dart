@@ -18,12 +18,12 @@ class StoryProgress {
     gameStories = {
       StoryTitles.introArc.name: [
         MsgFormat(
-            "In a world where every choice you make carries consequences, you have the ability to shape the fate of this world. Welcome to the EcoShift Chronicles, where what you decide affects whether things stay in sync or go haywire.",
-            "あらゆる選択が結果を伴う世界。あなたはこの世界の運命を形作る力を持っています。エコシフト・クロニクルへようこそ。あなたの決定が物事を調和させるか、乱れさせるかを左右します。",
+            "Welcome to the EcoShift Chronicles, where every decision you make affects the world around you. Your choices have the power to preserve harmony in your environment or unleash chaos.",
+            "エコシフト クロニクルへようこそ。ここでは、あなたのすべての決定が周りの世界に影響します。あなたの選択は、環境の調和を保つ力を持ち、または混沌を解き放つ力を持っています。",
             character: Characters.angel),
         MsgFormat(
-            "Ah, welcome to the playground of choices! Every decision holds consequences. But who says you always have to be the hero? Why not embrace the dark side of choices?",
-            "ああ、選択の遊び場へようこそ！すべての決断には結果が伴います。しかし、いつもヒーローである必要があると誰が言いますか？なぜ選択の暗い側面を受け入れないのですか？",
+            "Every decision holds consequences. But who says you always have to be the hero? Why not embrace the dark side of choices?",
+            "すべての決断には結果が伴います。しかし、いつもヒーローである必要があると誰が言いますか？なぜ選択の暗い側面を受け入れないのですか？",
             character: Characters.demon),
         MsgFormat(
             'Embrace the path of balance and watch as the world transforms into a harmonious paradise.',
@@ -147,8 +147,8 @@ class StoryProgress {
     gameLessons = {
       'false${StoryTitles.introArc.name}': [
         MsgFormat(
-            "Or choose chaos, and see the town face the consequences of indulgence. It's your call!",
-            'あるいは混沌に身を委ね、町が放縦の結果に直面する様子をご覧ください。選択はあなた次第です。',
+            "Or choose chaos, and see the town face the consequences of your decisions. It's your call!",
+            "混沌を選び、町があなたの決断の結果に直面するのを見てください。あなたの選択です！",
             character: Characters.demon),
       ],
       'true${StoryTitles.bathroomArc.name}': [

@@ -59,8 +59,8 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final locale = context.read<LocaleProvider>().locale;
-    _local = locale.languageCode == 'ja'
+    final localeProvider = context.read<LocaleProvider>();
+    _local = localeProvider.locale.languageCode == 'ja'
         ? AppLocalizationsJa()
         : AppLocalizationsEn();
 
@@ -145,7 +145,16 @@ class _PlayerSelectionOverlayState extends State<PlayerSelectionOverlay>
                         ),
                         decoration: InputDecoration(
                           hintText: _local.enterName,
-                          errorStyle: const TextStyle(fontSize: 16),
+                          hintStyle: TextStyle(
+                            fontFamily: localeProvider.getFontFamily(
+                              englishFont: 'Arcade-In',
+                            ),
+                            fontSize: 30,
+                          ),
+                          errorStyle: TextStyle(
+                            fontSize: 16,
+                            fontFamily: localeProvider.getFontFamily(),
+                          ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {

@@ -4,9 +4,7 @@ import 'package:eco_conscience/components/story_progress.dart' as story;
 import 'package:eco_conscience/eco_conscience.dart' as eco;
 import 'package:eco_conscience/providers/locale_provider.dart';
 import 'package:eco_conscience/widgets/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class DialogTypewriterAnimatedText extends AnimatedText {
@@ -88,7 +86,7 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                         children: [
                           Semantics(
                             label: 'Positive option button',
-                            child: GestureDetector(
+                            child: InkWell(
                               onTap: () async {
                                 await playClickSound(game);
                                 if (acceptedOrRejectedCallback != null) {
@@ -102,14 +100,17 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                                 style: DefaultTextStyle.of(context)
                                     .style
                                     .merge(textStyle)
-                                    .copyWith(color: Colors.green),
+                                    .copyWith(
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                 textAlign: textAlign,
                               ),
                             ),
                           ),
                           Semantics(
                             label: 'Negative option button',
-                            child: GestureDetector(
+                            child: InkWell(
                               onTap: () async {
                                 await playClickSound(game);
                                 if (acceptedOrRejectedCallback != null) {
@@ -123,14 +124,17 @@ class DialogTypewriterAnimatedText extends AnimatedText {
                                 style: DefaultTextStyle.of(context)
                                     .style
                                     .merge(textStyle)
-                                    .copyWith(color: Colors.red),
+                                    .copyWith(
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                 textAlign: textAlign,
                               ),
                             ),
                           ),
                         ],
                       ),
-                    )
+                    ),
             ],
           ),
         ),

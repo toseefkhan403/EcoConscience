@@ -8,6 +8,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'components/map.dart';
@@ -47,6 +48,18 @@ import 'components/map.dart';
 // google wallet api publishing access
 // 17. submission video and cool thumbnail
 
+// Improvements:
+// 1. Updating the intro video on devpost
+// 2. Updating some character dialogues --done
+// 3. Updating the initial sky colour --done
+// 4. Adding Japanese Google Wallet passes --done
+// 5. Add tap to start screen --done
+// 6. exit -> hackathon page --done
+// 7. inc tap area --done
+// 8. yes and no -> same color --done
+// 9. pixel art japanese font --done
+// 10. load bg image from cache for smoother transition --done
+
 enum PlayState {
   startScreen,
   playing,
@@ -83,23 +96,27 @@ class EcoConscience extends FlameGame
     // for testing
     // startGamePlay();
 
+    if(kIsWeb) {
+      overlays.add("tapToStart");
+    } else {
+      startTheGame();
+    }
+
+    return super.onLoad();
+  }
+
+  void startTheGame() {
     loadMap(
       mapName: 'startingSequence',
       mapResMultiplier: 1.5,
     );
     startBgmMusic();
-
-    return super.onLoad();
   }
 
   void startBgmMusic() {
     FlameAudio.bgm.initialize();
-    FlameAudio.audioCache.loadAll([
-      'click.wav',
-      'teleport.wav',
-      'typing.mp3',
-      'typing_devil.mp3'
-    ]);
+    FlameAudio.audioCache.loadAll(
+        ['click.wav', 'teleport.wav', 'typing.mp3', 'typing_devil.mp3']);
     if (playSounds) {
       FlameAudio.bgm
           .play('Three-Red-Hearts-Penguin-Town.mp3', volume: volume * 0.5);

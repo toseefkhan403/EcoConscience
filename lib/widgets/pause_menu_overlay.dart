@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:eco_conscience/eco_conscience.dart';
 import 'package:eco_conscience/providers/game_progress_provider.dart';
@@ -8,7 +6,6 @@ import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame/widgets.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations_en.dart';
@@ -31,8 +28,8 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
     final width = MediaQuery.of(context).size.width * 0.5;
     final height = MediaQuery.of(context).size.height;
     final provider = context.watch<GameProgressProvider>();
-    final locale = context.watch<LocaleProvider>().locale;
-    _local = locale.languageCode == 'ja'
+    final localeProvider = context.watch<LocaleProvider>();
+    _local = localeProvider.locale.languageCode == 'ja'
         ? AppLocalizationsJa()
         : AppLocalizationsEn();
 
@@ -48,23 +45,29 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
               width > 400 && height > 500
                   ? gradientText(_local.pause)
                   : Container(),
-              ecoMeterWidget(provider.ecoMeter, width, _local, provider),
+              ecoMeterWidget(
+                provider.ecoMeter,
+                width,
+                _local,
+                provider,
+                localeProvider.getFontFamily(),
+              ),
               const SizedBox(
                 height: 10,
               ),
-              textButton(_local.resume, () async {
+              textButton(_local.resume, context, () async {
                 await playClickSound(widget.game);
                 widget.game.overlays.remove('pauseMenu');
                 widget.game.resumeEngine();
               }, color: Colors.brown),
-              textButton(_local.restart, () async {
+              textButton(_local.restart, context, () async {
                 await playClickSound(widget.game);
                 widget.game.overlays.remove('pauseMenu');
                 widget.game.overlays.add('restartWarning');
               }, color: Colors.brown),
               textButton(
                   '${_local.sounds} ${widget.game.playSounds ? _local.on : _local.off}',
-                  () async {
+                  context, () async {
                 await playClickSound(widget.game);
                 widget.game.playSounds = !widget.game.playSounds;
                 if (widget.game.playSounds) {
@@ -78,22 +81,17 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
               }, color: Colors.brown),
               textButton(
                   '${_local.language} ${_local.localeName == 'en' ? 'Japanese' : 'English'}',
-                  () async {
+                  context, () async {
                 await playClickSound(widget.game);
                 context.read<LocaleProvider>().switchLocale();
               }, color: Colors.brown),
-              textButton(_local.about, () async {
+              textButton(_local.about, context, () async {
                 await playClickSound(widget.game);
                 widget.game.overlays.add('about');
               }, color: Colors.brown),
-              textButton(_local.exit, () async {
+              textButton(_local.exit, context, () async {
                 await playClickSound(widget.game);
-                try {
-                  SystemNavigator.pop();
-                  exit(0);
-                } catch (e) {
-                  print(e);
-                }
+                openLink("https://devpost.com/software/ecoshift-chronicles");
               }, color: Colors.brown),
             ],
           ),
@@ -102,8 +100,13 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
     );
   }
 
-  ecoMeterWidget(int ecoMeter, double size, AppLocalizations local,
-      GameProgressProvider provider) {
+  ecoMeterWidget(
+    int ecoMeter,
+    double size,
+    AppLocalizations local,
+    GameProgressProvider provider,
+    String fontFamily,
+  ) {
     final boxHeight = size * 0.15;
     final int fillValue = 100 - ecoMeter;
     double spread = 0.1;
@@ -156,7 +159,11 @@ class _PauseMenuOverlayState extends State<PauseMenuOverlay> {
             child: AutoSizeText(
               '${local.ecoMeter} $ecoMeter%\n${local.gameCompletion} $gameCompletion%',
               maxLines: 2,
-              style: const TextStyle(fontSize: 32, color: Colors.white),
+              style: TextStyle(
+                fontSize: 32,
+                color: Colors.white,
+                fontFamily: fontFamily,
+              ),
               textAlign: TextAlign.left,
             ),
           ),

@@ -5,6 +5,10 @@ import 'package:flame/widgets.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../providers/locale_provider.dart';
 
 FocusNode gameFocus = FocusNode();
 
@@ -112,7 +116,10 @@ playClickSound(EcoConscience game) async {
   if (game.playSounds) await FlameAudio.play('click.wav', volume: game.volume);
 }
 
-textButton(String title, Function() onPressed, {Color color = Colors.white}) {
+textButton(String title, BuildContext context, Function() onPressed,
+    {Color color = Colors.white}) {
+  final fontFamily =
+      context.read<LocaleProvider>().getFontFamily(englishFont: 'Arcade-In');
   return Expanded(
     child: Semantics(
       label: '$title button',
@@ -123,7 +130,7 @@ textButton(String title, Function() onPressed, {Color color = Colors.white}) {
           textAlign: TextAlign.center,
           minFontSize: 20,
           style: TextStyle(
-              fontFamily: 'Arcade-In',
+              fontFamily: fontFamily,
               fontSize: 50,
               color: color.withOpacity(0.8)),
         ),
@@ -133,7 +140,7 @@ textButton(String title, Function() onPressed, {Color color = Colors.white}) {
 }
 
 double calculateBlackAreaHeight(BuildContext context) {
-  const imageAspectRatio = 16/9;
+  const imageAspectRatio = 16 / 9;
   double screenWidth = MediaQuery.of(context).size.width;
   double screenHeight = MediaQuery.of(context).size.height;
 
@@ -142,4 +149,17 @@ double calculateBlackAreaHeight(BuildContext context) {
   blackAreaHeight = blackAreaHeight < 0 ? 0 : blackAreaHeight;
 
   return blackAreaHeight;
+}
+
+openLink(String url) async {
+  if (url == '') return;
+
+  try {
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  } catch (e) {
+    print(e);
+  }
 }

@@ -18,9 +18,8 @@ class CustomToastOverlay extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    final locale = context.watch<LocaleProvider>().locale;
-    late AppLocalizations local;
-    local = locale.languageCode == 'ja'
+    final locale = context.watch<LocaleProvider>();
+    final AppLocalizations local = locale.locale.languageCode == 'ja'
         ? AppLocalizationsJa()
         : AppLocalizationsEn();
 
@@ -29,7 +28,9 @@ class CustomToastOverlay extends StatelessWidget {
       child: Container(
         width: width,
         height: height,
-        margin: EdgeInsets.symmetric(horizontal: width / 5),
+        margin: EdgeInsets.symmetric(
+          horizontal: game.player.showControls ? width / 5 : width / 10,
+        ),
         child: InkWell(
           onTap: () async {
             await playClickSound(game);
@@ -49,6 +50,7 @@ class CustomToastOverlay extends StatelessWidget {
                       textStyle: TextStyle(
                           fontSize: height > 500 ? 40 : 28,
                           color: Colors.white70,
+                          fontFamily: locale.getFontFamily(),
                           fontWeight: FontWeight.w500),
                       duration: const Duration(milliseconds: 1000)),
                 ],

@@ -56,7 +56,6 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
   Widget build(BuildContext context) {
     final gameWidth = MediaQuery.of(context).size.width;
     final gameHeight = MediaQuery.of(context).size.height;
-    String locale = context.watch<LocaleProvider>().locale.languageCode;
 
     return FadeTransition(
       opacity: _opacityAnimation,
@@ -66,7 +65,7 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
         child: Semantics(
           label: 'Dialogue box',
           child: AnimatedTextKit(
-            animatedTexts: getAnimatedTextBasedOnEcoMeter(locale, widget.game),
+            animatedTexts: getAnimatedTextBasedOnEcoMeter(widget.game),
             displayFullTextOnTap: true,
             pause: const Duration(seconds: 4),
             isRepeatingAnimation: false,
@@ -103,9 +102,11 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
     );
   }
 
-  List<AnimatedText> getAnimatedTextBasedOnEcoMeter(
-      String locale, eco.EcoConscience game) {
+  List<AnimatedText> getAnimatedTextBasedOnEcoMeter(eco.EcoConscience game) {
     final ecoMeter = context.read<GameProgressProvider>().ecoMeter;
+    final localeProvider = context.read<LocaleProvider>();
+    final langCode = localeProvider.locale.languageCode;
+
     List<MsgFormat>? dialogs = StoryProgress.npcDialogs[ecoMeter];
     List<AnimatedText> result = [];
 
@@ -116,12 +117,16 @@ class _NpcDialogOverlayState extends State<NpcDialogOverlay>
 
     result.add(
       DialogTypewriterAnimatedText(
-        locale == 'en' ? msg.msgEn : msg.msgJa,
+        langCode == 'en' ? msg.msgEn : msg.msgJa,
         msg,
         game,
-        textStyle: const TextStyle(
-            fontSize: 40.0, color: Colors.black, fontWeight: FontWeight.w500),
-        speed: Duration(milliseconds: locale == 'en' ? 35 : 60),
+        textStyle: TextStyle(
+          fontSize: 40.0,
+          color: Colors.black,
+          fontWeight: FontWeight.w500,
+          fontFamily: localeProvider.getFontFamily(),
+        ),
+        speed: Duration(milliseconds: langCode == 'en' ? 35 : 60),
       ),
     );
 

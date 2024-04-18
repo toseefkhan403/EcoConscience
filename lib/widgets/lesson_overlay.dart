@@ -63,109 +63,102 @@ class _LessonOverlayState extends State<LessonOverlay>
     return FadeTransition(
       opacity: _opacityAnimation,
       child: Semantics(
-        label: 'Story overlay',
-        child: Container(
-          width: gameWidth,
-          height: gameHeight,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/Lessons/${widget.game.currentStoryArc}.png',
-                ),
-                colorFilter: ColorFilter.mode(
-                    widget.game.currentLesson.startsWith('false')
-                        ? const Color(0x8B7A0909)
-                        : Colors.green.withOpacity(0.75),
-                    BlendMode.softLight),
-                fit: BoxFit.cover),
-          ),
-          child: Stack(
-            children: [
-              widget.game.currentStoryArc != StoryTitles.introArc.name
-                  ? animatedPlayerWidget(gameHeight, provider.character)
-                  : Container(),
-              Semantics(
-                label: 'Dialogue box',
-                child: AnimatedTextKit(
-                  animatedTexts: getAnimatedTextFromLessons(
-                      lessons, widget.game, provider.playerName),
-                  displayFullTextOnTap: true,
-                  pause: const Duration(seconds: 4),
-                  isRepeatingAnimation: false,
-                  stopPauseOnTap: true,
-                  onNextBeforePause: (i, isLast) {
-                    if (widget.game.playSounds) {
+        label: 'Lesson overlay',
+        child: Stack(
+          children: [
+            RawImage(
+              image: widget.game.images
+                  .fromCache('Lessons/${widget.game.currentStoryArc}.png'),
+              width: gameWidth,
+              height: gameHeight,
+              fit: BoxFit.cover,
+              color: widget.game.currentLesson.startsWith('false')
+                  ? const Color(0x8B7A0909)
+                  : Colors.green.withOpacity(0.75),
+              colorBlendMode: BlendMode.softLight,
+            ),
+            widget.game.currentStoryArc != StoryTitles.introArc.name
+                ? animatedPlayerWidget(gameHeight, provider.character)
+                : Container(),
+            Semantics(
+              label: 'Dialogue box',
+              child: AnimatedTextKit(
+                animatedTexts: getAnimatedTextFromLessons(
+                    lessons, widget.game, provider.playerName),
+                displayFullTextOnTap: true,
+                pause: const Duration(seconds: 4),
+                isRepeatingAnimation: false,
+                stopPauseOnTap: true,
+                onNextBeforePause: (i, isLast) {
+                  if (widget.game.playSounds) {
+                    FlameAudio.bgm.stop();
+                  }
+                },
+                onNext: (i, isLast) {
+                  if (widget.game.playSounds) {
+                    if (isLast) {
                       FlameAudio.bgm.stop();
-                    }
-                  },
-                  onNext: (i, isLast) {
-                    if (widget.game.playSounds) {
-                      if (isLast) {
-                        FlameAudio.bgm.stop();
-                      } else {
-                        FlameAudio.bgm.play(
-                            lessons?[i + 1].character == eco.Characters.demon
-                                ? 'typing_devil.mp3'
-                                : 'typing.mp3');
-                      }
-                    }
-                  },
-                  onFinished: () {
-                    final provider = context.read<GameProgressProvider>();
-
-                    /// story ended - remove overlays, ecoPoints and interaction point
-                    widget.game.overlays
-                        .remove(eco.PlayState.lessonPlaying.name);
-                    widget.game.overlays
-                        .remove(eco.PlayState.storyPlaying.name);
-                    provider.updateStoryProgress(widget.game.currentStoryArc);
-
-                    if (widget.game.currentStoryArc ==
-                        StoryTitles.introArc.name) {
-                      widget.game.startGamePlay(provider);
-                      return;
-                    }
-
-                    widget.game.overlays.add('feedBackToast');
-
-                    final isAccepted =
-                        widget.game.currentLesson.startsWith('true');
-                    if (!isAccepted) {
-                      provider.deductPoints();
-                      print('EcoMeter ${provider.ecoMeter}');
-                    }
-
-                    if (widget.game.playSounds) {
+                    } else {
                       FlameAudio.bgm.play(
-                          'Three-Red-Hearts-${getTuneBasedOnEcoMeter(provider.ecoMeter)}.mp3',
-                          volume: widget.game.volume * 0.5);
+                          lessons?[i + 1].character == eco.Characters.demon
+                              ? 'typing_devil.mp3'
+                              : 'typing.mp3');
                     }
+                  }
+                },
+                onFinished: () {
+                  final provider = context.read<GameProgressProvider>();
 
-                    widget.game.currentMap
-                        .removeInteractionPoint(isAccepted, provider);
-                    widget.game.playState = eco.PlayState.playing;
+                  /// story ended - remove overlays, ecoPoints and interaction point
+                  widget.game.overlays.remove(eco.PlayState.lessonPlaying.name);
+                  widget.game.overlays.remove(eco.PlayState.storyPlaying.name);
+                  provider.updateStoryProgress(widget.game.currentStoryArc);
 
-                    // go to office after busToOfficeArc
-                    if (widget.game.currentStoryArc ==
-                        StoryTitles.busToOfficeArc.name) {
-                      widget.game.loadMap(
-                          mapName: 'office', nextSpawnX: 304, nextSpawnY: 256);
+                  if (widget.game.currentStoryArc ==
+                      StoryTitles.introArc.name) {
+                    widget.game.startGamePlay(provider);
+                    return;
+                  }
+
+                  widget.game.overlays.add('feedBackToast');
+
+                  final isAccepted =
+                      widget.game.currentLesson.startsWith('true');
+                  if (!isAccepted) {
+                    provider.deductPoints();
+                    print('EcoMeter ${provider.ecoMeter}');
+                  }
+
+                  if (widget.game.playSounds) {
+                    FlameAudio.bgm.play(
+                        'Three-Red-Hearts-${getTuneBasedOnEcoMeter(provider.ecoMeter)}.mp3',
+                        volume: widget.game.volume * 0.5);
+                  }
+
+                  widget.game.currentMap
+                      .removeInteractionPoint(isAccepted, provider);
+                  widget.game.playState = eco.PlayState.playing;
+
+                  // go to office after busToOfficeArc
+                  if (widget.game.currentStoryArc ==
+                      StoryTitles.busToOfficeArc.name) {
+                    widget.game.loadMap(
+                        mapName: 'office', nextSpawnX: 304, nextSpawnY: 256);
+                  }
+
+                  if (isGameOver(provider)) {
+                    widget.game.playState = eco.PlayState.gameOver;
+                    widget.game.pauseEngine();
+                    widget.game.overlays.add(eco.PlayState.gameOver.name);
+                    if (widget.game.overlays.activeOverlays
+                        .contains('pauseButton')) {
+                      widget.game.overlays.remove('pauseButton');
                     }
-
-                    if (isGameOver(provider)) {
-                      widget.game.playState = eco.PlayState.gameOver;
-                      widget.game.pauseEngine();
-                      widget.game.overlays.add(eco.PlayState.gameOver.name);
-                      if (widget.game.overlays.activeOverlays
-                          .contains('pauseButton')) {
-                        widget.game.overlays.remove('pauseButton');
-                      }
-                    }
-                  },
-                ),
+                  }
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

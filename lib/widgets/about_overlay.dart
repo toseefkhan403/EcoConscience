@@ -63,46 +63,50 @@ class _AboutOverlayState extends State<AboutOverlay>
       opacity: _opacityAnimation,
       child: Semantics(
         label: 'game credits overlay',
-        child: Container(
-          width: width,
-          height: height,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(
-                      'assets/images/Exteriors/skyline/longEvening.png'),
-                  fit: BoxFit.cover)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              gradientText(local.appTitle),
-              const SizedBox(
-                height: 10,
+        child: Stack(
+          children: [
+            RawImage(
+              image: widget.game.images
+                  .fromCache('Exteriors/skyline/longEvening.png'),
+              width: width,
+              height: height,
+              fit: BoxFit.cover,
+            ),
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  gradientText(local.appTitle),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  typerWidget(
+                      text: local.developedBy,
+                      linkText: 'Toseef Ali Khan',
+                      link: 'https://www.linkedin.com/in/toseef-khan/',
+                      pause: 0),
+                  typerWidget(
+                      text: local.musicCredits,
+                      linkText: 'Abstraction',
+                      link: 'https://abstractionmusic.com/',
+                      pause: 1800),
+                  typerWidget(
+                      text: local.gameAssetsCredits,
+                      linkText: 'LimeZu',
+                      link: '',
+                      pause: 3500),
+                  textButton(
+                    local.exit,
+                    context,
+                    () async {
+                      await playClickSound(widget.game);
+                      widget.game.overlays.remove('about');
+                    },
+                  ),
+                ],
               ),
-              typerWidget(
-                  text: local.developedBy,
-                  linkText: 'Toseef Ali Khan',
-                  link: 'https://www.linkedin.com/in/toseef-khan/',
-                  pause: 0),
-              typerWidget(
-                  text: local.musicCredits,
-                  linkText: 'Abstraction',
-                  link: 'https://abstractionmusic.com/',
-                  pause: 1800),
-              typerWidget(
-                  text: local.gameAssetsCredits,
-                  linkText: 'LimeZu',
-                  link: '',
-                  pause: 3500),
-              textButton(
-                local.exit,
-                context,
-                () async {
-                  await playClickSound(widget.game);
-                  widget.game.overlays.remove('about');
-                },
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

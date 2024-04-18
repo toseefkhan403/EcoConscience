@@ -17,6 +17,7 @@ import 'package:eco_conscience/widgets/restart_warning_overlay.dart';
 import 'package:eco_conscience/widgets/start_screen_overlay.dart';
 import 'package:eco_conscience/widgets/story_arc_overlay.dart';
 import 'package:eco_conscience/components/story_progress.dart';
+import 'package:eco_conscience/widgets/tap_to_start_overlay.dart';
 import 'package:eco_conscience/widgets/utils.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -96,6 +97,8 @@ class GameApp extends StatelessWidget {
                           AboutOverlay(game: game),
                       'feedBackToast': (context, EcoConscience game) =>
                           FeedBackToastOverlay(game: game),
+                      'tapToStart': (context, EcoConscience game) =>
+                          TapToStartOverlay(game: game),
                     }),
               ));
         }));

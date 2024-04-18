@@ -249,7 +249,6 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
             EffectController(
                 startDelay: 3.5,
                 duration: 3.5,
-                // duration: 1,
                 onMax: () {
                   if (game.overlays.activeOverlays
                       .contains(PlayState.startScreen.name)) {
@@ -260,7 +259,9 @@ class Map extends World with HasGameRef<EcoConscience>, HasDecorator {
                 })),
       );
 
-      game.overlays.add(PlayState.startScreen.name);
+      Future.delayed(const Duration(milliseconds: 500), () {
+        game.overlays.add(PlayState.startScreen.name);
+      });
     }
   }
 

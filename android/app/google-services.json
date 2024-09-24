@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "85722245468",
+    "project_id": "ecoshift-chronicles-f4b79",
+    "storage_bucket": "ecoshift-chronicles-f4b79.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85722245468:android:baa25ce411badaed2b3999",
+        "android_client_info": {
+          "package_name": "com.eco_conscience.ecoshift_chronicles"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDBzp7kUkNW3Pu8SQICt2v5ITt9-WjQpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

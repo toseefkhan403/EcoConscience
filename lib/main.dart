@@ -19,23 +19,34 @@ import 'package:eco_conscience/widgets/story_arc_overlay.dart';
 import 'package:eco_conscience/components/story_progress.dart';
 import 'package:eco_conscience/widgets/tap_to_start_overlay.dart';
 import 'package:eco_conscience/widgets/utils.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Flame.device.fullScreen();
   await Flame.device.setLandscape();
   StoryProgress.init();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const GameApp());
 }
 
 class GameApp extends StatelessWidget {
   const GameApp({Key? key}) : super(key: key);
+
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +67,7 @@ class GameApp extends StatelessWidget {
               ),
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
+              navigatorObservers: <NavigatorObserver>[observer],
               home: Scaffold(
                 resizeToAvoidBottomInset: false,
                 body: GameWidget(
